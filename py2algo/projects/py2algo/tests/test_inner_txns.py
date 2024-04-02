@@ -48,14 +48,6 @@ def app_client(algod_client: AlgodClient, indexer_client: IndexerClient) -> Inne
     return client
 
 
-# @pytest.mark.parametrize(
-#     "array, total",
-#     [
-#         ([], 0),
-#         ([1], 1),
-#         ([1, 2, 3, 4, 5], 15),
-#     ],
-# )
 def test_mint_nft(app_client: InnerClient) -> None:
     """Tests the mint_nft() method."""
     sp = app_client.algod_client.suggested_params()
