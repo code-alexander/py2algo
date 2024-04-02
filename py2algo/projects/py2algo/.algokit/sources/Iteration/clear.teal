@@ -1,7 +1,7 @@
 #pragma version 10
 
 smart_contracts.iteration.contract.Iteration.clear_state_program:
-    // smart_contracts/iteration/contract.py:8
+    // smart_contracts/iteration/contract.py:9
     // class Iteration(ARC4Contract):
     int 1
     return
