@@ -1,0 +1,7 @@
+#pragma version 10
+
+smart_contracts.inner_txns.contract.Inner.clear_state_program:
+    // smart_contracts/inner_txns/contract.py:24
+    // class Inner(ARC4Contract):
+    int 1
+    return

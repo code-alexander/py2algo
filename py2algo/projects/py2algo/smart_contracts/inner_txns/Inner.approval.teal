@@ -1,0 +1,279 @@
+#pragma version 10
+
+smart_contracts.inner_txns.contract.Inner.approval_program:
+    txn ApplicationID
+    bnz main_entrypoint@2
+    callsub __init__
+
+main_entrypoint@2:
+    // smart_contracts/inner_txns/contract.py:24
+    // class Inner(ARC4Contract):
+    txn NumAppArgs
+    bz main_bare_routing@9
+    method "mint_nft()uint64"
+    method "opt_in(asset)void"
+    method "withdraw(uint64)void"
+    txna ApplicationArgs 0
+    match main_mint_nft_route@4 main_opt_in_route@5 main_withdraw_route@6
+    err // reject transaction
+
+main_mint_nft_route@4:
+    // smart_contracts/inner_txns/contract.py:30
+    // @arc4.abimethod
+    txn OnCompletion
+    !
+    assert // OnCompletion is NoOp
+    txn ApplicationID
+    assert // is not creating
+    callsub mint_nft
+    itob
+    byte 0x151f7c75
+    swap
+    concat
+    log
+    int 1
+    return
+
+main_opt_in_route@5:
+    // smart_contracts/inner_txns/contract.py:44
+    // @arc4.abimethod
+    txn OnCompletion
+    !
+    assert // OnCompletion is NoOp
+    txn ApplicationID
+    assert // is not creating
+    // smart_contracts/inner_txns/contract.py:24
+    // class Inner(ARC4Contract):
+    txna ApplicationArgs 1
+    btoi
+    txnas Assets
+    // smart_contracts/inner_txns/contract.py:44
+    // @arc4.abimethod
+    callsub opt_in
+    int 1
+    return
+
+main_withdraw_route@6:
+    // smart_contracts/inner_txns/contract.py:57
+    // @arc4.abimethod
+    txn OnCompletion
+    !
+    assert // OnCompletion is NoOp
+    txn ApplicationID
+    assert // is not creating
+    // smart_contracts/inner_txns/contract.py:24
+    // class Inner(ARC4Contract):
+    txna ApplicationArgs 1
+    btoi
+    // smart_contracts/inner_txns/contract.py:57
+    // @arc4.abimethod
+    callsub withdraw
+    int 1
+    return
+
+main_bare_routing@9:
+    // smart_contracts/inner_txns/contract.py:24
+    // class Inner(ARC4Contract):
+    txn OnCompletion
+    !
+    assert // reject transaction
+    txn ApplicationID
+    !
+    assert // is creating
+    int 1
+    return
+
+
+// smart_contracts.inner_txns.contract.Inner.mint_nft() -> uint64:
+mint_nft:
+    // smart_contracts/inner_txns/contract.py:30-31
+    // @arc4.abimethod
+    // def mint_nft(self) -> UInt64:
+    proto 0 1
+    // smart_contracts/inner_txns/contract.py:37
+    // self.counter += 1
+    int 0
+    byte "counter"
+    app_global_get_ex
+    assert // check counter exists
+    int 1
+    +
+    byte "counter"
+    swap
+    app_global_put
+    // smart_contracts/inner_txns/contract.py:39-40
+    // itxn.AssetConfig(total=1, decimals=0, asset_name="DOG", unit_name=b"DOG_" + itoa(self.counter), fee=0)
+    // .submit()
+    itxn_begin
+    // smart_contracts/inner_txns/contract.py:39
+    // itxn.AssetConfig(total=1, decimals=0, asset_name="DOG", unit_name=b"DOG_" + itoa(self.counter), fee=0)
+    int 0
+    byte "counter"
+    app_global_get_ex
+    assert // check counter exists
+    callsub itoa
+    byte "DOG_"
+    swap
+    concat
+    int 0
+    itxn_field Fee
+    itxn_field ConfigAssetUnitName
+    byte "DOG"
+    itxn_field ConfigAssetName
+    int 0
+    itxn_field ConfigAssetDecimals
+    int 1
+    itxn_field ConfigAssetTotal
+    int acfg
+    itxn_field TypeEnum
+    // smart_contracts/inner_txns/contract.py:39-40
+    // itxn.AssetConfig(total=1, decimals=0, asset_name="DOG", unit_name=b"DOG_" + itoa(self.counter), fee=0)
+    // .submit()
+    itxn_submit
+    itxn CreatedAssetID
+    // smart_contracts/inner_txns/contract.py:38-42
+    // return (
+    //     itxn.AssetConfig(total=1, decimals=0, asset_name="DOG", unit_name=b"DOG_" + itoa(self.counter), fee=0)
+    //     .submit()
+    //     .created_asset.id
+    // )
+    retsub
+
+
+// smart_contracts.inner_txns.contract.itoa(n: uint64) -> bytes:
+itoa:
+    // smart_contracts/inner_txns/contract.py:6-7
+    // @subroutine
+    // def itoa(n: UInt64, /) -> Bytes:
+    proto 1 1
+    // smart_contracts/inner_txns/contract.py:17
+    // acc = Bytes()
+    byte ""
+
+itoa_while_top@1:
+    // smart_contracts/inner_txns/contract.py:18
+    // while n > 0:
+    frame_dig -1
+    bz itoa_after_while@3
+    // smart_contracts/inner_txns/contract.py:19
+    // acc = digits[n % 10] + acc
+    frame_dig -1
+    int 10
+    %
+    dup
+    int 1
+    +
+    // smart_contracts/inner_txns/contract.py:16
+    // digits = Bytes(b"0123456789")
+    byte "0123456789"
+    // smart_contracts/inner_txns/contract.py:19
+    // acc = digits[n % 10] + acc
+    cover 2
+    substring3
+    frame_dig 0
+    concat
+    frame_bury 0
+    // smart_contracts/inner_txns/contract.py:20
+    // n //= 10
+    frame_dig -1
+    int 10
+    /
+    frame_bury -1
+    b itoa_while_top@1
+
+itoa_after_while@3:
+    // smart_contracts/inner_txns/contract.py:21
+    // return acc or Bytes(b"0")
+    frame_dig 0
+    len
+    bz itoa_ternary_false@5
+    frame_dig 0
+    b itoa_ternary_merge@6
+
+itoa_ternary_false@5:
+    // smart_contracts/inner_txns/contract.py:21
+    // return acc or Bytes(b"0")
+    byte "0"
+
+itoa_ternary_merge@6:
+    // smart_contracts/inner_txns/contract.py:21
+    // return acc or Bytes(b"0")
+    swap
+    retsub
+
+
+// smart_contracts.inner_txns.contract.Inner.opt_in(asset: uint64) -> void:
+opt_in:
+    // smart_contracts/inner_txns/contract.py:44-45
+    // @arc4.abimethod
+    // def opt_in(self, asset: Asset) -> None:
+    proto 1 0
+    // smart_contracts/inner_txns/contract.py:51-55
+    // itxn.AssetTransfer(
+    //     asset_receiver=Global.current_application_address,
+    //     xfer_asset=asset,
+    //     fee=0,
+    // ).submit()
+    itxn_begin
+    // smart_contracts/inner_txns/contract.py:52
+    // asset_receiver=Global.current_application_address,
+    global CurrentApplicationAddress
+    // smart_contracts/inner_txns/contract.py:54
+    // fee=0,
+    int 0
+    itxn_field Fee
+    frame_dig -1
+    itxn_field XferAsset
+    itxn_field AssetReceiver
+    // smart_contracts/inner_txns/contract.py:51
+    // itxn.AssetTransfer(
+    int axfer
+    itxn_field TypeEnum
+    // smart_contracts/inner_txns/contract.py:51-55
+    // itxn.AssetTransfer(
+    //     asset_receiver=Global.current_application_address,
+    //     xfer_asset=asset,
+    //     fee=0,
+    // ).submit()
+    itxn_submit
+    retsub
+
+
+// smart_contracts.inner_txns.contract.Inner.withdraw(amount: uint64) -> void:
+withdraw:
+    // smart_contracts/inner_txns/contract.py:57-58
+    // @arc4.abimethod
+    // def withdraw(self, amount: UInt64) -> None:
+    proto 1 0
+    // smart_contracts/inner_txns/contract.py:64
+    // assert Txn.sender == Global.creator_address, "Only the creator can withdraw"
+    txn Sender
+    global CreatorAddress
+    ==
+    assert // Only the creator can withdraw
+    // smart_contracts/inner_txns/contract.py:65
+    // itxn.Payment(receiver=Global.creator_address, amount=amount, fee=0).submit()
+    itxn_begin
+    global CreatorAddress
+    int 0
+    itxn_field Fee
+    frame_dig -1
+    itxn_field Amount
+    itxn_field Receiver
+    int pay
+    itxn_field TypeEnum
+    itxn_submit
+    retsub
+
+
+// smart_contracts.inner_txns.contract.Inner.__init__() -> void:
+__init__:
+    // smart_contracts/inner_txns/contract.py:27
+    // def __init__(self) -> None:
+    proto 0 0
+    // smart_contracts/inner_txns/contract.py:28
+    // self.counter = UInt64(0)
+    byte "counter"
+    int 0
+    app_global_put
+    retsub
