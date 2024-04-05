@@ -1,0 +1,7 @@
+#pragma version 10
+
+smart_contracts.linear_vesting.contract.Vesting.clear_state_program:
+    // smart_contracts/linear_vesting/contract.py:5
+    // class Vesting(ARC4Contract):
+    int 1
+    return
