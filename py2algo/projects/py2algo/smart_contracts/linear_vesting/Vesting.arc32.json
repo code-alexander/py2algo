@@ -1,0 +1,130 @@
+{
+    "hints": {
+        "new(account,uint64,uint64)void": {
+            "call_config": {
+                "no_op": "CREATE"
+            }
+        },
+        "calculate_vesting(uint64,uint64,uint64,uint64)uint64": {
+            "call_config": {
+                "no_op": "CALL"
+            }
+        },
+        "release_funds()void": {
+            "call_config": {
+                "no_op": "CALL"
+            }
+        }
+    },
+    "source": {
+        "approval": "I3ByYWdtYSB2ZXJzaW9uIDEwCgpzbWFydF9jb250cmFjdHMubGluZWFyX3Zlc3RpbmcuY29udHJhY3QuVmVzdGluZy5hcHByb3ZhbF9wcm9ncmFtOgogICAgLy8gc21hcnRfY29udHJhY3RzL2xpbmVhcl92ZXN0aW5nL2NvbnRyYWN0LnB5OjUKICAgIC8vIGNsYXNzIFZlc3RpbmcoQVJDNENvbnRyYWN0KToKICAgIG1ldGhvZCAibmV3KGFjY291bnQsdWludDY0LHVpbnQ2NCl2b2lkIgogICAgbWV0aG9kICJjYWxjdWxhdGVfdmVzdGluZyh1aW50NjQsdWludDY0LHVpbnQ2NCx1aW50NjQpdWludDY0IgogICAgbWV0aG9kICJyZWxlYXNlX2Z1bmRzKCl2b2lkIgogICAgdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMAogICAgbWF0Y2ggbWFpbl9uZXdfcm91dGVAMSBtYWluX2NhbGN1bGF0ZV92ZXN0aW5nX3JvdXRlQDIgbWFpbl9yZWxlYXNlX2Z1bmRzX3JvdXRlQDMKICAgIGVyciAvLyByZWplY3QgdHJhbnNhY3Rpb24KCm1haW5fbmV3X3JvdXRlQDE6CiAgICAvLyBzbWFydF9jb250cmFjdHMvbGluZWFyX3Zlc3RpbmcvY29udHJhY3QucHk6OAogICAgLy8gQGFyYzQuYWJpbWV0aG9kKGNyZWF0ZT0icmVxdWlyZSIpCiAgICB0eG4gT25Db21wbGV0aW9uCiAgICAhCiAgICBhc3NlcnQgLy8gT25Db21wbGV0aW9uIGlzIE5vT3AKICAgIHR4biBBcHBsaWNhdGlvbklECiAgICAhCiAgICBhc3NlcnQgLy8gaXMgY3JlYXRpbmcKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9saW5lYXJfdmVzdGluZy9jb250cmFjdC5weTo1CiAgICAvLyBjbGFzcyBWZXN0aW5nKEFSQzRDb250cmFjdCk6CiAgICB0eG5hIEFwcGxpY2F0aW9uQXJncyAxCiAgICBidG9pCiAgICB0eG5hcyBBY2NvdW50cwogICAgdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMgogICAgYnRvaQogICAgdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMwogICAgYnRvaQogICAgLy8gc21hcnRfY29udHJhY3RzL2xpbmVhcl92ZXN0aW5nL2NvbnRyYWN0LnB5OjgKICAgIC8vIEBhcmM0LmFiaW1ldGhvZChjcmVhdGU9InJlcXVpcmUiKQogICAgY2FsbHN1YiBuZXcKICAgIGludCAxCiAgICByZXR1cm4KCm1haW5fY2FsY3VsYXRlX3Zlc3Rpbmdfcm91dGVAMjoKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9saW5lYXJfdmVzdGluZy9jb250cmFjdC5weToyMgogICAgLy8gQGFyYzQuYWJpbWV0aG9kCiAgICB0eG4gT25Db21wbGV0aW9uCiAgICAhCiAgICBhc3NlcnQgLy8gT25Db21wbGV0aW9uIGlzIE5vT3AKICAgIHR4biBBcHBsaWNhdGlvbklECiAgICBhc3NlcnQgLy8gaXMgbm90IGNyZWF0aW5nCiAgICAvLyBzbWFydF9jb250cmFjdHMvbGluZWFyX3Zlc3RpbmcvY29udHJhY3QucHk6NQogICAgLy8gY2xhc3MgVmVzdGluZyhBUkM0Q29udHJhY3QpOgogICAgdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMQogICAgYnRvaQogICAgdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMgogICAgYnRvaQogICAgdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMwogICAgYnRvaQogICAgdHhuYSBBcHBsaWNhdGlvbkFyZ3MgNAogICAgYnRvaQogICAgLy8gc21hcnRfY29udHJhY3RzL2xpbmVhcl92ZXN0aW5nL2NvbnRyYWN0LnB5OjIyCiAgICAvLyBAYXJjNC5hYmltZXRob2QKICAgIGNhbGxzdWIgY2FsY3VsYXRlX3Zlc3RpbmcKICAgIGl0b2IKICAgIGJ5dGUgMHgxNTFmN2M3NQogICAgc3dhcAogICAgY29uY2F0CiAgICBsb2cKICAgIGludCAxCiAgICByZXR1cm4KCm1haW5fcmVsZWFzZV9mdW5kc19yb3V0ZUAzOgogICAgLy8gc21hcnRfY29udHJhY3RzL2xpbmVhcl92ZXN0aW5nL2NvbnRyYWN0LnB5OjQxCiAgICAvLyBAYXJjNC5hYmltZXRob2QKICAgIHR4biBPbkNvbXBsZXRpb24KICAgICEKICAgIGFzc2VydCAvLyBPbkNvbXBsZXRpb24gaXMgTm9PcAogICAgdHhuIEFwcGxpY2F0aW9uSUQKICAgIGFzc2VydCAvLyBpcyBub3QgY3JlYXRpbmcKICAgIGNhbGxzdWIgcmVsZWFzZV9mdW5kcwogICAgaW50IDEKICAgIHJldHVybgoKCi8vIHNtYXJ0X2NvbnRyYWN0cy5saW5lYXJfdmVzdGluZy5jb250cmFjdC5WZXN0aW5nLm5ldyhiZW5lZmljaWFyeTogYnl0ZXMsIHN0YXJ0OiB1aW50NjQsIGR1cmF0aW9uOiB1aW50NjQpIC0+IHZvaWQ6Cm5ldzoKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9saW5lYXJfdmVzdGluZy9jb250cmFjdC5weTo4LTkKICAgIC8vIEBhcmM0LmFiaW1ldGhvZChjcmVhdGU9InJlcXVpcmUiKQogICAgLy8gZGVmIG5ldyhzZWxmLCBiZW5lZmljaWFyeTogQWNjb3VudCwgc3RhcnQ6IFVJbnQ2NCwgZHVyYXRpb246IFVJbnQ2NCkgLT4gTm9uZToKICAgIHByb3RvIDMgMAogICAgLy8gc21hcnRfY29udHJhY3RzL2xpbmVhcl92ZXN0aW5nL2NvbnRyYWN0LnB5OjE3CiAgICAvLyBzZWxmLmJlbmVmaWNpYXJ5ID0gYmVuZWZpY2lhcnkKICAgIGJ5dGUgImJlbmVmaWNpYXJ5IgogICAgZnJhbWVfZGlnIC0zCiAgICBhcHBfZ2xvYmFsX3B1dAogICAgLy8gc21hcnRfY29udHJhY3RzL2xpbmVhcl92ZXN0aW5nL2NvbnRyYWN0LnB5OjE4CiAgICAvLyBzZWxmLnN0YXJ0ID0gc3RhcnQKICAgIGJ5dGUgInN0YXJ0IgogICAgZnJhbWVfZGlnIC0yCiAgICBhcHBfZ2xvYmFsX3B1dAogICAgLy8gc21hcnRfY29udHJhY3RzL2xpbmVhcl92ZXN0aW5nL2NvbnRyYWN0LnB5OjE5CiAgICAvLyBzZWxmLmR1cmF0aW9uID0gZHVyYXRpb24KICAgIGJ5dGUgImR1cmF0aW9uIgogICAgZnJhbWVfZGlnIC0xCiAgICBhcHBfZ2xvYmFsX3B1dAogICAgLy8gc21hcnRfY29udHJhY3RzL2xpbmVhcl92ZXN0aW5nL2NvbnRyYWN0LnB5OjIwCiAgICAvLyBzZWxmLnJlbGVhc2VkID0gVUludDY0KDApCiAgICBieXRlICJyZWxlYXNlZCIKICAgIGludCAwCiAgICBhcHBfZ2xvYmFsX3B1dAogICAgcmV0c3ViCgoKLy8gc21hcnRfY29udHJhY3RzLmxpbmVhcl92ZXN0aW5nLmNvbnRyYWN0LlZlc3RpbmcuY2FsY3VsYXRlX3Zlc3RpbmcoYWxsb2NhdGlvbjogdWludDY0LCBzdGFydDogdWludDY0LCBkdXJhdGlvbjogdWludDY0LCBhdDogdWludDY0KSAtPiB1aW50NjQ6CmNhbGN1bGF0ZV92ZXN0aW5nOgogICAgLy8gc21hcnRfY29udHJhY3RzL2xpbmVhcl92ZXN0aW5nL2NvbnRyYWN0LnB5OjIyLTIzCiAgICAvLyBAYXJjNC5hYmltZXRob2QKICAgIC8vIGRlZiBjYWxjdWxhdGVfdmVzdGluZyhzZWxmLCAqLCBhbGxvY2F0aW9uOiBVSW50NjQsIHN0YXJ0OiBVSW50NjQsIGR1cmF0aW9uOiBVSW50NjQsIGF0OiBVSW50NjQpIC0+IFVJbnQ2NDoKICAgIHByb3RvIDQgMQogICAgLy8gc21hcnRfY29udHJhY3RzL2xpbmVhcl92ZXN0aW5nL2NvbnRyYWN0LnB5OjM1CiAgICAvLyBpZiBhdCA8IHN0YXJ0OgogICAgZnJhbWVfZGlnIC0xCiAgICBmcmFtZV9kaWcgLTMKICAgIDwKICAgIGJ6IGNhbGN1bGF0ZV92ZXN0aW5nX2FmdGVyX2lmX2Vsc2VAMgogICAgLy8gc21hcnRfY29udHJhY3RzL2xpbmVhcl92ZXN0aW5nL2NvbnRyYWN0LnB5OjM2CiAgICAvLyByZXR1cm4gVUludDY0KDApCiAgICBpbnQgMAogICAgcmV0c3ViCgpjYWxjdWxhdGVfdmVzdGluZ19hZnRlcl9pZl9lbHNlQDI6CiAgICAvLyBzbWFydF9jb250cmFjdHMvbGluZWFyX3Zlc3RpbmcvY29udHJhY3QucHk6MzcKICAgIC8vIGlmIGF0ID49IHN0YXJ0ICsgZHVyYXRpb246CiAgICBmcmFtZV9kaWcgLTMKICAgIGZyYW1lX2RpZyAtMgogICAgKwogICAgZnJhbWVfZGlnIC0xCiAgICA8PQogICAgYnogY2FsY3VsYXRlX3Zlc3RpbmdfYWZ0ZXJfaWZfZWxzZUA0CiAgICAvLyBzbWFydF9jb250cmFjdHMvbGluZWFyX3Zlc3RpbmcvY29udHJhY3QucHk6MzgKICAgIC8vIHJldHVybiBhbGxvY2F0aW9uCiAgICBmcmFtZV9kaWcgLTQKICAgIHJldHN1YgoKY2FsY3VsYXRlX3Zlc3RpbmdfYWZ0ZXJfaWZfZWxzZUA0OgogICAgLy8gc21hcnRfY29udHJhY3RzL2xpbmVhcl92ZXN0aW5nL2NvbnRyYWN0LnB5OjM5CiAgICAvLyByZXR1cm4gYWxsb2NhdGlvbiAqIChhdCAtIHN0YXJ0KSAvLyBkdXJhdGlvbgogICAgZnJhbWVfZGlnIC0xCiAgICBmcmFtZV9kaWcgLTMKICAgIC0KICAgIGZyYW1lX2RpZyAtNAogICAgKgogICAgZnJhbWVfZGlnIC0yCiAgICAvCiAgICByZXRzdWIKCgovLyBzbWFydF9jb250cmFjdHMubGluZWFyX3Zlc3RpbmcuY29udHJhY3QuVmVzdGluZy5yZWxlYXNlX2Z1bmRzKCkgLT4gdm9pZDoKcmVsZWFzZV9mdW5kczoKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9saW5lYXJfdmVzdGluZy9jb250cmFjdC5weTo0MS00MgogICAgLy8gQGFyYzQuYWJpbWV0aG9kCiAgICAvLyBkZWYgcmVsZWFzZV9mdW5kcyhzZWxmKSAtPiBOb25lOgogICAgcHJvdG8gMCAwCiAgICAvLyBzbWFydF9jb250cmFjdHMvbGluZWFyX3Zlc3RpbmcvY29udHJhY3QucHk6NDUKICAgIC8vIGFsbG9jYXRpb249R2xvYmFsLmN1cnJlbnRfYXBwbGljYXRpb25fYWRkcmVzcy5iYWxhbmNlICsgc2VsZi5yZWxlYXNlZCwKICAgIGdsb2JhbCBDdXJyZW50QXBwbGljYXRpb25BZGRyZXNzCiAgICBhY2N0X3BhcmFtc19nZXQgQWNjdEJhbGFuY2UKICAgIGFzc2VydCAvLyBhY2NvdW50IGZ1bmRlZAogICAgaW50IDAKICAgIGJ5dGUgInJlbGVhc2VkIgogICAgYXBwX2dsb2JhbF9nZXRfZXgKICAgIGFzc2VydCAvLyBjaGVjayByZWxlYXNlZCBleGlzdHMKICAgICsKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9saW5lYXJfdmVzdGluZy9jb250cmFjdC5weTo0NgogICAgLy8gc3RhcnQ9c2VsZi5zdGFydCwKICAgIGludCAwCiAgICBieXRlICJzdGFydCIKICAgIGFwcF9nbG9iYWxfZ2V0X2V4CiAgICBhc3NlcnQgLy8gY2hlY2sgc3RhcnQgZXhpc3RzCiAgICAvLyBzbWFydF9jb250cmFjdHMvbGluZWFyX3Zlc3RpbmcvY29udHJhY3QucHk6NDcKICAgIC8vIGR1cmF0aW9uPXNlbGYuZHVyYXRpb24sCiAgICBpbnQgMAogICAgYnl0ZSAiZHVyYXRpb24iCiAgICBhcHBfZ2xvYmFsX2dldF9leAogICAgYXNzZXJ0IC8vIGNoZWNrIGR1cmF0aW9uIGV4aXN0cwogICAgLy8gc21hcnRfY29udHJhY3RzL2xpbmVhcl92ZXN0aW5nL2NvbnRyYWN0LnB5OjQ4CiAgICAvLyBhdD1HbG9iYWwucm91bmQsCiAgICBnbG9iYWwgUm91bmQKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9saW5lYXJfdmVzdGluZy9jb250cmFjdC5weTo0NC00OQogICAgLy8gdmVzdGVkID0gc2VsZi5jYWxjdWxhdGVfdmVzdGluZygKICAgIC8vICAgICBhbGxvY2F0aW9uPUdsb2JhbC5jdXJyZW50X2FwcGxpY2F0aW9uX2FkZHJlc3MuYmFsYW5jZSArIHNlbGYucmVsZWFzZWQsCiAgICAvLyAgICAgc3RhcnQ9c2VsZi5zdGFydCwKICAgIC8vICAgICBkdXJhdGlvbj1zZWxmLmR1cmF0aW9uLAogICAgLy8gICAgIGF0PUdsb2JhbC5yb3VuZCwKICAgIC8vICkKICAgIGNhbGxzdWIgY2FsY3VsYXRlX3Zlc3RpbmcKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9saW5lYXJfdmVzdGluZy9jb250cmFjdC5weTo1MAogICAgLy8gcmVsZWFzZWFibGUgPSB2ZXN0ZWQgLSBzZWxmLnJlbGVhc2VkCiAgICBpbnQgMAogICAgYnl0ZSAicmVsZWFzZWQiCiAgICBhcHBfZ2xvYmFsX2dldF9leAogICAgYXNzZXJ0IC8vIGNoZWNrIHJlbGVhc2VkIGV4aXN0cwogICAgLQogICAgLy8gc21hcnRfY29udHJhY3RzL2xpbmVhcl92ZXN0aW5nL2NvbnRyYWN0LnB5OjUxCiAgICAvLyBhc3NlcnQgcmVsZWFzZWFibGUsICJObyBmdW5kcyB0byByZWxlYXNlIGF0IHRoZSBjdXJyZW50IHJvdW5kIgogICAgZHVwCiAgICBhc3NlcnQgLy8gTm8gZnVuZHMgdG8gcmVsZWFzZSBhdCB0aGUgY3VycmVudCByb3VuZAogICAgLy8gc21hcnRfY29udHJhY3RzL2xpbmVhcl92ZXN0aW5nL2NvbnRyYWN0LnB5OjUyCiAgICAvLyBpdHhuLlBheW1lbnQocmVjZWl2ZXI9c2VsZi5iZW5lZmljaWFyeSwgYW1vdW50PXJlbGVhc2VhYmxlLCBmZWU9MCkuc3VibWl0KCkKICAgIGl0eG5fYmVnaW4KICAgIGludCAwCiAgICBieXRlICJiZW5lZmljaWFyeSIKICAgIGFwcF9nbG9iYWxfZ2V0X2V4CiAgICBhc3NlcnQgLy8gY2hlY2sgYmVuZWZpY2lhcnkgZXhpc3RzCiAgICBpbnQgMAogICAgaXR4bl9maWVsZCBGZWUKICAgIGRpZyAxCiAgICBpdHhuX2ZpZWxkIEFtb3VudAogICAgaXR4bl9maWVsZCBSZWNlaXZlcgogICAgaW50IHBheQogICAgaXR4bl9maWVsZCBUeXBlRW51bQogICAgaXR4bl9zdWJtaXQKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9saW5lYXJfdmVzdGluZy9jb250cmFjdC5weTo1MwogICAgLy8gc2VsZi5yZWxlYXNlZCArPSByZWxlYXNlYWJsZQogICAgaW50IDAKICAgIGJ5dGUgInJlbGVhc2VkIgogICAgYXBwX2dsb2JhbF9nZXRfZXgKICAgIGFzc2VydCAvLyBjaGVjayByZWxlYXNlZCBleGlzdHMKICAgICsKICAgIGJ5dGUgInJlbGVhc2VkIgogICAgc3dhcAogICAgYXBwX2dsb2JhbF9wdXQKICAgIHJldHN1Ygo=",
+        "clear": "I3ByYWdtYSB2ZXJzaW9uIDEwCgpzbWFydF9jb250cmFjdHMubGluZWFyX3Zlc3RpbmcuY29udHJhY3QuVmVzdGluZy5jbGVhcl9zdGF0ZV9wcm9ncmFtOgogICAgLy8gc21hcnRfY29udHJhY3RzL2xpbmVhcl92ZXN0aW5nL2NvbnRyYWN0LnB5OjUKICAgIC8vIGNsYXNzIFZlc3RpbmcoQVJDNENvbnRyYWN0KToKICAgIGludCAxCiAgICByZXR1cm4K"
+    },
+    "state": {
+        "global": {
+            "num_byte_slices": 1,
+            "num_uints": 3
+        },
+        "local": {
+            "num_byte_slices": 0,
+            "num_uints": 0
+        }
+    },
+    "schema": {
+        "global": {
+            "declared": {
+                "beneficiary": {
+                    "type": "bytes",
+                    "key": "beneficiary"
+                },
+                "duration": {
+                    "type": "uint64",
+                    "key": "duration"
+                },
+                "released": {
+                    "type": "uint64",
+                    "key": "released"
+                },
+                "start": {
+                    "type": "uint64",
+                    "key": "start"
+                }
+            },
+            "reserved": {}
+        },
+        "local": {
+            "declared": {},
+            "reserved": {}
+        }
+    },
+    "contract": {
+        "name": "Vesting",
+        "desc": "A linear vesting contract.",
+        "methods": [
+            {
+                "name": "new",
+                "args": [
+                    {
+                        "type": "account",
+                        "name": "beneficiary",
+                        "desc": "The account that will receive the vested funds."
+                    },
+                    {
+                        "type": "uint64",
+                        "name": "start",
+                        "desc": "The round at which the vesting begins."
+                    },
+                    {
+                        "type": "uint64",
+                        "name": "duration",
+                        "desc": "The number of rounds the vesting is distributed over."
+                    }
+                ],
+                "returns": {
+                    "type": "void"
+                },
+                "desc": "Creates a new application."
+            },
+            {
+                "name": "calculate_vesting",
+                "args": [
+                    {
+                        "type": "uint64",
+                        "name": "allocation",
+                        "desc": "The total funds allocated for vesting."
+                    },
+                    {
+                        "type": "uint64",
+                        "name": "start",
+                        "desc": "The round at which the vesting begins."
+                    },
+                    {
+                        "type": "uint64",
+                        "name": "duration",
+                        "desc": "The number of rounds the vesting is distributed over."
+                    },
+                    {
+                        "type": "uint64",
+                        "name": "at",
+                        "desc": "The round that the vesting amount will be calculated 'as at'."
+                    }
+                ],
+                "returns": {
+                    "type": "uint64",
+                    "desc": "The vesting amount."
+                },
+                "desc": "Calculates the vesting amount at a specific round."
+            },
+            {
+                "name": "release_funds",
+                "args": [],
+                "returns": {
+                    "type": "void"
+                },
+                "desc": "Transfers vested funds to the benefiary's account."
+            }
+        ],
+        "networks": {}
+    },
+    "bare_call_config": {}
+}
