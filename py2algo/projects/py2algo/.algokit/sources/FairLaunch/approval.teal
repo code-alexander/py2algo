@@ -1,0 +1,247 @@
+#pragma version 10
+
+smart_contracts.fair_launch.contract.FairLaunch.approval_program:
+    // smart_contracts/fair_launch/contract.py:7
+    // class FairLaunch(ARC4Contract):
+    method "new(byte[],uint64,uint64,uint64)void"
+    method "calculate_target(uint64,uint64,uint64,uint64)uint64"
+    method "claim(asset)void"
+    txna ApplicationArgs 0
+    match main_new_route@1 main_calculate_target_route@2 main_claim_route@3
+    err // reject transaction
+
+main_new_route@1:
+    // smart_contracts/fair_launch/contract.py:10
+    // @arc4.abimethod(create="require")
+    txn OnCompletion
+    !
+    assert // OnCompletion is NoOp
+    txn ApplicationID
+    !
+    assert // is creating
+    // smart_contracts/fair_launch/contract.py:7
+    // class FairLaunch(ARC4Contract):
+    txna ApplicationArgs 1
+    extract 2 0
+    txna ApplicationArgs 2
+    btoi
+    txna ApplicationArgs 3
+    btoi
+    txna ApplicationArgs 4
+    btoi
+    // smart_contracts/fair_launch/contract.py:10
+    // @arc4.abimethod(create="require")
+    callsub new
+    int 1
+    return
+
+main_calculate_target_route@2:
+    // smart_contracts/fair_launch/contract.py:30
+    // @arc4.abimethod
+    txn OnCompletion
+    !
+    assert // OnCompletion is NoOp
+    txn ApplicationID
+    assert // is not creating
+    // smart_contracts/fair_launch/contract.py:7
+    // class FairLaunch(ARC4Contract):
+    txna ApplicationArgs 1
+    btoi
+    txna ApplicationArgs 2
+    btoi
+    txna ApplicationArgs 3
+    btoi
+    txna ApplicationArgs 4
+    btoi
+    // smart_contracts/fair_launch/contract.py:30
+    // @arc4.abimethod
+    callsub calculate_target
+    itob
+    byte 0x151f7c75
+    swap
+    concat
+    log
+    int 1
+    return
+
+main_claim_route@3:
+    // smart_contracts/fair_launch/contract.py:48
+    // @arc4.abimethod
+    txn OnCompletion
+    !
+    assert // OnCompletion is NoOp
+    txn ApplicationID
+    assert // is not creating
+    // smart_contracts/fair_launch/contract.py:7
+    // class FairLaunch(ARC4Contract):
+    txna ApplicationArgs 1
+    btoi
+    txnas Assets
+    // smart_contracts/fair_launch/contract.py:48
+    // @arc4.abimethod
+    callsub claim
+    int 1
+    return
+
+
+// smart_contracts.fair_launch.contract.FairLaunch.new(genesis_hash: bytes, minimum_balance: uint64, zero_bits: uint64, difficulty_halving_interval: uint64) -> void:
+new:
+    // smart_contracts/fair_launch/contract.py:10-13
+    // @arc4.abimethod(create="require")
+    // def new(
+    //     self, *, genesis_hash: Bytes, minimum_balance: UInt64, zero_bits: UInt64, difficulty_halving_interval: UInt64
+    // ) -> None:
+    proto 4 0
+    // smart_contracts/fair_launch/contract.py:22
+    // assert zero_bits < 64, "`zero_bits` must be < 64"
+    frame_dig -2
+    int 64
+    <
+    assert // `zero_bits` must be < 64
+    // smart_contracts/fair_launch/contract.py:24
+    // self.previous_hash = genesis_hash
+    byte "previous_hash"
+    frame_dig -4
+    app_global_put
+    // smart_contracts/fair_launch/contract.py:25
+    // self.minimum_balance = minimum_balance
+    byte "minimum_balance"
+    frame_dig -3
+    app_global_put
+    // smart_contracts/fair_launch/contract.py:26
+    // self.zero_bits = zero_bits
+    byte "zero_bits"
+    frame_dig -2
+    app_global_put
+    // smart_contracts/fair_launch/contract.py:27
+    // self.difficulty_halving_interval = difficulty_halving_interval
+    byte "difficulty_halving_interval"
+    frame_dig -1
+    app_global_put
+    // smart_contracts/fair_launch/contract.py:28
+    // self.last_round = Global.round
+    byte "last_round"
+    global Round
+    app_global_put
+    retsub
+
+
+// smart_contracts.fair_launch.contract.FairLaunch.calculate_target(zero_bits: uint64, difficulty_halving_interval: uint64, last_round: uint64, at_round: uint64) -> uint64:
+calculate_target:
+    // smart_contracts/fair_launch/contract.py:30-33
+    // @arc4.abimethod
+    // def calculate_target(
+    //     self, zero_bits: UInt64, difficulty_halving_interval: UInt64, last_round: UInt64, at_round: UInt64
+    // ) -> UInt64:
+    proto 4 1
+    // smart_contracts/fair_launch/contract.py:45
+    // halvings = (at_round - last_round) // difficulty_halving_interval
+    frame_dig -1
+    frame_dig -2
+    -
+    frame_dig -3
+    /
+    dup
+    // smart_contracts/fair_launch/contract.py:46
+    // return UInt64(TARGET_LIMIT) if halvings > zero_bits else UInt64(TARGET_LIMIT) >> zero_bits - halvings
+    frame_dig -4
+    >
+    bz calculate_target_ternary_false@2
+    int 18446744073709551615
+    b calculate_target_ternary_merge@3
+
+calculate_target_ternary_false@2:
+    // smart_contracts/fair_launch/contract.py:46
+    // return UInt64(TARGET_LIMIT) if halvings > zero_bits else UInt64(TARGET_LIMIT) >> zero_bits - halvings
+    frame_dig -4
+    frame_dig 0
+    -
+    int 18446744073709551615
+    swap
+    shr
+
+calculate_target_ternary_merge@3:
+    // smart_contracts/fair_launch/contract.py:46
+    // return UInt64(TARGET_LIMIT) if halvings > zero_bits else UInt64(TARGET_LIMIT) >> zero_bits - halvings
+    swap
+    retsub
+
+
+// smart_contracts.fair_launch.contract.FairLaunch.claim(asset: uint64) -> void:
+claim:
+    // smart_contracts/fair_launch/contract.py:48-49
+    // @arc4.abimethod
+    // def claim(self, asset: Asset) -> None:
+    proto 1 0
+    // smart_contracts/fair_launch/contract.py:55
+    // assert Txn.sender.balance >= self.minimum_balance, "Sender's balance is below the minimum requirement"
+    txn Sender
+    acct_params_get AcctBalance
+    assert // account funded
+    int 0
+    byte "minimum_balance"
+    app_global_get_ex
+    assert // check minimum_balance exists
+    >=
+    assert // Sender's balance is below the minimum requirement
+    // smart_contracts/fair_launch/contract.py:56
+    // new_hash = op.sha256(Txn.sender.bytes + self.previous_hash)
+    txn Sender
+    int 0
+    byte "previous_hash"
+    app_global_get_ex
+    assert // check previous_hash exists
+    concat
+    sha256
+    // smart_contracts/fair_launch/contract.py:57
+    // assert op.extract_uint64(new_hash, 0) < self.calculate_target(
+    dup
+    int 0
+    extract_uint64
+    // smart_contracts/fair_launch/contract.py:58
+    // self.zero_bits, self.difficulty_halving_interval, self.last_round, Global.round
+    int 0
+    byte "zero_bits"
+    app_global_get_ex
+    assert // check zero_bits exists
+    int 0
+    byte "difficulty_halving_interval"
+    app_global_get_ex
+    assert // check difficulty_halving_interval exists
+    int 0
+    byte "last_round"
+    app_global_get_ex
+    assert // check last_round exists
+    global Round
+    // smart_contracts/fair_launch/contract.py:57-59
+    // assert op.extract_uint64(new_hash, 0) < self.calculate_target(
+    //     self.zero_bits, self.difficulty_halving_interval, self.last_round, Global.round
+    // )
+    callsub calculate_target
+    <
+    assert
+    // smart_contracts/fair_launch/contract.py:60
+    // itxn.AssetTransfer(xfer_asset=asset, asset_amount=1, asset_receiver=Txn.sender, fee=0).submit()
+    itxn_begin
+    txn Sender
+    int 0
+    itxn_field Fee
+    itxn_field AssetReceiver
+    int 1
+    itxn_field AssetAmount
+    frame_dig -1
+    itxn_field XferAsset
+    int axfer
+    itxn_field TypeEnum
+    itxn_submit
+    // smart_contracts/fair_launch/contract.py:61
+    // self.previous_hash = new_hash
+    byte "previous_hash"
+    swap
+    app_global_put
+    // smart_contracts/fair_launch/contract.py:62
+    // self.last_round = Global.round
+    byte "last_round"
+    global Round
+    app_global_put
+    retsub

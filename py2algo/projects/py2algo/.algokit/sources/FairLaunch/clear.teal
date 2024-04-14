@@ -1,0 +1,7 @@
+#pragma version 10
+
+smart_contracts.fair_launch.contract.FairLaunch.clear_state_program:
+    // smart_contracts/fair_launch/contract.py:7
+    // class FairLaunch(ARC4Contract):
+    int 1
+    return

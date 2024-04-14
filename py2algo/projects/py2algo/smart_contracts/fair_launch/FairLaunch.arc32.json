@@ -1,0 +1,145 @@
+{
+    "hints": {
+        "new(byte[],uint64,uint64,uint64)void": {
+            "call_config": {
+                "no_op": "CREATE"
+            }
+        },
+        "calculate_target(uint64,uint64,uint64,uint64)uint64": {
+            "call_config": {
+                "no_op": "CALL"
+            }
+        },
+        "claim(asset)void": {
+            "call_config": {
+                "no_op": "CALL"
+            }
+        }
+    },
+    "source": {
+        "approval": "I3ByYWdtYSB2ZXJzaW9uIDEwCgpzbWFydF9jb250cmFjdHMuZmFpcl9sYXVuY2guY29udHJhY3QuRmFpckxhdW5jaC5hcHByb3ZhbF9wcm9ncmFtOgogICAgLy8gc21hcnRfY29udHJhY3RzL2ZhaXJfbGF1bmNoL2NvbnRyYWN0LnB5OjcKICAgIC8vIGNsYXNzIEZhaXJMYXVuY2goQVJDNENvbnRyYWN0KToKICAgIG1ldGhvZCAibmV3KGJ5dGVbXSx1aW50NjQsdWludDY0LHVpbnQ2NCl2b2lkIgogICAgbWV0aG9kICJjYWxjdWxhdGVfdGFyZ2V0KHVpbnQ2NCx1aW50NjQsdWludDY0LHVpbnQ2NCl1aW50NjQiCiAgICBtZXRob2QgImNsYWltKGFzc2V0KXZvaWQiCiAgICB0eG5hIEFwcGxpY2F0aW9uQXJncyAwCiAgICBtYXRjaCBtYWluX25ld19yb3V0ZUAxIG1haW5fY2FsY3VsYXRlX3RhcmdldF9yb3V0ZUAyIG1haW5fY2xhaW1fcm91dGVAMwogICAgZXJyIC8vIHJlamVjdCB0cmFuc2FjdGlvbgoKbWFpbl9uZXdfcm91dGVAMToKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9mYWlyX2xhdW5jaC9jb250cmFjdC5weToxMAogICAgLy8gQGFyYzQuYWJpbWV0aG9kKGNyZWF0ZT0icmVxdWlyZSIpCiAgICB0eG4gT25Db21wbGV0aW9uCiAgICAhCiAgICBhc3NlcnQgLy8gT25Db21wbGV0aW9uIGlzIE5vT3AKICAgIHR4biBBcHBsaWNhdGlvbklECiAgICAhCiAgICBhc3NlcnQgLy8gaXMgY3JlYXRpbmcKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9mYWlyX2xhdW5jaC9jb250cmFjdC5weTo3CiAgICAvLyBjbGFzcyBGYWlyTGF1bmNoKEFSQzRDb250cmFjdCk6CiAgICB0eG5hIEFwcGxpY2F0aW9uQXJncyAxCiAgICBleHRyYWN0IDIgMAogICAgdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMgogICAgYnRvaQogICAgdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMwogICAgYnRvaQogICAgdHhuYSBBcHBsaWNhdGlvbkFyZ3MgNAogICAgYnRvaQogICAgLy8gc21hcnRfY29udHJhY3RzL2ZhaXJfbGF1bmNoL2NvbnRyYWN0LnB5OjEwCiAgICAvLyBAYXJjNC5hYmltZXRob2QoY3JlYXRlPSJyZXF1aXJlIikKICAgIGNhbGxzdWIgbmV3CiAgICBpbnQgMQogICAgcmV0dXJuCgptYWluX2NhbGN1bGF0ZV90YXJnZXRfcm91dGVAMjoKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9mYWlyX2xhdW5jaC9jb250cmFjdC5weTozMAogICAgLy8gQGFyYzQuYWJpbWV0aG9kCiAgICB0eG4gT25Db21wbGV0aW9uCiAgICAhCiAgICBhc3NlcnQgLy8gT25Db21wbGV0aW9uIGlzIE5vT3AKICAgIHR4biBBcHBsaWNhdGlvbklECiAgICBhc3NlcnQgLy8gaXMgbm90IGNyZWF0aW5nCiAgICAvLyBzbWFydF9jb250cmFjdHMvZmFpcl9sYXVuY2gvY29udHJhY3QucHk6NwogICAgLy8gY2xhc3MgRmFpckxhdW5jaChBUkM0Q29udHJhY3QpOgogICAgdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMQogICAgYnRvaQogICAgdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMgogICAgYnRvaQogICAgdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMwogICAgYnRvaQogICAgdHhuYSBBcHBsaWNhdGlvbkFyZ3MgNAogICAgYnRvaQogICAgLy8gc21hcnRfY29udHJhY3RzL2ZhaXJfbGF1bmNoL2NvbnRyYWN0LnB5OjMwCiAgICAvLyBAYXJjNC5hYmltZXRob2QKICAgIGNhbGxzdWIgY2FsY3VsYXRlX3RhcmdldAogICAgaXRvYgogICAgYnl0ZSAweDE1MWY3Yzc1CiAgICBzd2FwCiAgICBjb25jYXQKICAgIGxvZwogICAgaW50IDEKICAgIHJldHVybgoKbWFpbl9jbGFpbV9yb3V0ZUAzOgogICAgLy8gc21hcnRfY29udHJhY3RzL2ZhaXJfbGF1bmNoL2NvbnRyYWN0LnB5OjQ4CiAgICAvLyBAYXJjNC5hYmltZXRob2QKICAgIHR4biBPbkNvbXBsZXRpb24KICAgICEKICAgIGFzc2VydCAvLyBPbkNvbXBsZXRpb24gaXMgTm9PcAogICAgdHhuIEFwcGxpY2F0aW9uSUQKICAgIGFzc2VydCAvLyBpcyBub3QgY3JlYXRpbmcKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9mYWlyX2xhdW5jaC9jb250cmFjdC5weTo3CiAgICAvLyBjbGFzcyBGYWlyTGF1bmNoKEFSQzRDb250cmFjdCk6CiAgICB0eG5hIEFwcGxpY2F0aW9uQXJncyAxCiAgICBidG9pCiAgICB0eG5hcyBBc3NldHMKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9mYWlyX2xhdW5jaC9jb250cmFjdC5weTo0OAogICAgLy8gQGFyYzQuYWJpbWV0aG9kCiAgICBjYWxsc3ViIGNsYWltCiAgICBpbnQgMQogICAgcmV0dXJuCgoKLy8gc21hcnRfY29udHJhY3RzLmZhaXJfbGF1bmNoLmNvbnRyYWN0LkZhaXJMYXVuY2gubmV3KGdlbmVzaXNfaGFzaDogYnl0ZXMsIG1pbmltdW1fYmFsYW5jZTogdWludDY0LCB6ZXJvX2JpdHM6IHVpbnQ2NCwgZGlmZmljdWx0eV9oYWx2aW5nX2ludGVydmFsOiB1aW50NjQpIC0+IHZvaWQ6Cm5ldzoKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9mYWlyX2xhdW5jaC9jb250cmFjdC5weToxMC0xMwogICAgLy8gQGFyYzQuYWJpbWV0aG9kKGNyZWF0ZT0icmVxdWlyZSIpCiAgICAvLyBkZWYgbmV3KAogICAgLy8gICAgIHNlbGYsICosIGdlbmVzaXNfaGFzaDogQnl0ZXMsIG1pbmltdW1fYmFsYW5jZTogVUludDY0LCB6ZXJvX2JpdHM6IFVJbnQ2NCwgZGlmZmljdWx0eV9oYWx2aW5nX2ludGVydmFsOiBVSW50NjQKICAgIC8vICkgLT4gTm9uZToKICAgIHByb3RvIDQgMAogICAgLy8gc21hcnRfY29udHJhY3RzL2ZhaXJfbGF1bmNoL2NvbnRyYWN0LnB5OjIyCiAgICAvLyBhc3NlcnQgemVyb19iaXRzIDwgNjQsICJgemVyb19iaXRzYCBtdXN0IGJlIDwgNjQiCiAgICBmcmFtZV9kaWcgLTIKICAgIGludCA2NAogICAgPAogICAgYXNzZXJ0IC8vIGB6ZXJvX2JpdHNgIG11c3QgYmUgPCA2NAogICAgLy8gc21hcnRfY29udHJhY3RzL2ZhaXJfbGF1bmNoL2NvbnRyYWN0LnB5OjI0CiAgICAvLyBzZWxmLnByZXZpb3VzX2hhc2ggPSBnZW5lc2lzX2hhc2gKICAgIGJ5dGUgInByZXZpb3VzX2hhc2giCiAgICBmcmFtZV9kaWcgLTQKICAgIGFwcF9nbG9iYWxfcHV0CiAgICAvLyBzbWFydF9jb250cmFjdHMvZmFpcl9sYXVuY2gvY29udHJhY3QucHk6MjUKICAgIC8vIHNlbGYubWluaW11bV9iYWxhbmNlID0gbWluaW11bV9iYWxhbmNlCiAgICBieXRlICJtaW5pbXVtX2JhbGFuY2UiCiAgICBmcmFtZV9kaWcgLTMKICAgIGFwcF9nbG9iYWxfcHV0CiAgICAvLyBzbWFydF9jb250cmFjdHMvZmFpcl9sYXVuY2gvY29udHJhY3QucHk6MjYKICAgIC8vIHNlbGYuemVyb19iaXRzID0gemVyb19iaXRzCiAgICBieXRlICJ6ZXJvX2JpdHMiCiAgICBmcmFtZV9kaWcgLTIKICAgIGFwcF9nbG9iYWxfcHV0CiAgICAvLyBzbWFydF9jb250cmFjdHMvZmFpcl9sYXVuY2gvY29udHJhY3QucHk6MjcKICAgIC8vIHNlbGYuZGlmZmljdWx0eV9oYWx2aW5nX2ludGVydmFsID0gZGlmZmljdWx0eV9oYWx2aW5nX2ludGVydmFsCiAgICBieXRlICJkaWZmaWN1bHR5X2hhbHZpbmdfaW50ZXJ2YWwiCiAgICBmcmFtZV9kaWcgLTEKICAgIGFwcF9nbG9iYWxfcHV0CiAgICAvLyBzbWFydF9jb250cmFjdHMvZmFpcl9sYXVuY2gvY29udHJhY3QucHk6MjgKICAgIC8vIHNlbGYubGFzdF9yb3VuZCA9IEdsb2JhbC5yb3VuZAogICAgYnl0ZSAibGFzdF9yb3VuZCIKICAgIGdsb2JhbCBSb3VuZAogICAgYXBwX2dsb2JhbF9wdXQKICAgIHJldHN1YgoKCi8vIHNtYXJ0X2NvbnRyYWN0cy5mYWlyX2xhdW5jaC5jb250cmFjdC5GYWlyTGF1bmNoLmNhbGN1bGF0ZV90YXJnZXQoemVyb19iaXRzOiB1aW50NjQsIGRpZmZpY3VsdHlfaGFsdmluZ19pbnRlcnZhbDogdWludDY0LCBsYXN0X3JvdW5kOiB1aW50NjQsIGF0X3JvdW5kOiB1aW50NjQpIC0+IHVpbnQ2NDoKY2FsY3VsYXRlX3RhcmdldDoKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9mYWlyX2xhdW5jaC9jb250cmFjdC5weTozMC0zMwogICAgLy8gQGFyYzQuYWJpbWV0aG9kCiAgICAvLyBkZWYgY2FsY3VsYXRlX3RhcmdldCgKICAgIC8vICAgICBzZWxmLCB6ZXJvX2JpdHM6IFVJbnQ2NCwgZGlmZmljdWx0eV9oYWx2aW5nX2ludGVydmFsOiBVSW50NjQsIGxhc3Rfcm91bmQ6IFVJbnQ2NCwgYXRfcm91bmQ6IFVJbnQ2NAogICAgLy8gKSAtPiBVSW50NjQ6CiAgICBwcm90byA0IDEKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9mYWlyX2xhdW5jaC9jb250cmFjdC5weTo0NQogICAgLy8gaGFsdmluZ3MgPSAoYXRfcm91bmQgLSBsYXN0X3JvdW5kKSAvLyBkaWZmaWN1bHR5X2hhbHZpbmdfaW50ZXJ2YWwKICAgIGZyYW1lX2RpZyAtMQogICAgZnJhbWVfZGlnIC0yCiAgICAtCiAgICBmcmFtZV9kaWcgLTMKICAgIC8KICAgIGR1cAogICAgLy8gc21hcnRfY29udHJhY3RzL2ZhaXJfbGF1bmNoL2NvbnRyYWN0LnB5OjQ2CiAgICAvLyByZXR1cm4gVUludDY0KFRBUkdFVF9MSU1JVCkgaWYgaGFsdmluZ3MgPiB6ZXJvX2JpdHMgZWxzZSBVSW50NjQoVEFSR0VUX0xJTUlUKSA+PiB6ZXJvX2JpdHMgLSBoYWx2aW5ncwogICAgZnJhbWVfZGlnIC00CiAgICA+CiAgICBieiBjYWxjdWxhdGVfdGFyZ2V0X3Rlcm5hcnlfZmFsc2VAMgogICAgaW50IDE4NDQ2NzQ0MDczNzA5NTUxNjE1CiAgICBiIGNhbGN1bGF0ZV90YXJnZXRfdGVybmFyeV9tZXJnZUAzCgpjYWxjdWxhdGVfdGFyZ2V0X3Rlcm5hcnlfZmFsc2VAMjoKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9mYWlyX2xhdW5jaC9jb250cmFjdC5weTo0NgogICAgLy8gcmV0dXJuIFVJbnQ2NChUQVJHRVRfTElNSVQpIGlmIGhhbHZpbmdzID4gemVyb19iaXRzIGVsc2UgVUludDY0KFRBUkdFVF9MSU1JVCkgPj4gemVyb19iaXRzIC0gaGFsdmluZ3MKICAgIGZyYW1lX2RpZyAtNAogICAgZnJhbWVfZGlnIDAKICAgIC0KICAgIGludCAxODQ0Njc0NDA3MzcwOTU1MTYxNQogICAgc3dhcAogICAgc2hyCgpjYWxjdWxhdGVfdGFyZ2V0X3Rlcm5hcnlfbWVyZ2VAMzoKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9mYWlyX2xhdW5jaC9jb250cmFjdC5weTo0NgogICAgLy8gcmV0dXJuIFVJbnQ2NChUQVJHRVRfTElNSVQpIGlmIGhhbHZpbmdzID4gemVyb19iaXRzIGVsc2UgVUludDY0KFRBUkdFVF9MSU1JVCkgPj4gemVyb19iaXRzIC0gaGFsdmluZ3MKICAgIHN3YXAKICAgIHJldHN1YgoKCi8vIHNtYXJ0X2NvbnRyYWN0cy5mYWlyX2xhdW5jaC5jb250cmFjdC5GYWlyTGF1bmNoLmNsYWltKGFzc2V0OiB1aW50NjQpIC0+IHZvaWQ6CmNsYWltOgogICAgLy8gc21hcnRfY29udHJhY3RzL2ZhaXJfbGF1bmNoL2NvbnRyYWN0LnB5OjQ4LTQ5CiAgICAvLyBAYXJjNC5hYmltZXRob2QKICAgIC8vIGRlZiBjbGFpbShzZWxmLCBhc3NldDogQXNzZXQpIC0+IE5vbmU6CiAgICBwcm90byAxIDAKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9mYWlyX2xhdW5jaC9jb250cmFjdC5weTo1NQogICAgLy8gYXNzZXJ0IFR4bi5zZW5kZXIuYmFsYW5jZSA+PSBzZWxmLm1pbmltdW1fYmFsYW5jZSwgIlNlbmRlcidzIGJhbGFuY2UgaXMgYmVsb3cgdGhlIG1pbmltdW0gcmVxdWlyZW1lbnQiCiAgICB0eG4gU2VuZGVyCiAgICBhY2N0X3BhcmFtc19nZXQgQWNjdEJhbGFuY2UKICAgIGFzc2VydCAvLyBhY2NvdW50IGZ1bmRlZAogICAgaW50IDAKICAgIGJ5dGUgIm1pbmltdW1fYmFsYW5jZSIKICAgIGFwcF9nbG9iYWxfZ2V0X2V4CiAgICBhc3NlcnQgLy8gY2hlY2sgbWluaW11bV9iYWxhbmNlIGV4aXN0cwogICAgPj0KICAgIGFzc2VydCAvLyBTZW5kZXIncyBiYWxhbmNlIGlzIGJlbG93IHRoZSBtaW5pbXVtIHJlcXVpcmVtZW50CiAgICAvLyBzbWFydF9jb250cmFjdHMvZmFpcl9sYXVuY2gvY29udHJhY3QucHk6NTYKICAgIC8vIG5ld19oYXNoID0gb3Auc2hhMjU2KFR4bi5zZW5kZXIuYnl0ZXMgKyBzZWxmLnByZXZpb3VzX2hhc2gpCiAgICB0eG4gU2VuZGVyCiAgICBpbnQgMAogICAgYnl0ZSAicHJldmlvdXNfaGFzaCIKICAgIGFwcF9nbG9iYWxfZ2V0X2V4CiAgICBhc3NlcnQgLy8gY2hlY2sgcHJldmlvdXNfaGFzaCBleGlzdHMKICAgIGNvbmNhdAogICAgc2hhMjU2CiAgICAvLyBzbWFydF9jb250cmFjdHMvZmFpcl9sYXVuY2gvY29udHJhY3QucHk6NTcKICAgIC8vIGFzc2VydCBvcC5leHRyYWN0X3VpbnQ2NChuZXdfaGFzaCwgMCkgPCBzZWxmLmNhbGN1bGF0ZV90YXJnZXQoCiAgICBkdXAKICAgIGludCAwCiAgICBleHRyYWN0X3VpbnQ2NAogICAgLy8gc21hcnRfY29udHJhY3RzL2ZhaXJfbGF1bmNoL2NvbnRyYWN0LnB5OjU4CiAgICAvLyBzZWxmLnplcm9fYml0cywgc2VsZi5kaWZmaWN1bHR5X2hhbHZpbmdfaW50ZXJ2YWwsIHNlbGYubGFzdF9yb3VuZCwgR2xvYmFsLnJvdW5kCiAgICBpbnQgMAogICAgYnl0ZSAiemVyb19iaXRzIgogICAgYXBwX2dsb2JhbF9nZXRfZXgKICAgIGFzc2VydCAvLyBjaGVjayB6ZXJvX2JpdHMgZXhpc3RzCiAgICBpbnQgMAogICAgYnl0ZSAiZGlmZmljdWx0eV9oYWx2aW5nX2ludGVydmFsIgogICAgYXBwX2dsb2JhbF9nZXRfZXgKICAgIGFzc2VydCAvLyBjaGVjayBkaWZmaWN1bHR5X2hhbHZpbmdfaW50ZXJ2YWwgZXhpc3RzCiAgICBpbnQgMAogICAgYnl0ZSAibGFzdF9yb3VuZCIKICAgIGFwcF9nbG9iYWxfZ2V0X2V4CiAgICBhc3NlcnQgLy8gY2hlY2sgbGFzdF9yb3VuZCBleGlzdHMKICAgIGdsb2JhbCBSb3VuZAogICAgLy8gc21hcnRfY29udHJhY3RzL2ZhaXJfbGF1bmNoL2NvbnRyYWN0LnB5OjU3LTU5CiAgICAvLyBhc3NlcnQgb3AuZXh0cmFjdF91aW50NjQobmV3X2hhc2gsIDApIDwgc2VsZi5jYWxjdWxhdGVfdGFyZ2V0KAogICAgLy8gICAgIHNlbGYuemVyb19iaXRzLCBzZWxmLmRpZmZpY3VsdHlfaGFsdmluZ19pbnRlcnZhbCwgc2VsZi5sYXN0X3JvdW5kLCBHbG9iYWwucm91bmQKICAgIC8vICkKICAgIGNhbGxzdWIgY2FsY3VsYXRlX3RhcmdldAogICAgPAogICAgYXNzZXJ0CiAgICAvLyBzbWFydF9jb250cmFjdHMvZmFpcl9sYXVuY2gvY29udHJhY3QucHk6NjAKICAgIC8vIGl0eG4uQXNzZXRUcmFuc2Zlcih4ZmVyX2Fzc2V0PWFzc2V0LCBhc3NldF9hbW91bnQ9MSwgYXNzZXRfcmVjZWl2ZXI9VHhuLnNlbmRlciwgZmVlPTApLnN1Ym1pdCgpCiAgICBpdHhuX2JlZ2luCiAgICB0eG4gU2VuZGVyCiAgICBpbnQgMAogICAgaXR4bl9maWVsZCBGZWUKICAgIGl0eG5fZmllbGQgQXNzZXRSZWNlaXZlcgogICAgaW50IDEKICAgIGl0eG5fZmllbGQgQXNzZXRBbW91bnQKICAgIGZyYW1lX2RpZyAtMQogICAgaXR4bl9maWVsZCBYZmVyQXNzZXQKICAgIGludCBheGZlcgogICAgaXR4bl9maWVsZCBUeXBlRW51bQogICAgaXR4bl9zdWJtaXQKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9mYWlyX2xhdW5jaC9jb250cmFjdC5weTo2MQogICAgLy8gc2VsZi5wcmV2aW91c19oYXNoID0gbmV3X2hhc2gKICAgIGJ5dGUgInByZXZpb3VzX2hhc2giCiAgICBzd2FwCiAgICBhcHBfZ2xvYmFsX3B1dAogICAgLy8gc21hcnRfY29udHJhY3RzL2ZhaXJfbGF1bmNoL2NvbnRyYWN0LnB5OjYyCiAgICAvLyBzZWxmLmxhc3Rfcm91bmQgPSBHbG9iYWwucm91bmQKICAgIGJ5dGUgImxhc3Rfcm91bmQiCiAgICBnbG9iYWwgUm91bmQKICAgIGFwcF9nbG9iYWxfcHV0CiAgICByZXRzdWIK",
+        "clear": "I3ByYWdtYSB2ZXJzaW9uIDEwCgpzbWFydF9jb250cmFjdHMuZmFpcl9sYXVuY2guY29udHJhY3QuRmFpckxhdW5jaC5jbGVhcl9zdGF0ZV9wcm9ncmFtOgogICAgLy8gc21hcnRfY29udHJhY3RzL2ZhaXJfbGF1bmNoL2NvbnRyYWN0LnB5OjcKICAgIC8vIGNsYXNzIEZhaXJMYXVuY2goQVJDNENvbnRyYWN0KToKICAgIGludCAxCiAgICByZXR1cm4K"
+    },
+    "state": {
+        "global": {
+            "num_byte_slices": 1,
+            "num_uints": 4
+        },
+        "local": {
+            "num_byte_slices": 0,
+            "num_uints": 0
+        }
+    },
+    "schema": {
+        "global": {
+            "declared": {
+                "difficulty_halving_interval": {
+                    "type": "uint64",
+                    "key": "difficulty_halving_interval"
+                },
+                "last_round": {
+                    "type": "uint64",
+                    "key": "last_round"
+                },
+                "minimum_balance": {
+                    "type": "uint64",
+                    "key": "minimum_balance"
+                },
+                "previous_hash": {
+                    "type": "bytes",
+                    "key": "previous_hash"
+                },
+                "zero_bits": {
+                    "type": "uint64",
+                    "key": "zero_bits"
+                }
+            },
+            "reserved": {}
+        },
+        "local": {
+            "declared": {},
+            "reserved": {}
+        }
+    },
+    "contract": {
+        "name": "FairLaunch",
+        "desc": "A contract for fairly launching an NFT project.",
+        "methods": [
+            {
+                "name": "new",
+                "args": [
+                    {
+                        "type": "byte[]",
+                        "name": "genesis_hash",
+                        "desc": "The value to use for the first hash."
+                    },
+                    {
+                        "type": "uint64",
+                        "name": "minimum_balance",
+                        "desc": "The minimum amount of MicroAlgos an account must have to claim an asset."
+                    },
+                    {
+                        "type": "uint64",
+                        "name": "zero_bits",
+                        "desc": "The maximum number of leading zero bits the target number can have."
+                    },
+                    {
+                        "type": "uint64",
+                        "name": "difficulty_halving_interval",
+                        "desc": "The number of rounds that elapse between each difficulty halving."
+                    }
+                ],
+                "returns": {
+                    "type": "void"
+                },
+                "desc": "Creates a new application."
+            },
+            {
+                "name": "calculate_target",
+                "args": [
+                    {
+                        "type": "uint64",
+                        "name": "zero_bits",
+                        "desc": "The maximum number of leading zero bits the target number can have."
+                    },
+                    {
+                        "type": "uint64",
+                        "name": "difficulty_halving_interval",
+                        "desc": "The number of rounds that elapse between each difficulty halving."
+                    },
+                    {
+                        "type": "uint64",
+                        "name": "last_round",
+                        "desc": "The last round an asset was released at."
+                    },
+                    {
+                        "type": "uint64",
+                        "name": "at_round",
+                        "desc": "The round that the target is calculated 'as at'."
+                    }
+                ],
+                "returns": {
+                    "type": "uint64",
+                    "desc": "The target number."
+                },
+                "desc": "Calculate the target number that the hash must be less than or equal to."
+            },
+            {
+                "name": "claim",
+                "args": [
+                    {
+                        "type": "asset",
+                        "name": "asset",
+                        "desc": "The requested asset."
+                    }
+                ],
+                "returns": {
+                    "type": "void"
+                },
+                "desc": "Transfers the requested asset to the claimant, if they are eligible to receive it."
+            }
+        ],
+        "networks": {}
+    },
+    "bare_call_config": {}
+}
