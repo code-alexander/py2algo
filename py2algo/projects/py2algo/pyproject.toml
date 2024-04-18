@@ -13,6 +13,8 @@ algorand-python = "^1.0.0"
 jupyter = "^1.0.0"
 sympy = "^1.12"
 seaborn = "^0.13.2"
+latexify-py = {git = "https://github.com/code-alexander/latexify_py.git"}
+pydantic = "^2.7.0"
 
 [tool.poetry.group.dev.dependencies]
 algokit-client-generator = "^1.1.3"

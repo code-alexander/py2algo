@@ -85,5 +85,3 @@ class Iteration(ARC4Contract):
             UInt64: The nth Fibonacci number.
         """
         return n if n <= 1 else self.fibonacci(n - 1) + self.fibonacci(n - 2)
-
-    

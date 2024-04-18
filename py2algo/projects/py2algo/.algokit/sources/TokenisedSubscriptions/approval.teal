@@ -1,0 +1,589 @@
+#pragma version 10
+
+smart_contracts.tokenised_subscriptions.contract.TokenisedSubscriptions.approval_program:
+    // smart_contracts/tokenised_subscriptions/contract.py:5
+    // class TokenisedSubscriptions(ARC4Contract):
+    txn NumAppArgs
+    bz main_bare_routing@11
+    method "mint_tokens(account,uint64,uint64,uint64,uint64)uint64"
+    method "withdraw_tokens(asset)void"
+    method "active_from(asset)uint64"
+    method "payment_amount(asset)uint64"
+    method "payment_frequency(asset)uint64"
+    method "cycle_number(asset,uint64)uint64"
+    method "claim_payment(axfer)uint64"
+    txna ApplicationArgs 0
+    match main_mint_tokens_route@2 main_withdraw_tokens_route@3 main_active_from_route@4 main_payment_amount_route@5 main_payment_frequency_route@6 main_cycle_number_route@7 main_claim_payment_route@8
+    err // reject transaction
+
+main_mint_tokens_route@2:
+    // smart_contracts/tokenised_subscriptions/contract.py:8
+    // @arc4.abimethod
+    txn OnCompletion
+    !
+    assert // OnCompletion is NoOp
+    txn ApplicationID
+    assert // is not creating
+    // smart_contracts/tokenised_subscriptions/contract.py:5
+    // class TokenisedSubscriptions(ARC4Contract):
+    txna ApplicationArgs 1
+    btoi
+    txnas Accounts
+    txna ApplicationArgs 2
+    txna ApplicationArgs 3
+    txna ApplicationArgs 4
+    txna ApplicationArgs 5
+    // smart_contracts/tokenised_subscriptions/contract.py:8
+    // @arc4.abimethod
+    callsub mint_tokens
+    itob
+    byte 0x151f7c75
+    swap
+    concat
+    log
+    int 1
+    return
+
+main_withdraw_tokens_route@3:
+    // smart_contracts/tokenised_subscriptions/contract.py:50
+    // @arc4.abimethod
+    txn OnCompletion
+    !
+    assert // OnCompletion is NoOp
+    txn ApplicationID
+    assert // is not creating
+    // smart_contracts/tokenised_subscriptions/contract.py:5
+    // class TokenisedSubscriptions(ARC4Contract):
+    txna ApplicationArgs 1
+    btoi
+    txnas Assets
+    // smart_contracts/tokenised_subscriptions/contract.py:50
+    // @arc4.abimethod
+    callsub withdraw_tokens
+    int 1
+    return
+
+main_active_from_route@4:
+    // smart_contracts/tokenised_subscriptions/contract.py:62
+    // @arc4.abimethod
+    txn OnCompletion
+    !
+    assert // OnCompletion is NoOp
+    txn ApplicationID
+    assert // is not creating
+    // smart_contracts/tokenised_subscriptions/contract.py:5
+    // class TokenisedSubscriptions(ARC4Contract):
+    txna ApplicationArgs 1
+    btoi
+    txnas Assets
+    // smart_contracts/tokenised_subscriptions/contract.py:62
+    // @arc4.abimethod
+    callsub active_from
+    itob
+    byte 0x151f7c75
+    swap
+    concat
+    log
+    int 1
+    return
+
+main_payment_amount_route@5:
+    // smart_contracts/tokenised_subscriptions/contract.py:74
+    // @arc4.abimethod
+    txn OnCompletion
+    !
+    assert // OnCompletion is NoOp
+    txn ApplicationID
+    assert // is not creating
+    // smart_contracts/tokenised_subscriptions/contract.py:5
+    // class TokenisedSubscriptions(ARC4Contract):
+    txna ApplicationArgs 1
+    btoi
+    txnas Assets
+    // smart_contracts/tokenised_subscriptions/contract.py:74
+    // @arc4.abimethod
+    callsub payment_amount
+    itob
+    byte 0x151f7c75
+    swap
+    concat
+    log
+    int 1
+    return
+
+main_payment_frequency_route@6:
+    // smart_contracts/tokenised_subscriptions/contract.py:86
+    // @arc4.abimethod
+    txn OnCompletion
+    !
+    assert // OnCompletion is NoOp
+    txn ApplicationID
+    assert // is not creating
+    // smart_contracts/tokenised_subscriptions/contract.py:5
+    // class TokenisedSubscriptions(ARC4Contract):
+    txna ApplicationArgs 1
+    btoi
+    txnas Assets
+    // smart_contracts/tokenised_subscriptions/contract.py:86
+    // @arc4.abimethod
+    callsub payment_frequency
+    itob
+    byte 0x151f7c75
+    swap
+    concat
+    log
+    int 1
+    return
+
+main_cycle_number_route@7:
+    // smart_contracts/tokenised_subscriptions/contract.py:98
+    // @arc4.abimethod
+    txn OnCompletion
+    !
+    assert // OnCompletion is NoOp
+    txn ApplicationID
+    assert // is not creating
+    // smart_contracts/tokenised_subscriptions/contract.py:5
+    // class TokenisedSubscriptions(ARC4Contract):
+    txna ApplicationArgs 1
+    btoi
+    txnas Assets
+    txna ApplicationArgs 2
+    btoi
+    // smart_contracts/tokenised_subscriptions/contract.py:98
+    // @arc4.abimethod
+    callsub cycle_number
+    itob
+    byte 0x151f7c75
+    swap
+    concat
+    log
+    int 1
+    return
+
+main_claim_payment_route@8:
+    // smart_contracts/tokenised_subscriptions/contract.py:116
+    // @arc4.abimethod
+    txn OnCompletion
+    !
+    assert // OnCompletion is NoOp
+    txn ApplicationID
+    assert // is not creating
+    // smart_contracts/tokenised_subscriptions/contract.py:5
+    // class TokenisedSubscriptions(ARC4Contract):
+    txn GroupIndex
+    int 1
+    -
+    dup
+    gtxns TypeEnum
+    int axfer
+    ==
+    assert // transaction type is axfer
+    // smart_contracts/tokenised_subscriptions/contract.py:116
+    // @arc4.abimethod
+    callsub claim_payment
+    itob
+    byte 0x151f7c75
+    swap
+    concat
+    log
+    int 1
+    return
+
+main_bare_routing@11:
+    // smart_contracts/tokenised_subscriptions/contract.py:5
+    // class TokenisedSubscriptions(ARC4Contract):
+    txn OnCompletion
+    !
+    assert // reject transaction
+    txn ApplicationID
+    !
+    assert // is creating
+    int 1
+    return
+
+
+// smart_contracts.tokenised_subscriptions.contract.TokenisedSubscriptions.mint_tokens(initial_redeemer: bytes, active_from: bytes, payment_amount: bytes, payment_frequency: bytes, max_payments: bytes) -> uint64:
+mint_tokens:
+    // smart_contracts/tokenised_subscriptions/contract.py:8-16
+    // @arc4.abimethod
+    // def mint_tokens(
+    //     self,
+    //     initial_redeemer: Account,
+    //     active_from: arc4.UInt64,
+    //     payment_amount: arc4.UInt64,
+    //     payment_frequency: arc4.UInt64,
+    //     max_payments: arc4.UInt64,
+    // ) -> UInt64:
+    proto 5 1
+    // smart_contracts/tokenised_subscriptions/contract.py:29
+    // assert Txn.sender == Global.creator_address, "Only the contract creator can call this method"
+    txn Sender
+    global CreatorAddress
+    ==
+    assert // Only the contract creator can call this method
+    // smart_contracts/tokenised_subscriptions/contract.py:31-46
+    // itxn.AssetConfig(
+    //     asset_name=Global.creator_address.bytes,
+    //     unit_name=arc4.UInt64(Global.current_application_address.total_assets_created).bytes,
+    //     total=max_payments.native,
+    //     decimals=0,
+    //     metadata_hash=active_from.bytes
+    //     + payment_amount.bytes
+    //     + payment_frequency.bytes
+    //     + arc4.UInt64(Global.round).bytes,
+    //     manager=Global.current_application_address,
+    //     reserve=initial_redeemer,
+    //     freeze=Global.current_application_address,
+    //     clawback=Global.current_application_address,
+    //     fee=0,
+    // )
+    // .submit()
+    itxn_begin
+    // smart_contracts/tokenised_subscriptions/contract.py:32
+    // asset_name=Global.creator_address.bytes,
+    global CreatorAddress
+    // smart_contracts/tokenised_subscriptions/contract.py:33
+    // unit_name=arc4.UInt64(Global.current_application_address.total_assets_created).bytes,
+    global CurrentApplicationAddress
+    acct_params_get AcctTotalAssetsCreated
+    assert // account funded
+    itob
+    // smart_contracts/tokenised_subscriptions/contract.py:34
+    // total=max_payments.native,
+    frame_dig -1
+    btoi
+    // smart_contracts/tokenised_subscriptions/contract.py:36-37
+    // metadata_hash=active_from.bytes
+    // + payment_amount.bytes
+    frame_dig -4
+    frame_dig -3
+    concat
+    // smart_contracts/tokenised_subscriptions/contract.py:36-38
+    // metadata_hash=active_from.bytes
+    // + payment_amount.bytes
+    // + payment_frequency.bytes
+    frame_dig -2
+    concat
+    // smart_contracts/tokenised_subscriptions/contract.py:39
+    // + arc4.UInt64(Global.round).bytes,
+    global Round
+    itob
+    // smart_contracts/tokenised_subscriptions/contract.py:36-39
+    // metadata_hash=active_from.bytes
+    // + payment_amount.bytes
+    // + payment_frequency.bytes
+    // + arc4.UInt64(Global.round).bytes,
+    concat
+    // smart_contracts/tokenised_subscriptions/contract.py:40
+    // manager=Global.current_application_address,
+    global CurrentApplicationAddress
+    // smart_contracts/tokenised_subscriptions/contract.py:42-43
+    // freeze=Global.current_application_address,
+    // clawback=Global.current_application_address,
+    dupn 2
+    // smart_contracts/tokenised_subscriptions/contract.py:44
+    // fee=0,
+    int 0
+    itxn_field Fee
+    itxn_field ConfigAssetClawback
+    itxn_field ConfigAssetFreeze
+    frame_dig -5
+    itxn_field ConfigAssetReserve
+    itxn_field ConfigAssetManager
+    itxn_field ConfigAssetMetadataHash
+    // smart_contracts/tokenised_subscriptions/contract.py:35
+    // decimals=0,
+    int 0
+    itxn_field ConfigAssetDecimals
+    itxn_field ConfigAssetTotal
+    itxn_field ConfigAssetUnitName
+    itxn_field ConfigAssetName
+    // smart_contracts/tokenised_subscriptions/contract.py:31
+    // itxn.AssetConfig(
+    int acfg
+    itxn_field TypeEnum
+    // smart_contracts/tokenised_subscriptions/contract.py:31-46
+    // itxn.AssetConfig(
+    //     asset_name=Global.creator_address.bytes,
+    //     unit_name=arc4.UInt64(Global.current_application_address.total_assets_created).bytes,
+    //     total=max_payments.native,
+    //     decimals=0,
+    //     metadata_hash=active_from.bytes
+    //     + payment_amount.bytes
+    //     + payment_frequency.bytes
+    //     + arc4.UInt64(Global.round).bytes,
+    //     manager=Global.current_application_address,
+    //     reserve=initial_redeemer,
+    //     freeze=Global.current_application_address,
+    //     clawback=Global.current_application_address,
+    //     fee=0,
+    // )
+    // .submit()
+    itxn_submit
+    itxn CreatedAssetID
+    // smart_contracts/tokenised_subscriptions/contract.py:30-48
+    // return (
+    //     itxn.AssetConfig(
+    //         asset_name=Global.creator_address.bytes,
+    //         unit_name=arc4.UInt64(Global.current_application_address.total_assets_created).bytes,
+    //         total=max_payments.native,
+    //         decimals=0,
+    //         metadata_hash=active_from.bytes
+    //         + payment_amount.bytes
+    //         + payment_frequency.bytes
+    //         + arc4.UInt64(Global.round).bytes,
+    //         manager=Global.current_application_address,
+    //         reserve=initial_redeemer,
+    //         freeze=Global.current_application_address,
+    //         clawback=Global.current_application_address,
+    //         fee=0,
+    //     )
+    //     .submit()
+    //     .created_asset.id
+    // )
+    retsub
+
+
+// smart_contracts.tokenised_subscriptions.contract.TokenisedSubscriptions.withdraw_tokens(subscription: uint64) -> void:
+withdraw_tokens:
+    // smart_contracts/tokenised_subscriptions/contract.py:50-51
+    // @arc4.abimethod
+    // def withdraw_tokens(self, subscription: Asset) -> None:
+    proto 1 0
+    // smart_contracts/tokenised_subscriptions/contract.py:57
+    // assert subscription.reserve == Txn.sender
+    frame_dig -1
+    asset_params_get AssetReserve
+    assert // asset exists
+    txn Sender
+    ==
+    assert
+    // smart_contracts/tokenised_subscriptions/contract.py:58-60
+    // itxn.AssetTransfer(
+    //     xfer_asset=subscription, asset_receiver=Txn.sender, asset_amount=subscription.total, fee=0
+    // ).submit()
+    itxn_begin
+    // smart_contracts/tokenised_subscriptions/contract.py:59
+    // xfer_asset=subscription, asset_receiver=Txn.sender, asset_amount=subscription.total, fee=0
+    txn Sender
+    frame_dig -1
+    asset_params_get AssetTotal
+    assert // asset exists
+    int 0
+    itxn_field Fee
+    itxn_field AssetAmount
+    itxn_field AssetReceiver
+    frame_dig -1
+    itxn_field XferAsset
+    // smart_contracts/tokenised_subscriptions/contract.py:58
+    // itxn.AssetTransfer(
+    int axfer
+    itxn_field TypeEnum
+    // smart_contracts/tokenised_subscriptions/contract.py:58-60
+    // itxn.AssetTransfer(
+    //     xfer_asset=subscription, asset_receiver=Txn.sender, asset_amount=subscription.total, fee=0
+    // ).submit()
+    itxn_submit
+    retsub
+
+
+// smart_contracts.tokenised_subscriptions.contract.TokenisedSubscriptions.active_from(subscription: uint64) -> uint64:
+active_from:
+    // smart_contracts/tokenised_subscriptions/contract.py:62-63
+    // @arc4.abimethod
+    // def active_from(self, subscription: Asset) -> UInt64:
+    proto 1 1
+    // smart_contracts/tokenised_subscriptions/contract.py:72
+    // return op.extract_uint64(subscription.metadata_hash, 0)
+    frame_dig -1
+    asset_params_get AssetMetadataHash
+    assert // asset exists
+    int 0
+    extract_uint64
+    retsub
+
+
+// smart_contracts.tokenised_subscriptions.contract.TokenisedSubscriptions.payment_amount(subscription: uint64) -> uint64:
+payment_amount:
+    // smart_contracts/tokenised_subscriptions/contract.py:74-75
+    // @arc4.abimethod
+    // def payment_amount(self, subscription: Asset) -> UInt64:
+    proto 1 1
+    // smart_contracts/tokenised_subscriptions/contract.py:84
+    // return op.extract_uint64(subscription.metadata_hash, 8)
+    frame_dig -1
+    asset_params_get AssetMetadataHash
+    assert // asset exists
+    int 8
+    extract_uint64
+    retsub
+
+
+// smart_contracts.tokenised_subscriptions.contract.TokenisedSubscriptions.payment_frequency(subscription: uint64) -> uint64:
+payment_frequency:
+    // smart_contracts/tokenised_subscriptions/contract.py:86-87
+    // @arc4.abimethod
+    // def payment_frequency(self, subscription: Asset) -> UInt64:
+    proto 1 1
+    // smart_contracts/tokenised_subscriptions/contract.py:96
+    // return op.extract_uint64(subscription.metadata_hash, 16)
+    frame_dig -1
+    asset_params_get AssetMetadataHash
+    assert // asset exists
+    int 16
+    extract_uint64
+    retsub
+
+
+// smart_contracts.tokenised_subscriptions.contract.TokenisedSubscriptions.cycle_number(subscription: uint64, at_round: uint64) -> uint64:
+cycle_number:
+    // smart_contracts/tokenised_subscriptions/contract.py:98-99
+    // @arc4.abimethod
+    // def cycle_number(self, subscription: Asset, at_round: UInt64) -> UInt64:
+    proto 2 1
+    // smart_contracts/tokenised_subscriptions/contract.py:109
+    // active_from = self.active_from(subscription)
+    frame_dig -2
+    callsub active_from
+    dup
+    // smart_contracts/tokenised_subscriptions/contract.py:112
+    // if at_round < active_from
+    frame_dig -1
+    >
+    // smart_contracts/tokenised_subscriptions/contract.py:111-113
+    // UInt64(0)
+    // if at_round < active_from
+    // else (at_round - active_from) // self.payment_frequency(subscription) + 1
+    bz cycle_number_ternary_false@2
+    // smart_contracts/tokenised_subscriptions/contract.py:111
+    // UInt64(0)
+    int 0
+    b cycle_number_ternary_merge@3
+
+cycle_number_ternary_false@2:
+    // smart_contracts/tokenised_subscriptions/contract.py:113
+    // else (at_round - active_from) // self.payment_frequency(subscription) + 1
+    frame_dig -1
+    frame_dig 0
+    -
+    frame_dig -2
+    callsub payment_frequency
+    /
+    int 1
+    +
+
+cycle_number_ternary_merge@3:
+    // smart_contracts/tokenised_subscriptions/contract.py:110-114
+    // return (
+    //     UInt64(0)
+    //     if at_round < active_from
+    //     else (at_round - active_from) // self.payment_frequency(subscription) + 1
+    // )
+    swap
+    retsub
+
+
+// smart_contracts.tokenised_subscriptions.contract.TokenisedSubscriptions.claim_payment(axfer: uint64) -> uint64:
+claim_payment:
+    // smart_contracts/tokenised_subscriptions/contract.py:116-117
+    // @arc4.abimethod
+    // def claim_payment(self, axfer: gtxn.AssetTransferTransaction) -> UInt64:
+    proto 1 1
+    // smart_contracts/tokenised_subscriptions/contract.py:123
+    // subscription = axfer.xfer_asset
+    frame_dig -1
+    gtxns XferAsset
+    dupn 2
+    // smart_contracts/tokenised_subscriptions/contract.py:125
+    // subscription.creator == Global.current_application_address
+    asset_params_get AssetCreator
+    assert // asset exists
+    global CurrentApplicationAddress
+    ==
+    // smart_contracts/tokenised_subscriptions/contract.py:124-126
+    // assert (
+    //     subscription.creator == Global.current_application_address
+    // ), "Asset must have been created by this application"
+    assert // Asset must have been created by this application
+    // smart_contracts/tokenised_subscriptions/contract.py:127
+    // assert axfer.asset_receiver == Global.current_application_address, "Asset receiver must be application account"
+    frame_dig -1
+    gtxns AssetReceiver
+    global CurrentApplicationAddress
+    ==
+    assert // Asset receiver must be application account
+    // smart_contracts/tokenised_subscriptions/contract.py:128
+    // assert axfer.asset_amount == 1, "Asset amount must be 1"
+    frame_dig -1
+    gtxns AssetAmount
+    int 1
+    ==
+    assert // Asset amount must be 1
+    // smart_contracts/tokenised_subscriptions/contract.py:130
+    // cycle_number = self.cycle_number(subscription, Global.round)
+    dup
+    global Round
+    callsub cycle_number
+    swap
+    // smart_contracts/tokenised_subscriptions/contract.py:131
+    // next_balance = subscription.balance(Global.current_application_address) + 1
+    global CurrentApplicationAddress
+    swap
+    asset_holding_get AssetBalance
+    assert // account opted into asset
+    int 1
+    +
+    // smart_contracts/tokenised_subscriptions/contract.py:132
+    // assert not next_balance > cycle_number, "Cannot claim payment for future cycle"
+    dup
+    dig 2
+    >
+    !
+    assert // Cannot claim payment for future cycle
+    // smart_contracts/tokenised_subscriptions/contract.py:133
+    // if next_balance == cycle_number:
+    ==
+    bz claim_payment_after_if_else@3
+    // smart_contracts/tokenised_subscriptions/contract.py:134-138
+    // return itxn.Payment(
+    //     receiver=axfer.sender,
+    //     amount=self.payment_amount(subscription),
+    //     fee=0,
+    // ).submit().amount
+    itxn_begin
+    // smart_contracts/tokenised_subscriptions/contract.py:135
+    // receiver=axfer.sender,
+    frame_dig -1
+    gtxns Sender
+    // smart_contracts/tokenised_subscriptions/contract.py:136
+    // amount=self.payment_amount(subscription),
+    frame_dig 0
+    callsub payment_amount
+    // smart_contracts/tokenised_subscriptions/contract.py:137
+    // fee=0,
+    int 0
+    itxn_field Fee
+    itxn_field Amount
+    itxn_field Receiver
+    // smart_contracts/tokenised_subscriptions/contract.py:134
+    // return itxn.Payment(
+    int pay
+    itxn_field TypeEnum
+    // smart_contracts/tokenised_subscriptions/contract.py:134-138
+    // return itxn.Payment(
+    //     receiver=axfer.sender,
+    //     amount=self.payment_amount(subscription),
+    //     fee=0,
+    // ).submit().amount
+    itxn_submit
+    itxn Amount
+    swap
+    retsub
+
+claim_payment_after_if_else@3:
+    // smart_contracts/tokenised_subscriptions/contract.py:139
+    // return UInt64(0)
+    int 0
+    swap
+    retsub
