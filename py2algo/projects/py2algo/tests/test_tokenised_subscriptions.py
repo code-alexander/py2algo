@@ -1,7 +1,6 @@
 from base64 import b64decode
 
 import algokit_utils
-import algosdk
 import pytest
 from algokit_utils import TransactionParameters, TransferParameters, get_localnet_default_account, opt_in, transfer
 from algokit_utils.config import config
@@ -220,7 +219,7 @@ def test_claim_payment(
             ).return_value
 
             fees += 3_000
-        except algosdk.error.AlgodHTTPError:
+        except algokit_utils.logic_error.LogicError:
             # Trigger another round on test net
             app_client.cycle_number(subscription=subscription.asset_id, at_round=0)
             fees += 1_000

@@ -1,0 +1,507 @@
+#pragma version 10
+
+smart_contracts.utxo.contract.Utxo.approval_program:
+    // smart_contracts/utxo/contract.py:16
+    // class Utxo(ARC4Contract):
+    txn NumAppArgs
+    bz main_bare_routing@8
+    method "convert_algo_to_utxo(pay)uint64"
+    method "convert_utxo_to_algo(asset)void"
+    method "value(asset)uint64"
+    method "process_transaction(uint64[],(address,uint64)[])void"
+    txna ApplicationArgs 0
+    match main_convert_algo_to_utxo_route@2 main_convert_utxo_to_algo_route@3 main_value_route@4 main_process_transaction_route@5
+    err // reject transaction
+
+main_convert_algo_to_utxo_route@2:
+    // smart_contracts/utxo/contract.py:46
+    // @arc4.abimethod
+    txn OnCompletion
+    !
+    assert // OnCompletion is NoOp
+    txn ApplicationID
+    assert // is not creating
+    // smart_contracts/utxo/contract.py:16
+    // class Utxo(ARC4Contract):
+    txn GroupIndex
+    int 1
+    -
+    dup
+    gtxns TypeEnum
+    int pay
+    ==
+    assert // transaction type is pay
+    // smart_contracts/utxo/contract.py:46
+    // @arc4.abimethod
+    callsub convert_algo_to_utxo
+    itob
+    byte 0x151f7c75
+    swap
+    concat
+    log
+    int 1
+    return
+
+main_convert_utxo_to_algo_route@3:
+    // smart_contracts/utxo/contract.py:54
+    // @arc4.abimethod
+    txn OnCompletion
+    !
+    assert // OnCompletion is NoOp
+    txn ApplicationID
+    assert // is not creating
+    // smart_contracts/utxo/contract.py:16
+    // class Utxo(ARC4Contract):
+    txna ApplicationArgs 1
+    btoi
+    txnas Assets
+    // smart_contracts/utxo/contract.py:54
+    // @arc4.abimethod
+    callsub convert_utxo_to_algo
+    int 1
+    return
+
+main_value_route@4:
+    // smart_contracts/utxo/contract.py:64
+    // @arc4.abimethod
+    txn OnCompletion
+    !
+    assert // OnCompletion is NoOp
+    txn ApplicationID
+    assert // is not creating
+    // smart_contracts/utxo/contract.py:16
+    // class Utxo(ARC4Contract):
+    txna ApplicationArgs 1
+    btoi
+    txnas Assets
+    // smart_contracts/utxo/contract.py:64
+    // @arc4.abimethod
+    callsub value
+    itob
+    byte 0x151f7c75
+    swap
+    concat
+    log
+    int 1
+    return
+
+main_process_transaction_route@5:
+    // smart_contracts/utxo/contract.py:68
+    // @arc4.abimethod
+    txn OnCompletion
+    !
+    assert // OnCompletion is NoOp
+    txn ApplicationID
+    assert // is not creating
+    // smart_contracts/utxo/contract.py:16
+    // class Utxo(ARC4Contract):
+    txna ApplicationArgs 1
+    txna ApplicationArgs 2
+    // smart_contracts/utxo/contract.py:68
+    // @arc4.abimethod
+    callsub process_transaction
+    int 1
+    return
+
+main_bare_routing@8:
+    // smart_contracts/utxo/contract.py:16
+    // class Utxo(ARC4Contract):
+    txn OnCompletion
+    !
+    assert // reject transaction
+    txn ApplicationID
+    !
+    assert // is creating
+    int 1
+    return
+
+
+// smart_contracts.utxo.contract.Utxo.convert_algo_to_utxo(payment: uint64) -> uint64:
+convert_algo_to_utxo:
+    // smart_contracts/utxo/contract.py:46-47
+    // @arc4.abimethod
+    // def convert_algo_to_utxo(self, payment: gtxn.PaymentTransaction) -> UInt64:
+    proto 1 1
+    // smart_contracts/utxo/contract.py:49
+    // payment.receiver == Global.current_application_address
+    frame_dig -1
+    gtxns Receiver
+    global CurrentApplicationAddress
+    ==
+    // smart_contracts/utxo/contract.py:48-50
+    // assert (
+    //     payment.receiver == Global.current_application_address
+    // ), "Payment receiver must be the application address"
+    assert // Payment receiver must be the application address
+    // smart_contracts/utxo/contract.py:52
+    // return self._mint_utxo(lock=Txn.sender, value=op.itob(payment.amount)).id
+    txn Sender
+    frame_dig -1
+    gtxns Amount
+    itob
+    callsub _mint_utxo
+    retsub
+
+
+// smart_contracts.utxo.contract.Utxo._mint_utxo(lock: bytes, value: bytes) -> uint64:
+_mint_utxo:
+    // smart_contracts/utxo/contract.py:19-20
+    // @subroutine
+    // def _mint_utxo(self, lock: Account, value: Bytes) -> Asset:
+    proto 2 1
+    // smart_contracts/utxo/contract.py:22-34
+    // itxn.AssetConfig(
+    //     asset_name="UTXO",
+    //     total=1,
+    //     decimals=0,
+    //     metadata_hash=value + op.bzero(24),
+    //     default_frozen=True,
+    //     manager=Global.current_application_address,
+    //     freeze=Global.current_application_address,
+    //     clawback=Global.current_application_address,
+    //     reserve=lock,
+    //     fee=0,
+    // )
+    // .submit()
+    itxn_begin
+    // smart_contracts/utxo/contract.py:26
+    // metadata_hash=value + op.bzero(24),
+    int 24
+    bzero
+    frame_dig -1
+    swap
+    concat
+    // smart_contracts/utxo/contract.py:28
+    // manager=Global.current_application_address,
+    global CurrentApplicationAddress
+    // smart_contracts/utxo/contract.py:29-30
+    // freeze=Global.current_application_address,
+    // clawback=Global.current_application_address,
+    dupn 2
+    // smart_contracts/utxo/contract.py:32
+    // fee=0,
+    int 0
+    itxn_field Fee
+    frame_dig -2
+    itxn_field ConfigAssetReserve
+    itxn_field ConfigAssetClawback
+    itxn_field ConfigAssetFreeze
+    itxn_field ConfigAssetManager
+    // smart_contracts/utxo/contract.py:27
+    // default_frozen=True,
+    int 1
+    itxn_field ConfigAssetDefaultFrozen
+    itxn_field ConfigAssetMetadataHash
+    // smart_contracts/utxo/contract.py:25
+    // decimals=0,
+    int 0
+    itxn_field ConfigAssetDecimals
+    // smart_contracts/utxo/contract.py:24
+    // total=1,
+    int 1
+    itxn_field ConfigAssetTotal
+    // smart_contracts/utxo/contract.py:23
+    // asset_name="UTXO",
+    byte "UTXO"
+    itxn_field ConfigAssetName
+    // smart_contracts/utxo/contract.py:22
+    // itxn.AssetConfig(
+    int acfg
+    itxn_field TypeEnum
+    // smart_contracts/utxo/contract.py:22-34
+    // itxn.AssetConfig(
+    //     asset_name="UTXO",
+    //     total=1,
+    //     decimals=0,
+    //     metadata_hash=value + op.bzero(24),
+    //     default_frozen=True,
+    //     manager=Global.current_application_address,
+    //     freeze=Global.current_application_address,
+    //     clawback=Global.current_application_address,
+    //     reserve=lock,
+    //     fee=0,
+    // )
+    // .submit()
+    itxn_submit
+    itxn CreatedAssetID
+    // smart_contracts/utxo/contract.py:21-36
+    // return (
+    //     itxn.AssetConfig(
+    //         asset_name="UTXO",
+    //         total=1,
+    //         decimals=0,
+    //         metadata_hash=value + op.bzero(24),
+    //         default_frozen=True,
+    //         manager=Global.current_application_address,
+    //         freeze=Global.current_application_address,
+    //         clawback=Global.current_application_address,
+    //         reserve=lock,
+    //         fee=0,
+    //     )
+    //     .submit()
+    //     .created_asset
+    // )
+    retsub
+
+
+// smart_contracts.utxo.contract.Utxo.convert_utxo_to_algo(utxo: uint64) -> void:
+convert_utxo_to_algo:
+    // smart_contracts/utxo/contract.py:54-55
+    // @arc4.abimethod
+    // def convert_utxo_to_algo(self, utxo: Asset) -> None:
+    proto 1 0
+    // smart_contracts/utxo/contract.py:56
+    // assert utxo.reserve == Txn.sender, "UTXO must be locked by the sender"
+    frame_dig -1
+    asset_params_get AssetReserve
+    assert // asset exists
+    txn Sender
+    ==
+    assert // UTXO must be locked by the sender
+    // smart_contracts/utxo/contract.py:57-61
+    // itxn.Payment(
+    //     receiver=Txn.sender,
+    //     amount=self.value(utxo),
+    //     fee=0,
+    // ).submit()
+    itxn_begin
+    // smart_contracts/utxo/contract.py:58
+    // receiver=Txn.sender,
+    txn Sender
+    // smart_contracts/utxo/contract.py:59
+    // amount=self.value(utxo),
+    frame_dig -1
+    callsub value
+    // smart_contracts/utxo/contract.py:60
+    // fee=0,
+    int 0
+    itxn_field Fee
+    itxn_field Amount
+    itxn_field Receiver
+    // smart_contracts/utxo/contract.py:57
+    // itxn.Payment(
+    int pay
+    itxn_field TypeEnum
+    // smart_contracts/utxo/contract.py:57-61
+    // itxn.Payment(
+    //     receiver=Txn.sender,
+    //     amount=self.value(utxo),
+    //     fee=0,
+    // ).submit()
+    itxn_submit
+    // smart_contracts/utxo/contract.py:62
+    // self._burn_utxo(utxo)
+    frame_dig -1
+    callsub _burn_utxo
+    retsub
+
+
+// smart_contracts.utxo.contract.Utxo.value(utxo: uint64) -> uint64:
+value:
+    // smart_contracts/utxo/contract.py:64-65
+    // @arc4.abimethod
+    // def value(self, utxo: Asset) -> UInt64:
+    proto 1 1
+    // smart_contracts/utxo/contract.py:66
+    // return op.extract_uint64(utxo.metadata_hash, 0)
+    frame_dig -1
+    asset_params_get AssetMetadataHash
+    assert // asset exists
+    int 0
+    extract_uint64
+    retsub
+
+
+// smart_contracts.utxo.contract.Utxo._burn_utxo(utxo: uint64) -> void:
+_burn_utxo:
+    // smart_contracts/utxo/contract.py:38-39
+    // @subroutine
+    // def _burn_utxo(self, utxo: Asset) -> None:
+    proto 1 0
+    // smart_contracts/utxo/contract.py:40-44
+    // itxn.AssetConfig(
+    //     config_asset=utxo,
+    //     sender=Global.current_application_address,
+    //     fee=0,
+    // ).submit()
+    itxn_begin
+    // smart_contracts/utxo/contract.py:42
+    // sender=Global.current_application_address,
+    global CurrentApplicationAddress
+    // smart_contracts/utxo/contract.py:43
+    // fee=0,
+    int 0
+    itxn_field Fee
+    itxn_field Sender
+    frame_dig -1
+    itxn_field ConfigAsset
+    // smart_contracts/utxo/contract.py:40
+    // itxn.AssetConfig(
+    int acfg
+    itxn_field TypeEnum
+    // smart_contracts/utxo/contract.py:40-44
+    // itxn.AssetConfig(
+    //     config_asset=utxo,
+    //     sender=Global.current_application_address,
+    //     fee=0,
+    // ).submit()
+    itxn_submit
+    retsub
+
+
+// smart_contracts.utxo.contract.Utxo.process_transaction(tx_ins: bytes, tx_outs: bytes) -> void:
+process_transaction:
+    // smart_contracts/utxo/contract.py:68-69
+    // @arc4.abimethod
+    // def process_transaction(self, tx_ins: Inputs, tx_outs: Outputs) -> None:
+    proto 2 0
+    byte ""
+    dupn 3
+    // smart_contracts/utxo/contract.py:70
+    // assert tx_ins, "Must provide at least one input"
+    frame_dig -2
+    byte 0x0000
+    !=
+    assert // Must provide at least one input
+    // smart_contracts/utxo/contract.py:71
+    // assert tx_outs, "Must provide at least one output"
+    frame_dig -1
+    byte 0x0000
+    !=
+    assert // Must provide at least one output
+    // smart_contracts/utxo/contract.py:73
+    // tx_in_total = UInt64(0)
+    int 0
+    // smart_contracts/utxo/contract.py:74
+    // for tx_in in tx_ins:
+    frame_dig -2
+    int 0
+    extract_uint16
+    frame_dig -2
+    extract 2 0
+    int 0
+
+process_transaction_for_header@1:
+    // smart_contracts/utxo/contract.py:74
+    // for tx_in in tx_ins:
+    frame_dig 7
+    frame_dig 5
+    <
+    bz process_transaction_after_for@4
+    frame_dig 7
+    dup
+    int 8
+    *
+    frame_dig 6
+    swap
+    int 8
+    extract3
+    // smart_contracts/utxo/contract.py:75
+    // utxo = Asset(tx_in.native)
+    btoi
+    // smart_contracts/utxo/contract.py:76
+    // assert utxo.creator == Global.current_application_address, "Input must be created by the application"
+    dup
+    asset_params_get AssetCreator
+    assert // asset exists
+    global CurrentApplicationAddress
+    ==
+    assert // Input must be created by the application
+    // smart_contracts/utxo/contract.py:77
+    // assert utxo.reserve == Txn.sender, "Input must be locked by the sender"
+    dup
+    asset_params_get AssetReserve
+    assert // asset exists
+    txn Sender
+    ==
+    assert // Input must be locked by the sender
+    // smart_contracts/utxo/contract.py:78
+    // tx_in_value = self.value(utxo)
+    dup
+    callsub value
+    swap
+    // smart_contracts/utxo/contract.py:79
+    // self._burn_utxo(utxo)
+    callsub _burn_utxo
+    // smart_contracts/utxo/contract.py:80
+    // tx_in_total += tx_in_value
+    frame_dig 4
+    +
+    frame_bury 4
+    int 1
+    +
+    frame_bury 7
+    b process_transaction_for_header@1
+
+process_transaction_after_for@4:
+    // smart_contracts/utxo/contract.py:82
+    // tx_out_total = UInt64(0)
+    int 0
+    frame_bury 3
+    // smart_contracts/utxo/contract.py:83
+    // for i in urange(tx_outs.length):
+    frame_dig -1
+    int 0
+    extract_uint16
+    frame_bury 2
+    int 0
+    frame_bury 1
+
+process_transaction_for_header@5:
+    // smart_contracts/utxo/contract.py:83
+    // for i in urange(tx_outs.length):
+    frame_dig 1
+    frame_dig 2
+    <
+    dup
+    frame_bury 0
+    bz process_transaction_after_for@9
+    // smart_contracts/utxo/contract.py:84
+    // tx_out = tx_outs[i].copy()
+    frame_dig 0
+    assert // Index access is out of bounds
+    frame_dig -1
+    extract 2 0
+    frame_dig 1
+    dup
+    cover 2
+    int 40
+    *
+    int 40
+    extract3
+    // smart_contracts/utxo/contract.py:85
+    // self._mint_utxo(lock=Account(tx_out.lock.bytes), value=tx_out.value.bytes)
+    dup
+    extract 0 32
+    dup
+    len
+    int 32
+    ==
+    assert // Address length is 32 bytes
+    swap
+    extract 32 8
+    dup
+    cover 2
+    callsub _mint_utxo
+    pop
+    // smart_contracts/utxo/contract.py:86
+    // tx_out_total += tx_out.value.native
+    btoi
+    frame_dig 3
+    +
+    frame_bury 3
+    // smart_contracts/utxo/contract.py:83
+    // for i in urange(tx_outs.length):
+    int 1
+    +
+    frame_bury 1
+    b process_transaction_for_header@5
+
+process_transaction_after_for@9:
+    // smart_contracts/utxo/contract.py:88
+    // assert tx_in_total == tx_out_total, "Total input value must equal total output value"
+    frame_dig 4
+    frame_dig 3
+    ==
+    assert // Total input value must equal total output value
+    retsub

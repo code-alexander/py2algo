@@ -1,0 +1,7 @@
+#pragma version 10
+
+smart_contracts.utxo.contract.Utxo.clear_state_program:
+    // smart_contracts/utxo/contract.py:16
+    // class Utxo(ARC4Contract):
+    int 1
+    return

@@ -1,0 +1,95 @@
+#pragma version 10
+
+smart_contracts.quiz.contract.Quiz.approval_program:
+    // smart_contracts/quiz/contract.py:4
+    // class Quiz(ARC4Contract):
+    txn NumAppArgs
+    bz main_bare_routing@5
+    method "question_one()uint64"
+    txna ApplicationArgs 0
+    match main_question_one_route@2
+    err // reject transaction
+
+main_question_one_route@2:
+    // smart_contracts/quiz/contract.py:7
+    // @arc4.abimethod
+    txn OnCompletion
+    !
+    assert // OnCompletion is NoOp
+    txn ApplicationID
+    assert // is not creating
+    callsub question_one
+    itob
+    byte 0x151f7c75
+    swap
+    concat
+    log
+    int 1
+    return
+
+main_bare_routing@5:
+    // smart_contracts/quiz/contract.py:4
+    // class Quiz(ARC4Contract):
+    txn OnCompletion
+    !
+    assert // reject transaction
+    txn ApplicationID
+    !
+    assert // is creating
+    int 1
+    return
+
+
+// smart_contracts.quiz.contract.Quiz.question_one() -> uint64:
+question_one:
+    // smart_contracts/quiz/contract.py:7-8
+    // @arc4.abimethod
+    // def question_one(self) -> UInt64:
+    proto 0 1
+    byte ""
+    // smart_contracts/quiz/contract.py:10
+    // total = UInt64(0)
+    int 0
+    // smart_contracts/quiz/contract.py:11
+    // for i in urange(10):
+    dup
+
+question_one_for_header@1:
+    // smart_contracts/quiz/contract.py:11
+    // for i in urange(10):
+    frame_dig 2
+    int 10
+    <
+    bz question_one_after_for@7
+    // smart_contracts/quiz/contract.py:12
+    // if i % 2 == 0:
+    frame_dig 2
+    int 2
+    %
+    frame_dig 1
+    frame_bury 0
+    bnz question_one_after_if_else@4
+    // smart_contracts/quiz/contract.py:13
+    // total += i
+    frame_dig 1
+    frame_dig 2
+    +
+    frame_bury 0
+
+question_one_after_if_else@4:
+    frame_dig 0
+    frame_bury 1
+    // smart_contracts/quiz/contract.py:11
+    // for i in urange(10):
+    frame_dig 2
+    int 1
+    +
+    frame_bury 2
+    b question_one_for_header@1
+
+question_one_after_for@7:
+    // smart_contracts/quiz/contract.py:14
+    // return total
+    frame_dig 1
+    frame_bury 0
+    retsub
