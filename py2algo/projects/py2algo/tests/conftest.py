@@ -1,11 +1,7 @@
 from pathlib import Path
 
 import pytest
-from algokit_utils import (
-    get_algod_client,
-    get_indexer_client,
-    is_localnet,
-)
+from algokit_utils import Account, get_algod_client, get_indexer_client, get_localnet_default_account, is_localnet
 from algosdk.v2client.algod import AlgodClient
 from algosdk.v2client.indexer import IndexerClient
 from dotenv import load_dotenv
@@ -30,3 +26,8 @@ def algod_client() -> AlgodClient:
 @pytest.fixture(scope="session")
 def indexer_client() -> IndexerClient:
     return get_indexer_client()
+
+
+@pytest.fixture(scope="session")
+def account(algod_client: AlgodClient) -> Account:
+    return get_localnet_default_account(algod_client)

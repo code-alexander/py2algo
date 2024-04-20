@@ -119,7 +119,7 @@ class TokenisedSubscriptions(ARC4Contract):
 
         Args:
             axfer (gtxn.AssetTransferTransaction): The transaction transferring a unit of the subscription token to the contract account.
-        
+
         Returns:
             UInt64: The amount of MicroAlgos paid.
         """

@@ -1,0 +1,51 @@
+{
+    "hints": {
+        "question_one()uint64": {
+            "call_config": {
+                "no_op": "CALL"
+            }
+        }
+    },
+    "source": {
+        "approval": "I3ByYWdtYSB2ZXJzaW9uIDEwCgpzbWFydF9jb250cmFjdHMucXVpei5jb250cmFjdC5RdWl6LmFwcHJvdmFsX3Byb2dyYW06CiAgICAvLyBzbWFydF9jb250cmFjdHMvcXVpei9jb250cmFjdC5weTo0CiAgICAvLyBjbGFzcyBRdWl6KEFSQzRDb250cmFjdCk6CiAgICB0eG4gTnVtQXBwQXJncwogICAgYnogbWFpbl9iYXJlX3JvdXRpbmdANQogICAgbWV0aG9kICJxdWVzdGlvbl9vbmUoKXVpbnQ2NCIKICAgIHR4bmEgQXBwbGljYXRpb25BcmdzIDAKICAgIG1hdGNoIG1haW5fcXVlc3Rpb25fb25lX3JvdXRlQDIKICAgIGVyciAvLyByZWplY3QgdHJhbnNhY3Rpb24KCm1haW5fcXVlc3Rpb25fb25lX3JvdXRlQDI6CiAgICAvLyBzbWFydF9jb250cmFjdHMvcXVpei9jb250cmFjdC5weTo3CiAgICAvLyBAYXJjNC5hYmltZXRob2QKICAgIHR4biBPbkNvbXBsZXRpb24KICAgICEKICAgIGFzc2VydCAvLyBPbkNvbXBsZXRpb24gaXMgTm9PcAogICAgdHhuIEFwcGxpY2F0aW9uSUQKICAgIGFzc2VydCAvLyBpcyBub3QgY3JlYXRpbmcKICAgIGNhbGxzdWIgcXVlc3Rpb25fb25lCiAgICBpdG9iCiAgICBieXRlIDB4MTUxZjdjNzUKICAgIHN3YXAKICAgIGNvbmNhdAogICAgbG9nCiAgICBpbnQgMQogICAgcmV0dXJuCgptYWluX2JhcmVfcm91dGluZ0A1OgogICAgLy8gc21hcnRfY29udHJhY3RzL3F1aXovY29udHJhY3QucHk6NAogICAgLy8gY2xhc3MgUXVpeihBUkM0Q29udHJhY3QpOgogICAgdHhuIE9uQ29tcGxldGlvbgogICAgIQogICAgYXNzZXJ0IC8vIHJlamVjdCB0cmFuc2FjdGlvbgogICAgdHhuIEFwcGxpY2F0aW9uSUQKICAgICEKICAgIGFzc2VydCAvLyBpcyBjcmVhdGluZwogICAgaW50IDEKICAgIHJldHVybgoKCi8vIHNtYXJ0X2NvbnRyYWN0cy5xdWl6LmNvbnRyYWN0LlF1aXoucXVlc3Rpb25fb25lKCkgLT4gdWludDY0OgpxdWVzdGlvbl9vbmU6CiAgICAvLyBzbWFydF9jb250cmFjdHMvcXVpei9jb250cmFjdC5weTo3LTgKICAgIC8vIEBhcmM0LmFiaW1ldGhvZAogICAgLy8gZGVmIHF1ZXN0aW9uX29uZShzZWxmKSAtPiBVSW50NjQ6CiAgICBwcm90byAwIDEKICAgIGJ5dGUgIiIKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9xdWl6L2NvbnRyYWN0LnB5OjEwCiAgICAvLyB0b3RhbCA9IFVJbnQ2NCgwKQogICAgaW50IDAKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9xdWl6L2NvbnRyYWN0LnB5OjExCiAgICAvLyBmb3IgaSBpbiB1cmFuZ2UoMTApOgogICAgZHVwCgpxdWVzdGlvbl9vbmVfZm9yX2hlYWRlckAxOgogICAgLy8gc21hcnRfY29udHJhY3RzL3F1aXovY29udHJhY3QucHk6MTEKICAgIC8vIGZvciBpIGluIHVyYW5nZSgxMCk6CiAgICBmcmFtZV9kaWcgMgogICAgaW50IDEwCiAgICA8CiAgICBieiBxdWVzdGlvbl9vbmVfYWZ0ZXJfZm9yQDcKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9xdWl6L2NvbnRyYWN0LnB5OjEyCiAgICAvLyBpZiBpICUgMiA9PSAwOgogICAgZnJhbWVfZGlnIDIKICAgIGludCAyCiAgICAlCiAgICBmcmFtZV9kaWcgMQogICAgZnJhbWVfYnVyeSAwCiAgICBibnogcXVlc3Rpb25fb25lX2FmdGVyX2lmX2Vsc2VANAogICAgLy8gc21hcnRfY29udHJhY3RzL3F1aXovY29udHJhY3QucHk6MTMKICAgIC8vIHRvdGFsICs9IGkKICAgIGZyYW1lX2RpZyAxCiAgICBmcmFtZV9kaWcgMgogICAgKwogICAgZnJhbWVfYnVyeSAwCgpxdWVzdGlvbl9vbmVfYWZ0ZXJfaWZfZWxzZUA0OgogICAgZnJhbWVfZGlnIDAKICAgIGZyYW1lX2J1cnkgMQogICAgLy8gc21hcnRfY29udHJhY3RzL3F1aXovY29udHJhY3QucHk6MTEKICAgIC8vIGZvciBpIGluIHVyYW5nZSgxMCk6CiAgICBmcmFtZV9kaWcgMgogICAgaW50IDEKICAgICsKICAgIGZyYW1lX2J1cnkgMgogICAgYiBxdWVzdGlvbl9vbmVfZm9yX2hlYWRlckAxCgpxdWVzdGlvbl9vbmVfYWZ0ZXJfZm9yQDc6CiAgICAvLyBzbWFydF9jb250cmFjdHMvcXVpei9jb250cmFjdC5weToxNAogICAgLy8gcmV0dXJuIHRvdGFsCiAgICBmcmFtZV9kaWcgMQogICAgZnJhbWVfYnVyeSAwCiAgICByZXRzdWIK",
+        "clear": "I3ByYWdtYSB2ZXJzaW9uIDEwCgpzbWFydF9jb250cmFjdHMucXVpei5jb250cmFjdC5RdWl6LmNsZWFyX3N0YXRlX3Byb2dyYW06CiAgICAvLyBzbWFydF9jb250cmFjdHMvcXVpei9jb250cmFjdC5weTo0CiAgICAvLyBjbGFzcyBRdWl6KEFSQzRDb250cmFjdCk6CiAgICBpbnQgMQogICAgcmV0dXJuCg=="
+    },
+    "state": {
+        "global": {
+            "num_byte_slices": 0,
+            "num_uints": 0
+        },
+        "local": {
+            "num_byte_slices": 0,
+            "num_uints": 0
+        }
+    },
+    "schema": {
+        "global": {
+            "declared": {},
+            "reserved": {}
+        },
+        "local": {
+            "declared": {},
+            "reserved": {}
+        }
+    },
+    "contract": {
+        "name": "Quiz",
+        "desc": "Quiz questions for the Algorand Foundation.",
+        "methods": [
+            {
+                "name": "question_one",
+                "args": [],
+                "returns": {
+                    "type": "uint64"
+                },
+                "desc": "What value is returned from this method?"
+            }
+        ],
+        "networks": {}
+    },
+    "bare_call_config": {
+        "no_op": "CREATE"
+    }
+}
