@@ -76,7 +76,8 @@ class Utxo(ARC4Contract):
         Args:
             utxo (Asset): The UTXO asset to convert.
         """
-        assert utxo.reserve == Txn.sender, "UTXO must be locked by the sender"
+        assert utxo.creator == Global.current_application_address, "Input must be created by the application"
+        assert utxo.reserve == Txn.sender, "Input must be locked by the sender"
         itxn.Payment(
             receiver=Txn.sender,
             amount=self.value(utxo),
