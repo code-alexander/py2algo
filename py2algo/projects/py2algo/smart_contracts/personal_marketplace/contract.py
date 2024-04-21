@@ -2,7 +2,6 @@
 
 
 from algopy import (
-    Account,
     ARC4Contract,
     Asset,
     Bytes,
