@@ -39,7 +39,7 @@ class PersonalMarketplace(ARC4Contract):
 
     @subroutine
     def creator_only(self) -> None:
-        """Causes the contract to fail if the transaction sender is not the creator."""
+        """Causes the application call to fail if the transaction sender is not the creator."""
         assert Txn.sender == Global.creator_address, "Only the creator can call this method"
 
     @arc4.abimethod
