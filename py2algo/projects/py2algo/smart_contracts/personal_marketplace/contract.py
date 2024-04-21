@@ -134,5 +134,3 @@ class PersonalMarketplace(ARC4Contract):
 
         # Remove listing
         _deleted = op.Box.delete(self.box_key(nft))
-
-    # owner withdraw asset (delete box + transfer asset)
