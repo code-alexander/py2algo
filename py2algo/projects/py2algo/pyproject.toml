@@ -6,8 +6,8 @@ authors = ["code-alexander <152750039+code-alexander@users.noreply.github.com>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "^3.12"
-algokit-utils = "^2.2.0"
+python = "3.12"
+algokit-utils = "^2.2.1"
 python-dotenv = "^1.0.0"
 algorand-python = "^1.0.0"
 jupyter = "^1.0.0"
@@ -15,6 +15,7 @@ sympy = "^1.12"
 seaborn = "^0.13.2"
 latexify-py = {git = "https://github.com/code-alexander/latexify_py.git"}
 pydantic = "^2.7.0"
+algokit = "^2.0.3"
 
 [tool.poetry.group.dev.dependencies]
 algokit-client-generator = "^1.1.3"

@@ -1,0 +1,7 @@
+#pragma version 10
+
+smart_contracts.personal_marketplace.contract.PersonalMarketplace.clear_state_program:
+    // smart_contracts/personal_marketplace/contract.py:29
+    // class PersonalMarketplace(ARC4Contract):
+    int 1
+    return

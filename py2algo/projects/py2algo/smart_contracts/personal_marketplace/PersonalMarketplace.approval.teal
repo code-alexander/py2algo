@@ -1,0 +1,421 @@
+#pragma version 10
+
+smart_contracts.personal_marketplace.contract.PersonalMarketplace.approval_program:
+    // smart_contracts/personal_marketplace/contract.py:29
+    // class PersonalMarketplace(ARC4Contract):
+    txn NumAppArgs
+    bz main_bare_routing@9
+    method "creator()address"
+    method "opt_in(asset)void"
+    method "list_nft(axfer,uint64)void"
+    method "price(asset)uint64"
+    method "purchase_nft(asset,pay)void"
+    txna ApplicationArgs 0
+    match main_creator_route@2 main_opt_in_route@3 main_list_nft_route@4 main_price_route@5 main_purchase_nft_route@6
+    err // reject transaction
+
+main_creator_route@2:
+    // smart_contracts/personal_marketplace/contract.py:32
+    // @arc4.abimethod
+    txn OnCompletion
+    !
+    assert // OnCompletion is NoOp
+    txn ApplicationID
+    assert // is not creating
+    callsub creator
+    byte 0x151f7c75
+    swap
+    concat
+    log
+    int 1
+    return
+
+main_opt_in_route@3:
+    // smart_contracts/personal_marketplace/contract.py:46
+    // @arc4.abimethod
+    txn OnCompletion
+    !
+    assert // OnCompletion is NoOp
+    txn ApplicationID
+    assert // is not creating
+    // smart_contracts/personal_marketplace/contract.py:29
+    // class PersonalMarketplace(ARC4Contract):
+    txna ApplicationArgs 1
+    btoi
+    txnas Assets
+    // smart_contracts/personal_marketplace/contract.py:46
+    // @arc4.abimethod
+    callsub opt_in
+    int 1
+    return
+
+main_list_nft_route@4:
+    // smart_contracts/personal_marketplace/contract.py:73
+    // @arc4.abimethod
+    txn OnCompletion
+    !
+    assert // OnCompletion is NoOp
+    txn ApplicationID
+    assert // is not creating
+    // smart_contracts/personal_marketplace/contract.py:29
+    // class PersonalMarketplace(ARC4Contract):
+    txn GroupIndex
+    int 1
+    -
+    dup
+    gtxns TypeEnum
+    int axfer
+    ==
+    assert // transaction type is axfer
+    txna ApplicationArgs 1
+    // smart_contracts/personal_marketplace/contract.py:73
+    // @arc4.abimethod
+    callsub list_nft
+    int 1
+    return
+
+main_price_route@5:
+    // smart_contracts/personal_marketplace/contract.py:90
+    // @arc4.abimethod
+    txn OnCompletion
+    !
+    assert // OnCompletion is NoOp
+    txn ApplicationID
+    assert // is not creating
+    // smart_contracts/personal_marketplace/contract.py:29
+    // class PersonalMarketplace(ARC4Contract):
+    txna ApplicationArgs 1
+    btoi
+    txnas Assets
+    // smart_contracts/personal_marketplace/contract.py:90
+    // @arc4.abimethod
+    callsub price
+    itob
+    byte 0x151f7c75
+    swap
+    concat
+    log
+    int 1
+    return
+
+main_purchase_nft_route@6:
+    // smart_contracts/personal_marketplace/contract.py:104
+    // @arc4.abimethod
+    txn OnCompletion
+    !
+    assert // OnCompletion is NoOp
+    txn ApplicationID
+    assert // is not creating
+    // smart_contracts/personal_marketplace/contract.py:29
+    // class PersonalMarketplace(ARC4Contract):
+    txna ApplicationArgs 1
+    btoi
+    txnas Assets
+    txn GroupIndex
+    int 1
+    -
+    dup
+    gtxns TypeEnum
+    int pay
+    ==
+    assert // transaction type is pay
+    // smart_contracts/personal_marketplace/contract.py:104
+    // @arc4.abimethod
+    callsub purchase_nft
+    int 1
+    return
+
+main_bare_routing@9:
+    // smart_contracts/personal_marketplace/contract.py:29
+    // class PersonalMarketplace(ARC4Contract):
+    txn OnCompletion
+    !
+    assert // reject transaction
+    txn ApplicationID
+    !
+    assert // is creating
+    int 1
+    return
+
+
+// smart_contracts.personal_marketplace.contract.PersonalMarketplace.creator() -> bytes:
+creator:
+    // smart_contracts/personal_marketplace/contract.py:32-33
+    // @arc4.abimethod
+    // def creator(self) -> arc4.Address:
+    proto 0 1
+    // smart_contracts/personal_marketplace/contract.py:39
+    // return arc4.Address(Global.creator_address)
+    global CreatorAddress
+    retsub
+
+
+// smart_contracts.personal_marketplace.contract.PersonalMarketplace.opt_in(nft: uint64) -> void:
+opt_in:
+    // smart_contracts/personal_marketplace/contract.py:46-47
+    // @arc4.abimethod
+    // def opt_in(self, nft: Asset) -> None:
+    proto 1 0
+    // smart_contracts/personal_marketplace/contract.py:53
+    // self.creator_only()
+    callsub creator_only
+    // smart_contracts/personal_marketplace/contract.py:54-59
+    // itxn.AssetTransfer(
+    //     xfer_asset=nft,
+    //     asset_receiver=Global.current_application_address,
+    //     asset_amount=0,
+    //     fee=0,
+    // ).submit()
+    itxn_begin
+    // smart_contracts/personal_marketplace/contract.py:56
+    // asset_receiver=Global.current_application_address,
+    global CurrentApplicationAddress
+    // smart_contracts/personal_marketplace/contract.py:58
+    // fee=0,
+    int 0
+    itxn_field Fee
+    // smart_contracts/personal_marketplace/contract.py:57
+    // asset_amount=0,
+    int 0
+    itxn_field AssetAmount
+    itxn_field AssetReceiver
+    frame_dig -1
+    itxn_field XferAsset
+    // smart_contracts/personal_marketplace/contract.py:54
+    // itxn.AssetTransfer(
+    int axfer
+    itxn_field TypeEnum
+    // smart_contracts/personal_marketplace/contract.py:54-59
+    // itxn.AssetTransfer(
+    //     xfer_asset=nft,
+    //     asset_receiver=Global.current_application_address,
+    //     asset_amount=0,
+    //     fee=0,
+    // ).submit()
+    itxn_submit
+    retsub
+
+
+// smart_contracts.personal_marketplace.contract.PersonalMarketplace.creator_only() -> void:
+creator_only:
+    // smart_contracts/personal_marketplace/contract.py:41-42
+    // @subroutine
+    // def creator_only(self) -> None:
+    proto 0 0
+    // smart_contracts/personal_marketplace/contract.py:44
+    // assert Txn.sender == Global.creator_address, "Only the creator can call this method"
+    txn Sender
+    global CreatorAddress
+    ==
+    assert // Only the creator can call this method
+    retsub
+
+
+// smart_contracts.personal_marketplace.contract.PersonalMarketplace.list_nft(axfer: uint64, price: bytes) -> void:
+list_nft:
+    // smart_contracts/personal_marketplace/contract.py:73-74
+    // @arc4.abimethod
+    // def list_nft(self, axfer: gtxn.AssetTransferTransaction, price: arc4.UInt64) -> None:
+    proto 2 0
+    // smart_contracts/personal_marketplace/contract.py:81
+    // self.creator_only()
+    callsub creator_only
+    // smart_contracts/personal_marketplace/contract.py:83
+    // axfer.asset_receiver == Global.current_application_address
+    frame_dig -2
+    gtxns AssetReceiver
+    global CurrentApplicationAddress
+    ==
+    // smart_contracts/personal_marketplace/contract.py:82-84
+    // assert (
+    //     axfer.asset_receiver == Global.current_application_address
+    // ), "Asset receiver must be the application address"
+    assert // Asset receiver must be the application address
+    // smart_contracts/personal_marketplace/contract.py:85
+    // assert axfer.asset_amount == 1, "Asset amount must be 1"
+    frame_dig -2
+    gtxns AssetAmount
+    int 1
+    ==
+    assert // Asset amount must be 1
+    // smart_contracts/personal_marketplace/contract.py:87-88
+    // # Store sale price in box storage
+    // op.Box.put(self.box_key(axfer.xfer_asset), price.bytes)
+    frame_dig -2
+    gtxns XferAsset
+    callsub box_key
+    frame_dig -1
+    box_put
+    retsub
+
+
+// smart_contracts.personal_marketplace.contract.PersonalMarketplace.box_key(nft: uint64) -> bytes:
+box_key:
+    // smart_contracts/personal_marketplace/contract.py:61-62
+    // @subroutine
+    // def box_key(self, nft: Asset) -> Bytes:
+    proto 1 1
+    // smart_contracts/personal_marketplace/contract.py:71
+    // return op.itob(nft.id)
+    frame_dig -1
+    itob
+    retsub
+
+
+// smart_contracts.personal_marketplace.contract.PersonalMarketplace.price(nft: uint64) -> uint64:
+price:
+    // smart_contracts/personal_marketplace/contract.py:90-91
+    // @arc4.abimethod
+    // def price(self, nft: Asset) -> UInt64:
+    proto 1 1
+    // smart_contracts/personal_marketplace/contract.py:100
+    // value, exists = op.Box.get(self.box_key(nft))
+    frame_dig -1
+    callsub box_key
+    box_get
+    // smart_contracts/personal_marketplace/contract.py:101
+    // assert exists, "Price not found"
+    assert // Price not found
+    // smart_contracts/personal_marketplace/contract.py:102
+    // return op.btoi(value)
+    btoi
+    retsub
+
+
+// smart_contracts.personal_marketplace.contract.PersonalMarketplace.purchase_nft(nft: uint64, payment: uint64) -> void:
+purchase_nft:
+    // smart_contracts/personal_marketplace/contract.py:104-105
+    // @arc4.abimethod
+    // def purchase_nft(self, nft: Asset, payment: gtxn.PaymentTransaction) -> None:
+    proto 2 0
+    // smart_contracts/personal_marketplace/contract.py:112
+    // assert nft.balance(Global.current_application_address), "NFT not available for purchase"
+    global CurrentApplicationAddress
+    frame_dig -2
+    asset_holding_get AssetBalance
+    assert // account opted into asset
+    assert // NFT not available for purchase
+    // smart_contracts/personal_marketplace/contract.py:113
+    // assert payment.sender.is_opted_in(nft), "Sender must opt in to receive NFT"
+    frame_dig -1
+    gtxns Sender
+    dup
+    frame_dig -2
+    asset_holding_get AssetBalance
+    bury 1
+    assert // Sender must opt in to receive NFT
+    // smart_contracts/personal_marketplace/contract.py:114
+    // assert payment.receiver == Global.creator_address, "Payment receiver must be the creator"
+    frame_dig -1
+    gtxns Receiver
+    global CreatorAddress
+    ==
+    assert // Payment receiver must be the creator
+    // smart_contracts/personal_marketplace/contract.py:115
+    // assert payment.amount >= (listed_price := self.price(nft)), "Payment amount must be >= NFT price"
+    frame_dig -1
+    gtxns Amount
+    frame_dig -2
+    callsub price
+    dup2
+    >=
+    assert // Payment amount must be >= NFT price
+    // smart_contracts/personal_marketplace/contract.py:117-122
+    // itxn.AssetTransfer(
+    //     xfer_asset=nft,
+    //     asset_receiver=payment.sender,
+    //     asset_amount=1,
+    //     fee=0,
+    // ).submit()
+    itxn_begin
+    // smart_contracts/personal_marketplace/contract.py:121
+    // fee=0,
+    int 0
+    itxn_field Fee
+    // smart_contracts/personal_marketplace/contract.py:120
+    // asset_amount=1,
+    int 1
+    itxn_field AssetAmount
+    dig 2
+    itxn_field AssetReceiver
+    frame_dig -2
+    itxn_field XferAsset
+    // smart_contracts/personal_marketplace/contract.py:117
+    // itxn.AssetTransfer(
+    int axfer
+    itxn_field TypeEnum
+    // smart_contracts/personal_marketplace/contract.py:117-122
+    // itxn.AssetTransfer(
+    //     xfer_asset=nft,
+    //     asset_receiver=payment.sender,
+    //     asset_amount=1,
+    //     fee=0,
+    // ).submit()
+    itxn_submit
+    // smart_contracts/personal_marketplace/contract.py:127
+    // arc4.UInt64(nft.id),  # asset_id
+    frame_dig -2
+    itob
+    // smart_contracts/personal_marketplace/contract.py:128
+    // arc4.UInt64(listed_price),  # listed_price
+    swap
+    itob
+    // smart_contracts/personal_marketplace/contract.py:129
+    // arc4.UInt64(payment.amount),  # amount_paid
+    uncover 2
+    itob
+    swap
+    // smart_contracts/personal_marketplace/contract.py:131
+    // arc4.UInt64(Global.round),  # processed_round
+    global Round
+    itob
+    cover 3
+    // smart_contracts/personal_marketplace/contract.py:132
+    // arc4.UInt64(Global.latest_timestamp),  # processed_timestamp
+    global LatestTimestamp
+    itob
+    cover 3
+    // smart_contracts/personal_marketplace/contract.py:126-133
+    // SaleEvent(
+    //     arc4.UInt64(nft.id),  # asset_id
+    //     arc4.UInt64(listed_price),  # listed_price
+    //     arc4.UInt64(payment.amount),  # amount_paid
+    //     arc4.Address(payment.sender),  # buyer
+    //     arc4.UInt64(Global.round),  # processed_round
+    //     arc4.UInt64(Global.latest_timestamp),  # processed_timestamp
+    // )
+    uncover 2
+    swap
+    concat
+    swap
+    concat
+    uncover 3
+    concat
+    uncover 2
+    concat
+    swap
+    concat
+    // smart_contracts/personal_marketplace/contract.py:124-134
+    // # Log sale event
+    // arc4.emit(
+    //     SaleEvent(
+    //         arc4.UInt64(nft.id),  # asset_id
+    //         arc4.UInt64(listed_price),  # listed_price
+    //         arc4.UInt64(payment.amount),  # amount_paid
+    //         arc4.Address(payment.sender),  # buyer
+    //         arc4.UInt64(Global.round),  # processed_round
+    //         arc4.UInt64(Global.latest_timestamp),  # processed_timestamp
+    //     )
+    // )
+    method "SaleEvent(uint64,uint64,uint64,address,uint64,uint64)"
+    swap
+    concat
+    log
+    // smart_contracts/personal_marketplace/contract.py:136-137
+    // # Remove listing
+    // _deleted = op.Box.delete(self.box_key(nft))
+    frame_dig -2
+    callsub box_key
+    box_del
+    pop
+    retsub
