@@ -1,0 +1,7 @@
+#pragma version 10
+
+smart_contracts.venture_funding.contract.VentureFunding.clear_state_program:
+    // smart_contracts/venture_funding/contract.py:151
+    // class VentureFunding(ARC4Contract):
+    int 1
+    return

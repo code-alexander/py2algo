@@ -1,0 +1,50 @@
+{
+    "hints": {
+        "new()address": {
+            "call_config": {
+                "delete_application": "CREATE"
+            }
+        }
+    },
+    "source": {
+        "approval": "I3ByYWdtYSB2ZXJzaW9uIDEwCgpzbWFydF9jb250cmFjdHMudmVudHVyZV9mdW5kaW5nLmNvbnRyYWN0LlZhdWx0RmFjdG9yeS5hcHByb3ZhbF9wcm9ncmFtOgogICAgLy8gc21hcnRfY29udHJhY3RzL3ZlbnR1cmVfZnVuZGluZy9jb250cmFjdC5weToyNQogICAgLy8gY2xhc3MgVmF1bHRGYWN0b3J5KEFSQzRDb250cmFjdCk6CiAgICBtZXRob2QgIm5ldygpYWRkcmVzcyIKICAgIHR4bmEgQXBwbGljYXRpb25BcmdzIDAKICAgIG1hdGNoIG1haW5fbmV3X3JvdXRlQDEKICAgIGVyciAvLyByZWplY3QgdHJhbnNhY3Rpb24KCm1haW5fbmV3X3JvdXRlQDE6CiAgICAvLyBzbWFydF9jb250cmFjdHMvdmVudHVyZV9mdW5kaW5nL2NvbnRyYWN0LnB5OjI4CiAgICAvLyBAYXJjNC5hYmltZXRob2QoY3JlYXRlPSJyZXF1aXJlIiwgYWxsb3dfYWN0aW9ucz1bT25Db21wbGV0ZUFjdGlvbi5EZWxldGVBcHBsaWNhdGlvbl0pCiAgICB0eG4gT25Db21wbGV0aW9uCiAgICBpbnQgRGVsZXRlQXBwbGljYXRpb24KICAgID09CiAgICBhc3NlcnQgLy8gT25Db21wbGV0aW9uIGlzIERlbGV0ZUFwcGxpY2F0aW9uCiAgICB0eG4gQXBwbGljYXRpb25JRAogICAgIQogICAgYXNzZXJ0IC8vIGlzIGNyZWF0aW5nCiAgICBjYWxsc3ViIG5ldwogICAgYnl0ZSAweDE1MWY3Yzc1CiAgICBzd2FwCiAgICBjb25jYXQKICAgIGxvZwogICAgaW50IDEKICAgIHJldHVybgoKCi8vIHNtYXJ0X2NvbnRyYWN0cy52ZW50dXJlX2Z1bmRpbmcuY29udHJhY3QuVmF1bHRGYWN0b3J5Lm5ldygpIC0+IGJ5dGVzOgpuZXc6CiAgICAvLyBzbWFydF9jb250cmFjdHMvdmVudHVyZV9mdW5kaW5nL2NvbnRyYWN0LnB5OjI4LTI5CiAgICAvLyBAYXJjNC5hYmltZXRob2QoY3JlYXRlPSJyZXF1aXJlIiwgYWxsb3dfYWN0aW9ucz1bT25Db21wbGV0ZUFjdGlvbi5EZWxldGVBcHBsaWNhdGlvbl0pCiAgICAvLyBkZWYgbmV3KHNlbGYpIC0+IGFyYzQuQWRkcmVzczoKICAgIHByb3RvIDAgMQogICAgLy8gc21hcnRfY29udHJhY3RzL3ZlbnR1cmVfZnVuZGluZy9jb250cmFjdC5weTozNQogICAgLy8gcmV0dXJuIGFyYzQuQWRkcmVzcyhpdHhuLlBheW1lbnQocmVjZWl2ZXI9VHhuLnNlbmRlciwgcmVrZXlfdG89VHhuLnNlbmRlciwgZmVlPTApLnN1Ym1pdCgpLnNlbmRlcikKICAgIGl0eG5fYmVnaW4KICAgIHR4biBTZW5kZXIKICAgIGR1cAogICAgaW50IDAKICAgIGl0eG5fZmllbGQgRmVlCiAgICBpdHhuX2ZpZWxkIFJla2V5VG8KICAgIGl0eG5fZmllbGQgUmVjZWl2ZXIKICAgIGludCBwYXkKICAgIGl0eG5fZmllbGQgVHlwZUVudW0KICAgIGl0eG5fc3VibWl0CiAgICBpdHhuIFNlbmRlcgogICAgcmV0c3ViCg==",
+        "clear": "I3ByYWdtYSB2ZXJzaW9uIDEwCgpzbWFydF9jb250cmFjdHMudmVudHVyZV9mdW5kaW5nLmNvbnRyYWN0LlZhdWx0RmFjdG9yeS5jbGVhcl9zdGF0ZV9wcm9ncmFtOgogICAgLy8gc21hcnRfY29udHJhY3RzL3ZlbnR1cmVfZnVuZGluZy9jb250cmFjdC5weToyNQogICAgLy8gY2xhc3MgVmF1bHRGYWN0b3J5KEFSQzRDb250cmFjdCk6CiAgICBpbnQgMQogICAgcmV0dXJuCg=="
+    },
+    "state": {
+        "global": {
+            "num_byte_slices": 0,
+            "num_uints": 0
+        },
+        "local": {
+            "num_byte_slices": 0,
+            "num_uints": 0
+        }
+    },
+    "schema": {
+        "global": {
+            "declared": {},
+            "reserved": {}
+        },
+        "local": {
+            "declared": {},
+            "reserved": {}
+        }
+    },
+    "contract": {
+        "name": "VaultFactory",
+        "desc": "A contract that creates an account and rekeys it to the sender.",
+        "methods": [
+            {
+                "name": "new",
+                "args": [],
+                "returns": {
+                    "type": "address",
+                    "desc": "The vault address."
+                },
+                "desc": "Creates a new account and rekeys it to the sender."
+            }
+        ],
+        "networks": {}
+    },
+    "bare_call_config": {}
+}
