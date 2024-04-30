@@ -1,0 +1,510 @@
+#pragma version 10
+
+smart_contracts.arc59.contract.Router.approval_program:
+    // smart_contracts/arc59/contract.py:119
+    // class Router(ARC4Contract):
+    txn NumAppArgs
+    bz main_bare_routing@7
+    method "opt_router_in(uint64)void"
+    method "send_asset(axfer,address)address"
+    method "claim_asset(uint64)void"
+    txna ApplicationArgs 0
+    match main_opt_router_in_route@2 main_send_asset_route@3 main_claim_asset_route@4
+    err // reject transaction
+
+main_opt_router_in_route@2:
+    // smart_contracts/arc59/contract.py:122
+    // @arc4.abimethod
+    txn OnCompletion
+    !
+    assert // OnCompletion is NoOp
+    txn ApplicationID
+    assert // is not creating
+    // smart_contracts/arc59/contract.py:119
+    // class Router(ARC4Contract):
+    txna ApplicationArgs 1
+    btoi
+    // smart_contracts/arc59/contract.py:122
+    // @arc4.abimethod
+    callsub opt_router_in
+    int 1
+    return
+
+main_send_asset_route@3:
+    // smart_contracts/arc59/contract.py:133
+    // @arc4.abimethod
+    txn OnCompletion
+    !
+    assert // OnCompletion is NoOp
+    txn ApplicationID
+    assert // is not creating
+    // smart_contracts/arc59/contract.py:119
+    // class Router(ARC4Contract):
+    txn GroupIndex
+    int 1
+    -
+    dup
+    gtxns TypeEnum
+    int axfer
+    ==
+    assert // transaction type is axfer
+    txna ApplicationArgs 1
+    // smart_contracts/arc59/contract.py:133
+    // @arc4.abimethod
+    callsub send_asset
+    byte 0x151f7c75
+    swap
+    concat
+    log
+    int 1
+    return
+
+main_claim_asset_route@4:
+    // smart_contracts/arc59/contract.py:162
+    // @arc4.abimethod
+    txn OnCompletion
+    !
+    assert // OnCompletion is NoOp
+    txn ApplicationID
+    assert // is not creating
+    // smart_contracts/arc59/contract.py:119
+    // class Router(ARC4Contract):
+    txna ApplicationArgs 1
+    btoi
+    // smart_contracts/arc59/contract.py:162
+    // @arc4.abimethod
+    callsub claim_asset
+    int 1
+    return
+
+main_bare_routing@7:
+    // smart_contracts/arc59/contract.py:119
+    // class Router(ARC4Contract):
+    txn OnCompletion
+    !
+    assert // reject transaction
+    txn ApplicationID
+    !
+    assert // is creating
+    int 1
+    return
+
+
+// smart_contracts.arc59.contract.Router.opt_router_in(asset_id: uint64) -> void:
+opt_router_in:
+    // smart_contracts/arc59/contract.py:122-123
+    // @arc4.abimethod
+    // def opt_router_in(self, asset_id: UInt64) -> None:
+    proto 1 0
+    // smart_contracts/arc59/contract.py:131
+    // opt_in(Global.current_application_address, Asset(asset_id))
+    global CurrentApplicationAddress
+    frame_dig -1
+    callsub opt_in
+    retsub
+
+
+// smart_contracts.arc59.contract.opt_in(account: bytes, asset: uint64) -> void:
+opt_in:
+    // smart_contracts/arc59/contract.py:19-20
+    // @subroutine
+    // def opt_in(account: Account, asset: Asset) -> None:
+    proto 2 0
+    // smart_contracts/arc59/contract.py:27-32
+    // itxn.AssetTransfer(
+    //     xfer_asset=asset,
+    //     asset_receiver=account,
+    //     asset_amount=0,
+    //     fee=0,
+    // ).submit()
+    itxn_begin
+    // smart_contracts/arc59/contract.py:31
+    // fee=0,
+    int 0
+    itxn_field Fee
+    // smart_contracts/arc59/contract.py:30
+    // asset_amount=0,
+    int 0
+    itxn_field AssetAmount
+    frame_dig -2
+    itxn_field AssetReceiver
+    frame_dig -1
+    itxn_field XferAsset
+    // smart_contracts/arc59/contract.py:27
+    // itxn.AssetTransfer(
+    int axfer
+    itxn_field TypeEnum
+    // smart_contracts/arc59/contract.py:27-32
+    // itxn.AssetTransfer(
+    //     xfer_asset=asset,
+    //     asset_receiver=account,
+    //     asset_amount=0,
+    //     fee=0,
+    // ).submit()
+    itxn_submit
+    retsub
+
+
+// smart_contracts.arc59.contract.Router.send_asset(axfer: uint64, receiver: bytes) -> bytes:
+send_asset:
+    // smart_contracts/arc59/contract.py:133-134
+    // @arc4.abimethod
+    // def send_asset(self, axfer: gtxn.AssetTransferTransaction, receiver: arc4.Address) -> arc4.Address:
+    proto 2 1
+    int 0
+    dup
+    // smart_contracts/arc59/contract.py:144
+    // assert axfer.asset_receiver == Global.current_application_address, "`axfer.asset_receiver` must be the router app address"
+    frame_dig -2
+    gtxns AssetReceiver
+    global CurrentApplicationAddress
+    ==
+    assert // `axfer.asset_receiver` must be the router app address
+    // smart_contracts/arc59/contract.py:145
+    // assert Account(receiver.bytes).auth_address != Global.current_application_address, "`receiver` must not be a vault or the router app address"
+    frame_dig -1
+    len
+    int 32
+    ==
+    assert // Address length is 32 bytes
+    frame_dig -1
+    acct_params_get AcctAuthAddr
+    assert // account funded
+    global CurrentApplicationAddress
+    !=
+    assert // `receiver` must not be a vault or the router app address
+    // smart_contracts/arc59/contract.py:147-148
+    // # If the receiver is opted in, send directly to their account
+    // if Account(receiver.bytes).is_opted_in(axfer.xfer_asset):
+    frame_dig -2
+    gtxns XferAsset
+    dup
+    frame_dig -1
+    swap
+    asset_holding_get AssetBalance
+    bury 1
+    bz send_asset_after_if_else@2
+    // smart_contracts/arc59/contract.py:149
+    // transfer_asset_to(Account(receiver.bytes), asset=axfer.xfer_asset, amount=axfer.asset_amount)
+    frame_dig -2
+    gtxns AssetAmount
+    frame_dig -1
+    frame_dig 2
+    uncover 2
+    callsub transfer_asset_to
+    // smart_contracts/arc59/contract.py:150
+    // return receiver
+    frame_dig -1
+    frame_bury 0
+    retsub
+
+send_asset_after_if_else@2:
+    // smart_contracts/arc59/contract.py:152
+    // vault = find_vault(receiver) or create_vault(receiver)
+    frame_dig -1
+    callsub find_vault
+    frame_bury -1
+    dup
+    frame_bury 0
+    global ZeroAddress
+    !=
+    bz send_asset_ternary_false@4
+    frame_dig 0
+    frame_bury 1
+    b send_asset_ternary_merge@5
+
+send_asset_ternary_false@4:
+    // smart_contracts/arc59/contract.py:152
+    // vault = find_vault(receiver) or create_vault(receiver)
+    frame_dig -1
+    callsub create_vault
+    frame_bury -1
+    frame_bury 1
+
+send_asset_ternary_merge@5:
+    // smart_contracts/arc59/contract.py:154
+    // if not vault.is_opted_in(axfer.xfer_asset):
+    frame_dig 1
+    frame_dig 2
+    asset_holding_get AssetBalance
+    bury 1
+    bnz send_asset_after_if_else@7
+    // smart_contracts/arc59/contract.py:155
+    // ensure_funded(vault, vault.min_balance + Global.asset_opt_in_min_balance)
+    frame_dig 1
+    dup
+    acct_params_get AcctMinBalance
+    assert // account funded
+    global AssetOptInMinBalance
+    +
+    dig 1
+    swap
+    callsub ensure_funded
+    // smart_contracts/arc59/contract.py:156
+    // opt_in(vault, axfer.xfer_asset)
+    frame_dig 2
+    callsub opt_in
+
+send_asset_after_if_else@7:
+    // smart_contracts/arc59/contract.py:158
+    // transfer_asset_to(vault, asset=axfer.xfer_asset, amount=axfer.asset_amount)
+    frame_dig -2
+    gtxns AssetAmount
+    frame_dig 1
+    dup
+    cover 2
+    frame_dig 2
+    uncover 2
+    callsub transfer_asset_to
+    // smart_contracts/arc59/contract.py:160
+    // return arc4.Address(vault)
+    frame_bury 0
+    retsub
+
+
+// smart_contracts.arc59.contract.transfer_asset_to(receiver: bytes, asset: uint64, amount: uint64) -> void:
+transfer_asset_to:
+    // smart_contracts/arc59/contract.py:35-36
+    // @subroutine
+    // def transfer_asset_to(receiver: Account, /, *, asset: Asset, amount: UInt64) -> None:
+    proto 3 0
+    // smart_contracts/arc59/contract.py:44-49
+    // itxn.AssetTransfer(
+    //     xfer_asset=asset,
+    //     asset_receiver=receiver,
+    //     asset_amount=amount,
+    //     fee=0,
+    // ).submit()
+    itxn_begin
+    // smart_contracts/arc59/contract.py:48
+    // fee=0,
+    int 0
+    itxn_field Fee
+    frame_dig -1
+    itxn_field AssetAmount
+    frame_dig -3
+    itxn_field AssetReceiver
+    frame_dig -2
+    itxn_field XferAsset
+    // smart_contracts/arc59/contract.py:44
+    // itxn.AssetTransfer(
+    int axfer
+    itxn_field TypeEnum
+    // smart_contracts/arc59/contract.py:44-49
+    // itxn.AssetTransfer(
+    //     xfer_asset=asset,
+    //     asset_receiver=receiver,
+    //     asset_amount=amount,
+    //     fee=0,
+    // ).submit()
+    itxn_submit
+    retsub
+
+
+// smart_contracts.arc59.contract.find_vault(receiver: bytes) -> bytes, bytes:
+find_vault:
+    // smart_contracts/arc59/contract.py:71-72
+    // @subroutine
+    // def find_vault(receiver: arc4.Address) -> MaybeVault:
+    proto 1 2
+    // smart_contracts/arc59/contract.py:73
+    // maybe_vault, _exists = op.Box.get(receiver.bytes)
+    frame_dig -1
+    box_get
+    pop
+    // smart_contracts/arc59/contract.py:74
+    // return Account(maybe_vault)
+    dup
+    len
+    int 32
+    ==
+    assert // Address length is 32 bytes
+    frame_dig -1
+    retsub
+
+
+// smart_contracts.arc59.contract.create_vault(receiver: bytes) -> bytes, bytes:
+create_vault:
+    // smart_contracts/arc59/contract.py:103-104
+    // @subroutine
+    // def create_vault(receiver: arc4.Address) -> Account:
+    proto 1 2
+    // smart_contracts/arc59/contract.py:113
+    // vault, _txn = arc4.abi_call(VaultFactory.new, on_completion=OnCompleteAction.DeleteApplication)
+    itxn_begin
+    int DeleteApplication
+    itxn_field OnCompletion
+    method "new()address"
+    itxn_field ApplicationArgs
+    int appl
+    itxn_field TypeEnum
+    itxn_submit
+    itxn LastLog
+    dup
+    extract 4 0
+    swap
+    extract 0 4
+    byte 0x151f7c75
+    ==
+    assert // ARC4 prefix is valid
+    // smart_contracts/arc59/contract.py:114
+    // pay_from(Global.current_application_address, to=Account(vault.bytes), amount=Global.min_balance)
+    global CurrentApplicationAddress
+    swap
+    dup
+    len
+    int 32
+    ==
+    assert // Address length is 32 bytes
+    global MinBalance
+    uncover 2
+    dig 2
+    uncover 2
+    callsub pay_from
+    // smart_contracts/arc59/contract.py:115
+    // op.Box.put(receiver.bytes, vault.bytes)
+    frame_dig -1
+    dig 1
+    box_put
+    // smart_contracts/arc59/contract.py:116
+    // return Account(vault.bytes)
+    frame_dig -1
+    retsub
+
+
+// smart_contracts.arc59.contract.pay_from(sender: bytes, to: bytes, amount: uint64) -> void:
+pay_from:
+    // smart_contracts/arc59/contract.py:76-77
+    // @subroutine
+    // def pay_from(sender: Account, /, *, to: Account, amount: UInt64) -> None:
+    proto 3 0
+    // smart_contracts/arc59/contract.py:85-90
+    // itxn.Payment(
+    //     sender=sender,
+    //     receiver=to,
+    //     amount=amount,
+    //     fee=0,
+    // ).submit()
+    itxn_begin
+    // smart_contracts/arc59/contract.py:89
+    // fee=0,
+    int 0
+    itxn_field Fee
+    frame_dig -1
+    itxn_field Amount
+    frame_dig -2
+    itxn_field Receiver
+    frame_dig -3
+    itxn_field Sender
+    // smart_contracts/arc59/contract.py:85
+    // itxn.Payment(
+    int pay
+    itxn_field TypeEnum
+    // smart_contracts/arc59/contract.py:85-90
+    // itxn.Payment(
+    //     sender=sender,
+    //     receiver=to,
+    //     amount=amount,
+    //     fee=0,
+    // ).submit()
+    itxn_submit
+    retsub
+
+
+// smart_contracts.arc59.contract.ensure_funded(account: bytes, min_balance: uint64) -> void:
+ensure_funded:
+    // smart_contracts/arc59/contract.py:92-93
+    // @subroutine
+    // def ensure_funded(account: Account, min_balance: UInt64) -> None:
+    proto 2 0
+    // smart_contracts/arc59/contract.py:100
+    // if account.balance < min_balance:
+    frame_dig -2
+    acct_params_get AcctBalance
+    assert // account funded
+    frame_dig -1
+    <
+    bz ensure_funded_after_if_else@2
+    // smart_contracts/arc59/contract.py:101
+    // pay_from(Global.current_application_address, to=account, amount=min_balance)
+    global CurrentApplicationAddress
+    frame_dig -2
+    frame_dig -1
+    callsub pay_from
+
+ensure_funded_after_if_else@2:
+    retsub
+
+
+// smart_contracts.arc59.contract.Router.claim_asset(asset_id: uint64) -> void:
+claim_asset:
+    // smart_contracts/arc59/contract.py:162-163
+    // @arc4.abimethod
+    // def claim_asset(self, asset_id: UInt64) -> None:
+    proto 1 0
+    // smart_contracts/arc59/contract.py:171
+    // vault: MaybeVault = find_vault(arc4.Address(Txn.sender))
+    txn Sender
+    callsub find_vault
+    pop
+    // smart_contracts/arc59/contract.py:172
+    // assert vault, "Vault not found for transaction sender"
+    dup
+    global ZeroAddress
+    !=
+    assert // Vault not found for transaction sender
+    // smart_contracts/arc59/contract.py:174
+    // close_asset_remainder_from(vault, to=Txn.sender, asset=Asset(asset_id))
+    dup
+    txn Sender
+    frame_dig -1
+    callsub close_asset_remainder_from
+    // smart_contracts/arc59/contract.py:175
+    // pay_from(vault, to=Global.current_application_address, amount=Global.asset_opt_in_min_balance)
+    global CurrentApplicationAddress
+    global AssetOptInMinBalance
+    callsub pay_from
+    retsub
+
+
+// smart_contracts.arc59.contract.close_asset_remainder_from(sender: bytes, to: bytes, asset: uint64) -> void:
+close_asset_remainder_from:
+    // smart_contracts/arc59/contract.py:51-52
+    // @subroutine
+    // def close_asset_remainder_from(sender: Account, /, *, to: Account, asset: Asset) -> None:
+    proto 3 0
+    // smart_contracts/arc59/contract.py:60-66
+    // itxn.AssetTransfer(
+    //     xfer_asset=asset,
+    //     sender=sender,
+    //     asset_receiver=to,
+    //     asset_close_to=to,
+    //     fee=0
+    // ).submit()
+    itxn_begin
+    // smart_contracts/arc59/contract.py:65
+    // fee=0
+    int 0
+    itxn_field Fee
+    frame_dig -2
+    itxn_field AssetCloseTo
+    frame_dig -2
+    itxn_field AssetReceiver
+    frame_dig -3
+    itxn_field Sender
+    frame_dig -1
+    itxn_field XferAsset
+    // smart_contracts/arc59/contract.py:60
+    // itxn.AssetTransfer(
+    int axfer
+    itxn_field TypeEnum
+    // smart_contracts/arc59/contract.py:60-66
+    // itxn.AssetTransfer(
+    //     xfer_asset=asset,
+    //     sender=sender,
+    //     asset_receiver=to,
+    //     asset_close_to=to,
+    //     fee=0
+    // ).submit()
+    itxn_submit
+    retsub

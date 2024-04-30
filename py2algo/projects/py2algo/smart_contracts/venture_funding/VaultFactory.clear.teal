@@ -1,0 +1,7 @@
+#pragma version 10
+
+smart_contracts.venture_funding.contract.VaultFactory.clear_state_program:
+    // smart_contracts/venture_funding/contract.py:25
+    // class VaultFactory(ARC4Contract):
+    int 1
+    return

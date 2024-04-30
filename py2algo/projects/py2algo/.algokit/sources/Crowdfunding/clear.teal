@@ -1,0 +1,7 @@
+#pragma version 10
+
+smart_contracts.crowdfunding.contract.Crowdfunding.clear_state_program:
+    // smart_contracts/crowdfunding/contract.py:124
+    // class Crowdfunding(ARC4Contract):
+    int 1
+    return

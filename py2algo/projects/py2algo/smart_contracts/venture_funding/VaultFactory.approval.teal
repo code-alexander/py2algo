@@ -1,0 +1,49 @@
+#pragma version 10
+
+smart_contracts.venture_funding.contract.VaultFactory.approval_program:
+    // smart_contracts/venture_funding/contract.py:25
+    // class VaultFactory(ARC4Contract):
+    method "new()address"
+    txna ApplicationArgs 0
+    match main_new_route@1
+    err // reject transaction
+
+main_new_route@1:
+    // smart_contracts/venture_funding/contract.py:28
+    // @arc4.abimethod(create="require", allow_actions=[OnCompleteAction.DeleteApplication])
+    txn OnCompletion
+    int DeleteApplication
+    ==
+    assert // OnCompletion is DeleteApplication
+    txn ApplicationID
+    !
+    assert // is creating
+    callsub new
+    byte 0x151f7c75
+    swap
+    concat
+    log
+    int 1
+    return
+
+
+// smart_contracts.venture_funding.contract.VaultFactory.new() -> bytes:
+new:
+    // smart_contracts/venture_funding/contract.py:28-29
+    // @arc4.abimethod(create="require", allow_actions=[OnCompleteAction.DeleteApplication])
+    // def new(self) -> arc4.Address:
+    proto 0 1
+    // smart_contracts/venture_funding/contract.py:35
+    // return arc4.Address(itxn.Payment(receiver=Txn.sender, rekey_to=Txn.sender, fee=0).submit().sender)
+    itxn_begin
+    txn Sender
+    dup
+    int 0
+    itxn_field Fee
+    itxn_field RekeyTo
+    itxn_field Receiver
+    int pay
+    itxn_field TypeEnum
+    itxn_submit
+    itxn Sender
+    retsub

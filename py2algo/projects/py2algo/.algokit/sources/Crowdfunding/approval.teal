@@ -1,0 +1,565 @@
+#pragma version 10
+
+smart_contracts.crowdfunding.contract.Crowdfunding.approval_program:
+    // smart_contracts/crowdfunding/contract.py:124
+    // class Crowdfunding(ARC4Contract):
+    method "new_project(string,uint64,uint64,uint64)void"
+    method "pledge(pay)uint64"
+    method "claim_refund()uint64"
+    method "withdraw_funds(address[])uint64"
+    txna ApplicationArgs 0
+    match main_new_project_route@1 main_pledge_route@2 main_claim_refund_route@3 main_withdraw_funds_route@4
+    err // reject transaction
+
+main_new_project_route@1:
+    // smart_contracts/crowdfunding/contract.py:127
+    // @arc4.abimethod(create="require")
+    txn OnCompletion
+    !
+    assert // OnCompletion is NoOp
+    txn ApplicationID
+    !
+    assert // is creating
+    // smart_contracts/crowdfunding/contract.py:124
+    // class Crowdfunding(ARC4Contract):
+    txna ApplicationArgs 1
+    extract 2 0
+    txna ApplicationArgs 2
+    btoi
+    txna ApplicationArgs 3
+    btoi
+    txna ApplicationArgs 4
+    btoi
+    // smart_contracts/crowdfunding/contract.py:127
+    // @arc4.abimethod(create="require")
+    callsub new_project
+    int 1
+    return
+
+main_pledge_route@2:
+    // smart_contracts/crowdfunding/contract.py:153
+    // @arc4.abimethod
+    txn OnCompletion
+    !
+    assert // OnCompletion is NoOp
+    txn ApplicationID
+    assert // is not creating
+    // smart_contracts/crowdfunding/contract.py:124
+    // class Crowdfunding(ARC4Contract):
+    txn GroupIndex
+    int 1
+    -
+    dup
+    gtxns TypeEnum
+    int pay
+    ==
+    assert // transaction type is pay
+    // smart_contracts/crowdfunding/contract.py:153
+    // @arc4.abimethod
+    callsub pledge
+    itob
+    byte 0x151f7c75
+    swap
+    concat
+    log
+    int 1
+    return
+
+main_claim_refund_route@3:
+    // smart_contracts/crowdfunding/contract.py:175
+    // @arc4.abimethod
+    txn OnCompletion
+    !
+    assert // OnCompletion is NoOp
+    txn ApplicationID
+    assert // is not creating
+    callsub claim_refund
+    itob
+    byte 0x151f7c75
+    swap
+    concat
+    log
+    int 1
+    return
+
+main_withdraw_funds_route@4:
+    // smart_contracts/crowdfunding/contract.py:190
+    // @arc4.abimethod
+    txn OnCompletion
+    !
+    assert // OnCompletion is NoOp
+    txn ApplicationID
+    assert // is not creating
+    // smart_contracts/crowdfunding/contract.py:124
+    // class Crowdfunding(ARC4Contract):
+    txna ApplicationArgs 1
+    // smart_contracts/crowdfunding/contract.py:190
+    // @arc4.abimethod
+    callsub withdraw_funds
+    itob
+    byte 0x151f7c75
+    swap
+    concat
+    log
+    int 1
+    return
+
+
+// smart_contracts.crowdfunding.contract.Crowdfunding.new_project(project_name: bytes, funding_target: uint64, funding_deadline: uint64, minimum_pledge: uint64) -> void:
+new_project:
+    // smart_contracts/crowdfunding/contract.py:127-134
+    // @arc4.abimethod(create="require")
+    // def new_project(
+    //     self,
+    //     project_name: String,
+    //     funding_target: UInt64,
+    //     funding_deadline: UInt64,
+    //     minimum_pledge: UInt64,
+    // ) -> None:
+    proto 4 0
+    // smart_contracts/crowdfunding/contract.py:143
+    // assert funding_deadline > Global.round, "Funding deadline must be in the future"
+    frame_dig -2
+    global Round
+    >
+    assert // Funding deadline must be in the future
+    // smart_contracts/crowdfunding/contract.py:144
+    // assert funding_target > minimum_pledge, "Funding target must be > the minimum pledge"
+    frame_dig -3
+    frame_dig -1
+    >
+    assert // Funding target must be > the minimum pledge
+    // smart_contracts/crowdfunding/contract.py:145
+    // assert minimum_pledge >= Global.min_balance, "Minimum pledge must be >= the minimum account balance"
+    frame_dig -1
+    global MinBalance
+    >=
+    assert // Minimum pledge must be >= the minimum account balance
+    // smart_contracts/crowdfunding/contract.py:147
+    // self.project_name = project_name
+    byte "project_name"
+    frame_dig -4
+    app_global_put
+    // smart_contracts/crowdfunding/contract.py:148
+    // self.funding_target = funding_target
+    byte "funding_target"
+    frame_dig -3
+    app_global_put
+    // smart_contracts/crowdfunding/contract.py:149
+    // self.funding_deadline = funding_deadline
+    byte "funding_deadline"
+    frame_dig -2
+    app_global_put
+    // smart_contracts/crowdfunding/contract.py:150
+    // self.minimum_pledge = minimum_pledge
+    byte "minimum_pledge"
+    frame_dig -1
+    app_global_put
+    // smart_contracts/crowdfunding/contract.py:151
+    // self.pledged_amount = UInt64(0)
+    byte "pledged_amount"
+    int 0
+    app_global_put
+    retsub
+
+
+// smart_contracts.crowdfunding.contract.Crowdfunding.pledge(payment: uint64) -> uint64:
+pledge:
+    // smart_contracts/crowdfunding/contract.py:153-154
+    // @arc4.abimethod
+    // def pledge(self, payment: gtxn.PaymentTransaction) -> UInt64:
+    proto 1 1
+    // smart_contracts/crowdfunding/contract.py:163
+    // assert payment.receiver == Global.current_application_address, "Payment receiver must be the app address"
+    frame_dig -1
+    gtxns Receiver
+    global CurrentApplicationAddress
+    ==
+    assert // Payment receiver must be the app address
+    // smart_contracts/crowdfunding/contract.py:164
+    // assert payment.amount >= self.minimum_pledge, "Payment amount must >= the minimum pledge"
+    frame_dig -1
+    gtxns Amount
+    dup
+    int 0
+    byte "minimum_pledge"
+    app_global_get_ex
+    assert // check minimum_pledge exists
+    >=
+    assert // Payment amount must >= the minimum pledge
+    // smart_contracts/crowdfunding/contract.py:166
+    // vault = find_vault(payment.sender) or create_vault(payment.sender)
+    frame_dig -1
+    gtxns Sender
+    dup
+    callsub find_vault
+    dup
+    global ZeroAddress
+    !=
+    bz pledge_ternary_false@2
+    frame_dig 2
+    b pledge_ternary_merge@3
+
+pledge_ternary_false@2:
+    // smart_contracts/crowdfunding/contract.py:166
+    // vault = find_vault(payment.sender) or create_vault(payment.sender)
+    frame_dig 1
+    callsub create_vault
+
+pledge_ternary_merge@3:
+    // smart_contracts/crowdfunding/contract.py:168-169
+    // # Pay the pledge to the vault
+    // pay_from(Global.current_application_address, to=vault, amount=payment.amount)
+    global CurrentApplicationAddress
+    dig 1
+    frame_dig 0
+    dup
+    cover 3
+    callsub pay_from
+    // smart_contracts/crowdfunding/contract.py:171
+    // self.pledged_amount += payment.amount
+    int 0
+    byte "pledged_amount"
+    app_global_get_ex
+    assert // check pledged_amount exists
+    +
+    byte "pledged_amount"
+    swap
+    app_global_put
+    // smart_contracts/crowdfunding/contract.py:173
+    // return vault.balance
+    acct_params_get AcctBalance
+    assert // account funded
+    frame_bury 0
+    retsub
+
+
+// smart_contracts.crowdfunding.contract.find_vault(backer: bytes) -> bytes:
+find_vault:
+    // smart_contracts/crowdfunding/contract.py:86-87
+    // @subroutine
+    // def find_vault(backer: Backer) -> MaybeVault:
+    proto 1 1
+    // smart_contracts/crowdfunding/contract.py:96
+    // maybe_vault, exists = op.Box.get(backer.bytes)
+    frame_dig -1
+    box_get
+    // smart_contracts/crowdfunding/contract.py:97
+    // return Account(maybe_vault) if exists else Global.zero_address
+    bz find_vault_ternary_false@2
+    frame_dig 0
+    dup
+    len
+    int 32
+    ==
+    assert // Address length is 32 bytes
+    b find_vault_ternary_merge@3
+
+find_vault_ternary_false@2:
+    // smart_contracts/crowdfunding/contract.py:97
+    // return Account(maybe_vault) if exists else Global.zero_address
+    global ZeroAddress
+
+find_vault_ternary_merge@3:
+    // smart_contracts/crowdfunding/contract.py:97
+    // return Account(maybe_vault) if exists else Global.zero_address
+    swap
+    retsub
+
+
+// smart_contracts.crowdfunding.contract.create_vault(backer: bytes) -> bytes:
+create_vault:
+    // smart_contracts/crowdfunding/contract.py:60-61
+    // @subroutine
+    // def create_vault(backer: Backer) -> Vault:
+    proto 1 1
+    // smart_contracts/crowdfunding/contract.py:70-77
+    // # Call the vault factory contract to create a new vault
+    // address, _txn = arc4.abi_call(
+    //     VaultFactory.new,
+    //     approval_program=VAULT_FACTORY_APPROVAL,
+    //     clear_state_program=VAULT_FACTORY_CLEAR,
+    //     on_completion=OnCompleteAction.DeleteApplication,
+    //     fee=0,
+    // )
+    itxn_begin
+    // smart_contracts/crowdfunding/contract.py:74
+    // clear_state_program=VAULT_FACTORY_CLEAR,
+    byte 0x0a810143
+    itxn_field ClearStateProgramPages
+    // smart_contracts/crowdfunding/contract.py:73
+    // approval_program=VAULT_FACTORY_APPROVAL,
+    byte 0x0a2001018004561d2fea361a008e010001003119810512443118144488000b8004151f7c754c50b022438a0001b13100498100b201b220b20722b210b3b40089
+    itxn_field ApprovalProgramPages
+    // smart_contracts/crowdfunding/contract.py:75
+    // on_completion=OnCompleteAction.DeleteApplication,
+    int DeleteApplication
+    itxn_field OnCompletion
+    // smart_contracts/crowdfunding/contract.py:76
+    // fee=0,
+    int 0
+    itxn_field Fee
+    // smart_contracts/crowdfunding/contract.py:70-77
+    // # Call the vault factory contract to create a new vault
+    // address, _txn = arc4.abi_call(
+    //     VaultFactory.new,
+    //     approval_program=VAULT_FACTORY_APPROVAL,
+    //     clear_state_program=VAULT_FACTORY_CLEAR,
+    //     on_completion=OnCompleteAction.DeleteApplication,
+    //     fee=0,
+    // )
+    method "new()address"
+    itxn_field ApplicationArgs
+    int appl
+    itxn_field TypeEnum
+    itxn_submit
+    itxn LastLog
+    dup
+    extract 4 0
+    swap
+    extract 0 4
+    byte 0x151f7c75
+    ==
+    assert // ARC4 prefix is valid
+    // smart_contracts/crowdfunding/contract.py:78
+    // vault = Account(address.bytes)
+    dup
+    len
+    int 32
+    ==
+    assert // Address length is 32 bytes
+    // smart_contracts/crowdfunding/contract.py:80-81
+    // # Save (backer, vault) pair in box storage
+    // op.Box.put(backer.bytes, vault.bytes)
+    frame_dig -1
+    dig 1
+    box_put
+    // smart_contracts/crowdfunding/contract.py:83
+    // return vault
+    retsub
+
+
+// smart_contracts.crowdfunding.contract.pay_from(sender: bytes, to: bytes, amount: uint64) -> void:
+pay_from:
+    // smart_contracts/crowdfunding/contract.py:43-44
+    // @subroutine
+    // def pay_from(sender: Account, /, *, to: Account, amount: UInt64) -> None:
+    proto 3 0
+    // smart_contracts/crowdfunding/contract.py:52-57
+    // itxn.Payment(
+    //     sender=sender,
+    //     receiver=to,
+    //     amount=amount,
+    //     fee=0,
+    // ).submit()
+    itxn_begin
+    // smart_contracts/crowdfunding/contract.py:56
+    // fee=0,
+    int 0
+    itxn_field Fee
+    frame_dig -1
+    itxn_field Amount
+    frame_dig -2
+    itxn_field Receiver
+    frame_dig -3
+    itxn_field Sender
+    // smart_contracts/crowdfunding/contract.py:52
+    // itxn.Payment(
+    int pay
+    itxn_field TypeEnum
+    // smart_contracts/crowdfunding/contract.py:52-57
+    // itxn.Payment(
+    //     sender=sender,
+    //     receiver=to,
+    //     amount=amount,
+    //     fee=0,
+    // ).submit()
+    itxn_submit
+    retsub
+
+
+// smart_contracts.crowdfunding.contract.Crowdfunding.claim_refund() -> uint64:
+claim_refund:
+    // smart_contracts/crowdfunding/contract.py:175-176
+    // @arc4.abimethod
+    // def claim_refund(self) -> UInt64:
+    proto 0 1
+    // smart_contracts/crowdfunding/contract.py:182
+    // assert Global.round >= self.funding_deadline, "Funding deadline has not passed"
+    global Round
+    int 0
+    byte "funding_deadline"
+    app_global_get_ex
+    assert // check funding_deadline exists
+    >=
+    assert // Funding deadline has not passed
+    // smart_contracts/crowdfunding/contract.py:183
+    // assert self.pledged_amount < self.funding_target, "Funding target has been met"
+    int 0
+    byte "pledged_amount"
+    app_global_get_ex
+    assert // check pledged_amount exists
+    int 0
+    byte "funding_target"
+    app_global_get_ex
+    assert // check funding_target exists
+    <
+    assert // Funding target has been met
+    // smart_contracts/crowdfunding/contract.py:185
+    // vault = find_vault(Txn.sender)
+    txn Sender
+    callsub find_vault
+    // smart_contracts/crowdfunding/contract.py:186
+    // assert vault, "Vault not found"
+    dup
+    global ZeroAddress
+    !=
+    assert // Vault not found
+    // smart_contracts/crowdfunding/contract.py:188
+    // return close_vault(vault, to=Txn.sender)
+    txn Sender
+    callsub close_vault
+    retsub
+
+
+// smart_contracts.crowdfunding.contract.close_vault(vault: bytes, to: bytes) -> uint64:
+close_vault:
+    // smart_contracts/crowdfunding/contract.py:100-101
+    // @subroutine
+    // def close_vault(vault: Vault, /, to: Account) -> UInt64:
+    proto 2 1
+    // smart_contracts/crowdfunding/contract.py:111
+    // _deleted = op.Box.delete(vault.bytes)
+    frame_dig -2
+    box_del
+    pop
+    // smart_contracts/crowdfunding/contract.py:113-119
+    // itxn.Payment(
+    //     sender=vault,
+    //     receiver=to,
+    //     close_remainder_to=to,
+    //     fee=0,
+    // )
+    // .submit()
+    itxn_begin
+    // smart_contracts/crowdfunding/contract.py:117
+    // fee=0,
+    int 0
+    itxn_field Fee
+    frame_dig -1
+    itxn_field CloseRemainderTo
+    frame_dig -1
+    itxn_field Receiver
+    frame_dig -2
+    itxn_field Sender
+    // smart_contracts/crowdfunding/contract.py:113
+    // itxn.Payment(
+    int pay
+    itxn_field TypeEnum
+    // smart_contracts/crowdfunding/contract.py:113-119
+    // itxn.Payment(
+    //     sender=vault,
+    //     receiver=to,
+    //     close_remainder_to=to,
+    //     fee=0,
+    // )
+    // .submit()
+    itxn_submit
+    itxn Amount
+    // smart_contracts/crowdfunding/contract.py:112-121
+    // return (
+    //     itxn.Payment(
+    //         sender=vault,
+    //         receiver=to,
+    //         close_remainder_to=to,
+    //         fee=0,
+    //     )
+    //     .submit()
+    //     .amount
+    // )
+    retsub
+
+
+// smart_contracts.crowdfunding.contract.Crowdfunding.withdraw_funds(vaults: bytes) -> uint64:
+withdraw_funds:
+    // smart_contracts/crowdfunding/contract.py:190-191
+    // @arc4.abimethod
+    // def withdraw_funds(self, vaults: arc4.DynamicArray[arc4.Address]) -> UInt64:
+    proto 1 1
+    byte ""
+    // smart_contracts/crowdfunding/contract.py:200
+    // assert self.pledged_amount >= self.funding_target, "Funding target has not been met"
+    int 0
+    byte "pledged_amount"
+    app_global_get_ex
+    assert // check pledged_amount exists
+    int 0
+    byte "funding_target"
+    app_global_get_ex
+    assert // check funding_target exists
+    >=
+    assert // Funding target has not been met
+    // smart_contracts/crowdfunding/contract.py:202
+    // withdrawn_amount = UInt64(0)
+    int 0
+    // smart_contracts/crowdfunding/contract.py:203
+    // for i in urange(vaults.length):
+    frame_dig -1
+    int 0
+    extract_uint16
+    int 0
+
+withdraw_funds_for_header@1:
+    // smart_contracts/crowdfunding/contract.py:203
+    // for i in urange(vaults.length):
+    frame_dig 3
+    frame_dig 2
+    <
+    dup
+    frame_bury 0
+    bz withdraw_funds_after_for@5
+    // smart_contracts/crowdfunding/contract.py:204
+    // vault = find_vault(Account(vaults[i].bytes))
+    frame_dig 0
+    assert // Index access is out of bounds
+    frame_dig -1
+    extract 2 0
+    frame_dig 3
+    dup
+    cover 2
+    int 32
+    *
+    int 32
+    extract3
+    dup
+    len
+    int 32
+    ==
+    assert // Address length is 32 bytes
+    callsub find_vault
+    // smart_contracts/crowdfunding/contract.py:205
+    // assert vault, "Vault not found"
+    dup
+    global ZeroAddress
+    !=
+    assert // Vault not found
+    // smart_contracts/crowdfunding/contract.py:206
+    // withdrawn_amount += close_vault(vault, to=Global.creator_address)
+    global CreatorAddress
+    callsub close_vault
+    frame_dig 1
+    +
+    frame_bury 1
+    // smart_contracts/crowdfunding/contract.py:203
+    // for i in urange(vaults.length):
+    int 1
+    +
+    frame_bury 3
+    b withdraw_funds_for_header@1
+
+withdraw_funds_after_for@5:
+    // smart_contracts/crowdfunding/contract.py:208
+    // return withdrawn_amount
+    frame_dig 1
+    frame_bury 0
+    retsub

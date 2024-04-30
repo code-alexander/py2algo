@@ -1,0 +1,7 @@
+#pragma version 10
+
+smart_contracts.arc59.contract.Router.clear_state_program:
+    // smart_contracts/arc59/contract.py:119
+    // class Router(ARC4Contract):
+    int 1
+    return
