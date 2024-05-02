@@ -1,0 +1,58 @@
+{
+    "hints": {
+        "to_date(uint64)(uint64,uint64,uint64)": {
+            "call_config": {
+                "no_op": "CALL"
+            }
+        }
+    },
+    "source": {
+        "approval": "I3ByYWdtYSB2ZXJzaW9uIDEwCgpzbWFydF9jb250cmFjdHMudGltZS5jb250cmFjdC5UaW1lLmFwcHJvdmFsX3Byb2dyYW06CiAgICAvLyBzbWFydF9jb250cmFjdHMvdGltZS9jb250cmFjdC5weToyNQogICAgLy8gY2xhc3MgVGltZShBUkM0Q29udHJhY3QpOgogICAgdHhuIE51bUFwcEFyZ3MKICAgIGJ6IG1haW5fYmFyZV9yb3V0aW5nQDUKICAgIG1ldGhvZCAidG9fZGF0ZSh1aW50NjQpKHVpbnQ2NCx1aW50NjQsdWludDY0KSIKICAgIHR4bmEgQXBwbGljYXRpb25BcmdzIDAKICAgIG1hdGNoIG1haW5fdG9fZGF0ZV9yb3V0ZUAyCiAgICBlcnIgLy8gcmVqZWN0IHRyYW5zYWN0aW9uCgptYWluX3RvX2RhdGVfcm91dGVAMjoKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy90aW1lL2NvbnRyYWN0LnB5OjI4CiAgICAvLyBAYXJjNC5hYmltZXRob2QKICAgIHR4biBPbkNvbXBsZXRpb24KICAgICEKICAgIGFzc2VydCAvLyBPbkNvbXBsZXRpb24gaXMgTm9PcAogICAgdHhuIEFwcGxpY2F0aW9uSUQKICAgIGFzc2VydCAvLyBpcyBub3QgY3JlYXRpbmcKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy90aW1lL2NvbnRyYWN0LnB5OjI1CiAgICAvLyBjbGFzcyBUaW1lKEFSQzRDb250cmFjdCk6CiAgICB0eG5hIEFwcGxpY2F0aW9uQXJncyAxCiAgICBidG9pCiAgICAvLyBzbWFydF9jb250cmFjdHMvdGltZS9jb250cmFjdC5weToyOAogICAgLy8gQGFyYzQuYWJpbWV0aG9kCiAgICBjYWxsc3ViIHRvX2RhdGUKICAgIGNvdmVyIDIKICAgIHN3YXAKICAgIGl0b2IKICAgIHN3YXAKICAgIGl0b2IKICAgIHVuY292ZXIgMgogICAgaXRvYgogICAgc3dhcAogICAgdW5jb3ZlciAyCiAgICBzd2FwCiAgICBjb25jYXQKICAgIHN3YXAKICAgIGNvbmNhdAogICAgYnl0ZSAweDE1MWY3Yzc1CiAgICBzd2FwCiAgICBjb25jYXQKICAgIGxvZwogICAgaW50IDEKICAgIHJldHVybgoKbWFpbl9iYXJlX3JvdXRpbmdANToKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy90aW1lL2NvbnRyYWN0LnB5OjI1CiAgICAvLyBjbGFzcyBUaW1lKEFSQzRDb250cmFjdCk6CiAgICB0eG4gT25Db21wbGV0aW9uCiAgICAhCiAgICBhc3NlcnQgLy8gcmVqZWN0IHRyYW5zYWN0aW9uCiAgICB0eG4gQXBwbGljYXRpb25JRAogICAgIQogICAgYXNzZXJ0IC8vIGlzIGNyZWF0aW5nCiAgICBpbnQgMQogICAgcmV0dXJuCgoKLy8gc21hcnRfY29udHJhY3RzLnRpbWUuY29udHJhY3QuVGltZS50b19kYXRlKHRpbWVzdGFtcDogdWludDY0KSAtPiB1aW50NjQsIHVpbnQ2NCwgdWludDY0Ogp0b19kYXRlOgogICAgLy8gc21hcnRfY29udHJhY3RzL3RpbWUvY29udHJhY3QucHk6MjgtMjkKICAgIC8vIEBhcmM0LmFiaW1ldGhvZAogICAgLy8gZGVmIHRvX2RhdGUoc2VsZiwgdGltZXN0YW1wOiBVSW50NjQpIC0+IFllYXJNb250aERheToKICAgIHByb3RvIDEgMwogICAgYnl0ZSAiIgogICAgLy8gc21hcnRfY29udHJhY3RzL3RpbWUvY29udHJhY3QucHk6MzgtMzkKICAgIC8vICMgTnVtYmVyIG9mIGRheXMgc2luY2UgMTk3MC0wMS0wMQogICAgLy8geiA9IHRpbWVzdGFtcCAvLyA4NjQwMAogICAgZnJhbWVfZGlnIC0xCiAgICBpbnQgODY0MDAKICAgIC8KICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy90aW1lL2NvbnRyYWN0LnB5OjQwLTQxCiAgICAvLyAjIFNoaWZ0IHRoZSBlcG9jaCBmcm9tIDE5NzAtMDEtMDEgdG8gMDAwMC0wMy0wMQogICAgLy8geiArPSA3MTk0NjgKICAgIGludCA3MTk0NjgKICAgICsKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy90aW1lL2NvbnRyYWN0LnB5OjQyCiAgICAvLyBlcmEgPSB6IC8vIDE0NjA5NwogICAgZHVwCiAgICBpbnQgMTQ2MDk3CiAgICAvCiAgICAvLyBzbWFydF9jb250cmFjdHMvdGltZS9jb250cmFjdC5weTo0MwogICAgLy8gZG9lID0geiAtIGVyYSAqIDE0NjA5NyAjIFswLCAxNDYwOTZdCiAgICBkdXAKICAgIGludCAxNDYwOTcKICAgICoKICAgIHVuY292ZXIgMgogICAgc3dhcAogICAgLQogICAgLy8gc21hcnRfY29udHJhY3RzL3RpbWUvY29udHJhY3QucHk6NDQKICAgIC8vIHlvZSA9IChkb2UgLSBkb2UgLy8gMTQ2MCArIGRvZSAvLyAzNjUyNCAtIGRvZSAvLyAxNDYwOTYpIC8vIDM2NSAjIFswLCAzOTldCiAgICBkdXAKICAgIGludCAxNDYwCiAgICAvCiAgICBkaWcgMQogICAgc3dhcAogICAgLQogICAgc3dhcAogICAgZHVwCiAgICBpbnQgMzY1MjQKICAgIC8KICAgIHVuY292ZXIgMgogICAgKwogICAgZGlnIDEKICAgIGludCAxNDYwOTYKICAgIC8KICAgIC0KICAgIGludCAzNjUKICAgIC8KICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy90aW1lL2NvbnRyYWN0LnB5OjQ1CiAgICAvLyB5ID0geW9lICsgZXJhICogNDAwCiAgICB1bmNvdmVyIDIKICAgIGludCA0MDAKICAgICoKICAgIGRpZyAxCiAgICArCiAgICBjb3ZlciAyCiAgICAvLyBzbWFydF9jb250cmFjdHMvdGltZS9jb250cmFjdC5weTo0NgogICAgLy8gZG95ID0gZG9lIC0gKDM2NSAqIHlvZSArIHlvZSAvLyA0IC0geW9lIC8vIDEwMCkgIyBbMCwgMzY1XQogICAgaW50IDM2NQogICAgZGlnIDEKICAgICoKICAgIHN3YXAKICAgIGR1cAogICAgaW50IDQKICAgIC8KICAgIHVuY292ZXIgMgogICAgKwogICAgc3dhcAogICAgaW50IDEwMAogICAgLwogICAgLQogICAgLQogICAgLy8gc21hcnRfY29udHJhY3RzL3RpbWUvY29udHJhY3QucHk6NDcKICAgIC8vIG1wID0gKDUgKiBkb3kgKyAyKSAvLyAxNTMgIyBbMCwgMTFdCiAgICBpbnQgNQogICAgZGlnIDEKICAgICoKICAgIGludCAyCiAgICArCiAgICBpbnQgMTUzCiAgICAvCiAgICBkdXAKICAgIGNvdmVyIDIKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy90aW1lL2NvbnRyYWN0LnB5OjQ4CiAgICAvLyBkID0gZG95IC0gKDE1MyAqIG1wICsgMikgLy8gNSArIDEgIyBbMSwgMzFdCiAgICBpbnQgMTUzCiAgICBkaWcgMQogICAgKgogICAgaW50IDIKICAgICsKICAgIGludCA1CiAgICAvCiAgICB1bmNvdmVyIDIKICAgIHN3YXAKICAgIC0KICAgIGludCAxCiAgICArCiAgICBjb3ZlciAyCiAgICAvLyBzbWFydF9jb250cmFjdHMvdGltZS9jb250cmFjdC5weTo0OQogICAgLy8gbSA9IG1wICsgMyBpZiBtcCA8IDEwIGVsc2UgbXAgLSA5ICMgWzEsIDEyXQogICAgaW50IDEwCiAgICA8CiAgICBieiB0b19kYXRlX3Rlcm5hcnlfZmFsc2VAMgogICAgaW50IDMKICAgICsKICAgIGZyYW1lX2J1cnkgMAogICAgYiB0b19kYXRlX3Rlcm5hcnlfbWVyZ2VAMwoKdG9fZGF0ZV90ZXJuYXJ5X2ZhbHNlQDI6CiAgICAvLyBzbWFydF9jb250cmFjdHMvdGltZS9jb250cmFjdC5weTo0OQogICAgLy8gbSA9IG1wICsgMyBpZiBtcCA8IDEwIGVsc2UgbXAgLSA5ICMgWzEsIDEyXQogICAgaW50IDkKICAgIC0KICAgIGZyYW1lX2J1cnkgMAoKdG9fZGF0ZV90ZXJuYXJ5X21lcmdlQDM6CiAgICAvLyBzbWFydF9jb250cmFjdHMvdGltZS9jb250cmFjdC5weTo1MAogICAgLy8gcmV0dXJuIHkgKyAoVUludDY0KDEpIGlmIG0gPD0gMiBlbHNlIFVJbnQ2NCgwKSksIG0sIGQKICAgIGZyYW1lX2RpZyAwCiAgICBpbnQgMgogICAgPD0KICAgIGJ6IHRvX2RhdGVfdGVybmFyeV9mYWxzZUA1CiAgICBpbnQgMQogICAgYiB0b19kYXRlX3Rlcm5hcnlfbWVyZ2VANgoKdG9fZGF0ZV90ZXJuYXJ5X2ZhbHNlQDU6CiAgICAvLyBzbWFydF9jb250cmFjdHMvdGltZS9jb250cmFjdC5weTo1MAogICAgLy8gcmV0dXJuIHkgKyAoVUludDY0KDEpIGlmIG0gPD0gMiBlbHNlIFVJbnQ2NCgwKSksIG0sIGQKICAgIGludCAwCgp0b19kYXRlX3Rlcm5hcnlfbWVyZ2VANjoKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy90aW1lL2NvbnRyYWN0LnB5OjUwCiAgICAvLyByZXR1cm4geSArIChVSW50NjQoMSkgaWYgbSA8PSAyIGVsc2UgVUludDY0KDApKSwgbSwgZAogICAgZnJhbWVfZGlnIDEKICAgICsKICAgIGZyYW1lX2RpZyAwCiAgICBmcmFtZV9kaWcgMgogICAgdW5jb3ZlciA1CiAgICB1bmNvdmVyIDUKICAgIHVuY292ZXIgNQogICAgcmV0c3ViCg==",
+        "clear": "I3ByYWdtYSB2ZXJzaW9uIDEwCgpzbWFydF9jb250cmFjdHMudGltZS5jb250cmFjdC5UaW1lLmNsZWFyX3N0YXRlX3Byb2dyYW06CiAgICAvLyBzbWFydF9jb250cmFjdHMvdGltZS9jb250cmFjdC5weToyNQogICAgLy8gY2xhc3MgVGltZShBUkM0Q29udHJhY3QpOgogICAgaW50IDEKICAgIHJldHVybgo="
+    },
+    "state": {
+        "global": {
+            "num_byte_slices": 0,
+            "num_uints": 0
+        },
+        "local": {
+            "num_byte_slices": 0,
+            "num_uints": 0
+        }
+    },
+    "schema": {
+        "global": {
+            "declared": {},
+            "reserved": {}
+        },
+        "local": {
+            "declared": {},
+            "reserved": {}
+        }
+    },
+    "contract": {
+        "name": "Time",
+        "desc": "A contract that converts between Unix time and Gregorian time.",
+        "methods": [
+            {
+                "name": "to_date",
+                "args": [
+                    {
+                        "type": "uint64",
+                        "name": "timestamp",
+                        "desc": "The Unix timestamp to convert."
+                    }
+                ],
+                "returns": {
+                    "type": "(uint64,uint64,uint64)",
+                    "desc": "The Gregorian date as a (year, month, day) triple."
+                },
+                "desc": "Converts a Unix timestamp to a Gregorian date."
+            }
+        ],
+        "networks": {}
+    },
+    "bare_call_config": {
+        "no_op": "CREATE"
+    }
+}

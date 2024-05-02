@@ -1,0 +1,7 @@
+#pragma version 10
+
+smart_contracts.time.contract.Time.clear_state_program:
+    // smart_contracts/time/contract.py:25
+    // class Time(ARC4Contract):
+    int 1
+    return
