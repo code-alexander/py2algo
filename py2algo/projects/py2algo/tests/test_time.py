@@ -36,15 +36,6 @@ def app_client(algod_client: AlgodClient, indexer_client: IndexerClient) -> Time
         on_update=algokit_utils.OnUpdate.AppendApp,
     )
 
-    transfer(
-        algod_client,
-        TransferParameters(
-            from_account=account,
-            to_address=client.app_address,
-            micro_algos=100_000_000,
-        ),
-    )
-
     return client
 
 
