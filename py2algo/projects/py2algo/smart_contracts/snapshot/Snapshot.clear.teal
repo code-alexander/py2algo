@@ -1,0 +1,7 @@
+#pragma version 10
+
+smart_contracts.snapshot.contract.Snapshot.clear_state_program:
+    // smart_contracts/snapshot/contract.py:23
+    // class Snapshot(ARC4Contract):
+    int 1
+    return
