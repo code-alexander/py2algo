@@ -1,0 +1,157 @@
+#pragma version 10
+
+smart_contracts.snapshot.contract.Snapshot.approval_program:
+    // smart_contracts/snapshot/contract.py:23
+    // class Snapshot(ARC4Contract):
+    txn NumAppArgs
+    bz main_bare_routing@5
+    method "mint_snapshot(account,asset)uint64"
+    txna ApplicationArgs 0
+    match main_mint_snapshot_route@2
+    err // reject transaction
+
+main_mint_snapshot_route@2:
+    // smart_contracts/snapshot/contract.py:26
+    // @arc4.abimethod
+    txn OnCompletion
+    !
+    assert // OnCompletion is NoOp
+    txn ApplicationID
+    assert // is not creating
+    // smart_contracts/snapshot/contract.py:23
+    // class Snapshot(ARC4Contract):
+    txna ApplicationArgs 1
+    btoi
+    txnas Accounts
+    txna ApplicationArgs 2
+    btoi
+    txnas Assets
+    // smart_contracts/snapshot/contract.py:26
+    // @arc4.abimethod
+    callsub mint_snapshot
+    itob
+    byte 0x151f7c75
+    swap
+    concat
+    log
+    int 1
+    return
+
+main_bare_routing@5:
+    // smart_contracts/snapshot/contract.py:23
+    // class Snapshot(ARC4Contract):
+    txn OnCompletion
+    !
+    assert // reject transaction
+    txn ApplicationID
+    !
+    assert // is creating
+    int 1
+    return
+
+
+// smart_contracts.snapshot.contract.Snapshot.mint_snapshot(account: bytes, asset: uint64) -> uint64:
+mint_snapshot:
+    // smart_contracts/snapshot/contract.py:26-27
+    // @arc4.abimethod
+    // def mint_snapshot(self, account: Account, asset: Asset) -> UInt64:
+    proto 2 1
+    // smart_contracts/snapshot/contract.py:29
+    // balance = asset.balance(account) if asset else account.balance
+    frame_dig -1
+    bz mint_snapshot_ternary_false@2
+    frame_dig -2
+    frame_dig -1
+    asset_holding_get AssetBalance
+    assert // account opted into asset
+    b mint_snapshot_ternary_merge@3
+
+mint_snapshot_ternary_false@2:
+    // smart_contracts/snapshot/contract.py:29
+    // balance = asset.balance(account) if asset else account.balance
+    frame_dig -2
+    acct_params_get AcctBalance
+    assert // account funded
+
+mint_snapshot_ternary_merge@3:
+    // smart_contracts/snapshot/contract.py:31
+    // arc4.UInt64(Global.round).bytes +
+    global Round
+    itob
+    // smart_contracts/snapshot/contract.py:32
+    // arc4.UInt64(Global.latest_timestamp).bytes +
+    global LatestTimestamp
+    itob
+    // smart_contracts/snapshot/contract.py:31-32
+    // arc4.UInt64(Global.round).bytes +
+    // arc4.UInt64(Global.latest_timestamp).bytes +
+    concat
+    // smart_contracts/snapshot/contract.py:33
+    // arc4.UInt64(asset.id).bytes +
+    frame_dig -1
+    itob
+    // smart_contracts/snapshot/contract.py:31-33
+    // arc4.UInt64(Global.round).bytes +
+    // arc4.UInt64(Global.latest_timestamp).bytes +
+    // arc4.UInt64(asset.id).bytes +
+    dup
+    cover 2
+    concat
+    // smart_contracts/snapshot/contract.py:34
+    // arc4.UInt64(balance).bytes
+    uncover 2
+    itob
+    // smart_contracts/snapshot/contract.py:31-34
+    // arc4.UInt64(Global.round).bytes +
+    // arc4.UInt64(Global.latest_timestamp).bytes +
+    // arc4.UInt64(asset.id).bytes +
+    // arc4.UInt64(balance).bytes
+    concat
+    // smart_contracts/snapshot/contract.py:37-45
+    // return itxn.AssetConfig(
+    //     total=1,
+    //     decimals=0,
+    //     asset_name="SNAPSHOT",
+    //     unit_name=arc4.UInt64(asset.id).bytes,
+    //     metadata_hash=snapshot,
+    //     reserve=account, # Has no authority in the Algorand protocol
+    //     fee=0,
+    // ).submit().created_asset.id
+    itxn_begin
+    // smart_contracts/snapshot/contract.py:44
+    // fee=0,
+    int 0
+    itxn_field Fee
+    frame_dig -2
+    itxn_field ConfigAssetReserve
+    itxn_field ConfigAssetMetadataHash
+    itxn_field ConfigAssetUnitName
+    // smart_contracts/snapshot/contract.py:40
+    // asset_name="SNAPSHOT",
+    byte "SNAPSHOT"
+    itxn_field ConfigAssetName
+    // smart_contracts/snapshot/contract.py:39
+    // decimals=0,
+    int 0
+    itxn_field ConfigAssetDecimals
+    // smart_contracts/snapshot/contract.py:38
+    // total=1,
+    int 1
+    itxn_field ConfigAssetTotal
+    // smart_contracts/snapshot/contract.py:37
+    // return itxn.AssetConfig(
+    int acfg
+    itxn_field TypeEnum
+    // smart_contracts/snapshot/contract.py:37-45
+    // return itxn.AssetConfig(
+    //     total=1,
+    //     decimals=0,
+    //     asset_name="SNAPSHOT",
+    //     unit_name=arc4.UInt64(asset.id).bytes,
+    //     metadata_hash=snapshot,
+    //     reserve=account, # Has no authority in the Algorand protocol
+    //     fee=0,
+    // ).submit().created_asset.id
+    itxn_submit
+    itxn CreatedAssetID
+    retsub
