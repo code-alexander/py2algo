@@ -77,7 +77,7 @@ class BloomFilter(ARC4Contract):
         h1 = to_index(op.sha512_256(unit_name.bytes))
         h2 = to_index(op.sha3_256(unit_name.bytes))
 
-        assert not (op.getbit(bloom_filter, h1) and op.getbit(bloom_filter, h2)), "unit name already taken"
+        assert not (op.getbit(bloom_filter, h1) and op.getbit(bloom_filter, h2)), "Unit name already taken"
 
         mint_nft(unit_name)
         self.minted += 1
