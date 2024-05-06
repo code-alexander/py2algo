@@ -1,7 +1,7 @@
 #pragma version 10
 
 smart_contracts.bloom_filter.contract.BloomFilter.approval_program:
-    // smart_contracts/bloom_filter/contract.py:79
+    // smart_contracts/bloom_filter/contract.py:45
     // class BloomFilter(ARC4Contract):
     method "new(uint64)void"
     method "create_bloom_filter()void"
@@ -11,7 +11,7 @@ smart_contracts.bloom_filter.contract.BloomFilter.approval_program:
     err // reject transaction
 
 main_new_route@1:
-    // smart_contracts/bloom_filter/contract.py:82
+    // smart_contracts/bloom_filter/contract.py:48
     // @arc4.abimethod(create="require")
     txn OnCompletion
     !
@@ -19,18 +19,18 @@ main_new_route@1:
     txn ApplicationID
     !
     assert // is creating
-    // smart_contracts/bloom_filter/contract.py:79
+    // smart_contracts/bloom_filter/contract.py:45
     // class BloomFilter(ARC4Contract):
     txna ApplicationArgs 1
     btoi
-    // smart_contracts/bloom_filter/contract.py:82
+    // smart_contracts/bloom_filter/contract.py:48
     // @arc4.abimethod(create="require")
     callsub new
     int 1
     return
 
 main_create_bloom_filter_route@2:
-    // smart_contracts/bloom_filter/contract.py:92
+    // smart_contracts/bloom_filter/contract.py:58
     // @arc4.abimethod
     txn OnCompletion
     !
@@ -42,18 +42,18 @@ main_create_bloom_filter_route@2:
     return
 
 main_buy_nft_route@3:
-    // smart_contracts/bloom_filter/contract.py:99
+    // smart_contracts/bloom_filter/contract.py:65
     // @arc4.abimethod
     txn OnCompletion
     !
     assert // OnCompletion is NoOp
     txn ApplicationID
     assert // is not creating
-    // smart_contracts/bloom_filter/contract.py:79
+    // smart_contracts/bloom_filter/contract.py:45
     // class BloomFilter(ARC4Contract):
     txna ApplicationArgs 1
     extract 2 0
-    // smart_contracts/bloom_filter/contract.py:99
+    // smart_contracts/bloom_filter/contract.py:65
     // @arc4.abimethod
     callsub buy_nft
     int 1
@@ -62,16 +62,16 @@ main_buy_nft_route@3:
 
 // smart_contracts.bloom_filter.contract.BloomFilter.new(max_supply: uint64) -> void:
 new:
-    // smart_contracts/bloom_filter/contract.py:82-83
+    // smart_contracts/bloom_filter/contract.py:48-49
     // @arc4.abimethod(create="require")
     // def new(self, max_supply: UInt64) -> None:
     proto 1 0
-    // smart_contracts/bloom_filter/contract.py:89
+    // smart_contracts/bloom_filter/contract.py:55
     // self.max_supply = max_supply
     byte "max_supply"
     frame_dig -1
     app_global_put
-    // smart_contracts/bloom_filter/contract.py:90
+    // smart_contracts/bloom_filter/contract.py:56
     // self.minted = UInt64(0)
     byte "minted"
     int 0
@@ -81,19 +81,19 @@ new:
 
 // smart_contracts.bloom_filter.contract.BloomFilter.create_bloom_filter() -> void:
 create_bloom_filter:
-    // smart_contracts/bloom_filter/contract.py:92-93
+    // smart_contracts/bloom_filter/contract.py:58-59
     // @arc4.abimethod
     // def create_bloom_filter(self) -> None:
     proto 0 0
-    // smart_contracts/bloom_filter/contract.py:95
+    // smart_contracts/bloom_filter/contract.py:61
     // _maybe, exists = op.Box.get(b"bloom")
     byte "bloom"
     box_get
     bury 1
-    // smart_contracts/bloom_filter/contract.py:96
+    // smart_contracts/bloom_filter/contract.py:62
     // if not exists:
     bnz create_bloom_filter_after_if_else@2
-    // smart_contracts/bloom_filter/contract.py:97
+    // smart_contracts/bloom_filter/contract.py:63
     // op.Box.put(b"bloom", op.bzero(4096))
     int 4096
     bzero
@@ -107,11 +107,11 @@ create_bloom_filter_after_if_else@2:
 
 // smart_contracts.bloom_filter.contract.BloomFilter.buy_nft(unit_name: bytes) -> void:
 buy_nft:
-    // smart_contracts/bloom_filter/contract.py:99-100
+    // smart_contracts/bloom_filter/contract.py:65-66
     // @arc4.abimethod
     // def buy_nft(self, unit_name: String) -> None:
     proto 1 0
-    // smart_contracts/bloom_filter/contract.py:106
+    // smart_contracts/bloom_filter/contract.py:72
     // assert self.minted < self.max_supply, "Maximum supply reached"
     int 0
     byte "minted"
@@ -123,30 +123,30 @@ buy_nft:
     assert // check max_supply exists
     <
     assert // Maximum supply reached
-    // smart_contracts/bloom_filter/contract.py:108
+    // smart_contracts/bloom_filter/contract.py:74
     // bloom_filter, exists = op.Box.get(b"bloom")
     byte "bloom"
     box_get
     swap
     dup
     uncover 2
-    // smart_contracts/bloom_filter/contract.py:109
+    // smart_contracts/bloom_filter/contract.py:75
     // assert exists, "Application not bootstrapped"
     assert // Application not bootstrapped
-    // smart_contracts/bloom_filter/contract.py:111
+    // smart_contracts/bloom_filter/contract.py:77
     // h1 = to_index(op.sha512_256(unit_name.bytes))
     frame_dig -1
     sha512_256
     callsub to_index
     dup
     cover 2
-    // smart_contracts/bloom_filter/contract.py:112
+    // smart_contracts/bloom_filter/contract.py:78
     // h2 = to_index(op.sha3_256(unit_name.bytes))
     frame_dig -1
     sha3_256
     callsub to_index
     cover 2
-    // smart_contracts/bloom_filter/contract.py:114
+    // smart_contracts/bloom_filter/contract.py:80
     // assert not (op.getbit(bloom_filter, h1) and op.getbit(bloom_filter, h2)), "unit name already taken"
     getbit
     dup
@@ -155,22 +155,22 @@ buy_nft:
     b buy_nft_ternary_merge@3
 
 buy_nft_ternary_false@2:
-    // smart_contracts/bloom_filter/contract.py:114
+    // smart_contracts/bloom_filter/contract.py:80
     // assert not (op.getbit(bloom_filter, h1) and op.getbit(bloom_filter, h2)), "unit name already taken"
     frame_dig 0
     frame_dig 2
     getbit
 
 buy_nft_ternary_merge@3:
-    // smart_contracts/bloom_filter/contract.py:114
+    // smart_contracts/bloom_filter/contract.py:80
     // assert not (op.getbit(bloom_filter, h1) and op.getbit(bloom_filter, h2)), "unit name already taken"
     !
     assert // unit name already taken
-    // smart_contracts/bloom_filter/contract.py:116
+    // smart_contracts/bloom_filter/contract.py:82
     // mint_nft(unit_name)
     frame_dig -1
     callsub mint_nft
-    // smart_contracts/bloom_filter/contract.py:117
+    // smart_contracts/bloom_filter/contract.py:83
     // self.minted += 1
     int 0
     byte "minted"
@@ -181,18 +181,18 @@ buy_nft_ternary_merge@3:
     byte "minted"
     swap
     app_global_put
-    // smart_contracts/bloom_filter/contract.py:119
+    // smart_contracts/bloom_filter/contract.py:85
     // bloom_filter = op.setbit_bytes(bloom_filter, h1, 1)
     frame_dig 0
     frame_dig 1
     int 1
     setbit
-    // smart_contracts/bloom_filter/contract.py:120
+    // smart_contracts/bloom_filter/contract.py:86
     // bloom_filter = op.setbit_bytes(bloom_filter, h2, 1)
     frame_dig 2
     int 1
     setbit
-    // smart_contracts/bloom_filter/contract.py:121
+    // smart_contracts/bloom_filter/contract.py:87
     // op.Box.put(b"bloom", bloom_filter)
     byte "bloom"
     swap
@@ -202,14 +202,14 @@ buy_nft_ternary_merge@3:
 
 // smart_contracts.bloom_filter.contract.to_index(digest: bytes) -> uint64:
 to_index:
-    // smart_contracts/bloom_filter/contract.py:50-51
+    // smart_contracts/bloom_filter/contract.py:16-17
     // @subroutine
     // def to_index(digest: Bytes) -> UInt64:
     proto 1 1
-    // smart_contracts/bloom_filter/contract.py:60
-    // return op.extract_uint64(digest, 0) % 32_768
+    // smart_contracts/bloom_filter/contract.py:26
+    // return op.extract_uint64(digest, 24) % 32_768
     frame_dig -1
-    int 0
+    int 24
     extract_uint64
     int 32768
     %
@@ -218,11 +218,11 @@ to_index:
 
 // smart_contracts.bloom_filter.contract.mint_nft(unit_name: bytes) -> void:
 mint_nft:
-    // smart_contracts/bloom_filter/contract.py:63-64
+    // smart_contracts/bloom_filter/contract.py:29-30
     // @subroutine
     // def mint_nft(unit_name: String) -> None:
     proto 1 0
-    // smart_contracts/bloom_filter/contract.py:70-76
+    // smart_contracts/bloom_filter/contract.py:36-42
     // itxn.AssetConfig(
     //     total=1,
     //     decimals=0,
@@ -231,29 +231,29 @@ mint_nft:
     //     reserve=Txn.sender,
     // ).submit()
     itxn_begin
-    // smart_contracts/bloom_filter/contract.py:75
+    // smart_contracts/bloom_filter/contract.py:41
     // reserve=Txn.sender,
     txn Sender
     itxn_field ConfigAssetReserve
     frame_dig -1
     itxn_field ConfigAssetUnitName
-    // smart_contracts/bloom_filter/contract.py:73
+    // smart_contracts/bloom_filter/contract.py:39
     // asset_name="BAYC",
     byte "BAYC"
     itxn_field ConfigAssetName
-    // smart_contracts/bloom_filter/contract.py:72
+    // smart_contracts/bloom_filter/contract.py:38
     // decimals=0,
     int 0
     itxn_field ConfigAssetDecimals
-    // smart_contracts/bloom_filter/contract.py:71
+    // smart_contracts/bloom_filter/contract.py:37
     // total=1,
     int 1
     itxn_field ConfigAssetTotal
-    // smart_contracts/bloom_filter/contract.py:70
+    // smart_contracts/bloom_filter/contract.py:36
     // itxn.AssetConfig(
     int acfg
     itxn_field TypeEnum
-    // smart_contracts/bloom_filter/contract.py:70-76
+    // smart_contracts/bloom_filter/contract.py:36-42
     // itxn.AssetConfig(
     //     total=1,
     //     decimals=0,
