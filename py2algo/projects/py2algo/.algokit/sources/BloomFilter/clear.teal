@@ -1,7 +1,7 @@
 #pragma version 10
 
 smart_contracts.bloom_filter.contract.BloomFilter.clear_state_program:
-    // smart_contracts/bloom_filter/contract.py:79
+    // smart_contracts/bloom_filter/contract.py:45
     // class BloomFilter(ARC4Contract):
     int 1
     return

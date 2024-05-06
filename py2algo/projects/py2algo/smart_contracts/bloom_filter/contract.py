@@ -23,7 +23,7 @@ def to_index(digest: Bytes) -> UInt64:
     Returns:
         UInt64: The index.
     """
-    return op.extract_uint64(digest, 0) % 32_768
+    return op.extract_uint64(digest, 24) % 32_768
 
 
 @subroutine
