@@ -1,4 +1,3 @@
-
 import algokit_utils
 import pytest
 from algokit_utils import (
