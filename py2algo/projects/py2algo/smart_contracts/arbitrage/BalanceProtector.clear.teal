@@ -1,0 +1,7 @@
+#pragma version 10
+
+smart_contracts.arbitrage.contract.BalanceProtector.clear_state_program:
+    // smart_contracts/arbitrage/contract.py:18
+    // class BalanceProtector(ARC4Contract):
+    int 1
+    return

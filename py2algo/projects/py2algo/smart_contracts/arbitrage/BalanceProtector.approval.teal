@@ -1,0 +1,246 @@
+#pragma version 10
+
+smart_contracts.arbitrage.contract.BalanceProtector.approval_program:
+    // smart_contracts/arbitrage/contract.py:18
+    // class BalanceProtector(ARC4Contract):
+    method "new(account)void"
+    method "take_snapshot(asset)uint64"
+    method "protect()uint64"
+    txna ApplicationArgs 0
+    match main_new_route@1 main_take_snapshot_route@2 main_protect_route@3
+    err // reject transaction
+
+main_new_route@1:
+    // smart_contracts/arbitrage/contract.py:21
+    // @arc4.abimethod(create="require")
+    txn OnCompletion
+    !
+    assert // OnCompletion is NoOp
+    txn ApplicationID
+    !
+    assert // is creating
+    // smart_contracts/arbitrage/contract.py:18
+    // class BalanceProtector(ARC4Contract):
+    txna ApplicationArgs 1
+    btoi
+    txnas Accounts
+    // smart_contracts/arbitrage/contract.py:21
+    // @arc4.abimethod(create="require")
+    callsub new
+    int 1
+    return
+
+main_take_snapshot_route@2:
+    // smart_contracts/arbitrage/contract.py:36
+    // @arc4.abimethod
+    txn OnCompletion
+    !
+    assert // OnCompletion is NoOp
+    txn ApplicationID
+    assert // is not creating
+    // smart_contracts/arbitrage/contract.py:18
+    // class BalanceProtector(ARC4Contract):
+    txna ApplicationArgs 1
+    btoi
+    txnas Assets
+    // smart_contracts/arbitrage/contract.py:36
+    // @arc4.abimethod
+    callsub take_snapshot
+    itob
+    byte 0x151f7c75
+    swap
+    concat
+    log
+    int 1
+    return
+
+main_protect_route@3:
+    // smart_contracts/arbitrage/contract.py:56
+    // @arc4.abimethod
+    txn OnCompletion
+    !
+    assert // OnCompletion is NoOp
+    txn ApplicationID
+    assert // is not creating
+    callsub protect
+    itob
+    byte 0x151f7c75
+    swap
+    concat
+    log
+    int 1
+    return
+
+
+// smart_contracts.arbitrage.contract.BalanceProtector.new(owner: bytes) -> void:
+new:
+    // smart_contracts/arbitrage/contract.py:21-22
+    // @arc4.abimethod(create="require")
+    // def new(self, owner: Account) -> None:
+    proto 1 0
+    // smart_contracts/arbitrage/contract.py:23
+    // self.owner = owner
+    byte "owner"
+    frame_dig -1
+    app_global_put
+    // smart_contracts/arbitrage/contract.py:24
+    // self.asset = Asset(0)
+    byte "asset"
+    int 0
+    app_global_put
+    // smart_contracts/arbitrage/contract.py:25
+    // self.starting_balance = UInt64(0)
+    byte "starting_balance"
+    int 0
+    app_global_put
+    retsub
+
+
+// smart_contracts.arbitrage.contract.BalanceProtector.take_snapshot(asset: uint64) -> uint64:
+take_snapshot:
+    // smart_contracts/arbitrage/contract.py:36-37
+    // @arc4.abimethod
+    // def take_snapshot(self, asset: Asset) -> UInt64:
+    proto 1 1
+    // smart_contracts/arbitrage/contract.py:46
+    // assert Txn.sender == self.owner, "Only the owner can call this method."
+    txn Sender
+    int 0
+    byte "owner"
+    app_global_get_ex
+    assert // check owner exists
+    ==
+    assert // Only the owner can call this method.
+    // smart_contracts/arbitrage/contract.py:47
+    // assert Txn.group_index == 0, "Transaction must be first in group."
+    txn GroupIndex
+    !
+    assert // Transaction must be first in group.
+    // smart_contracts/arbitrage/contract.py:49
+    // gtxn.ApplicationCallTransaction(Global.group_size - 1).app_id == Global.current_application_id
+    global GroupSize
+    int 1
+    -
+    dup
+    gtxns TypeEnum
+    int appl
+    ==
+    assert // transaction type is appl
+    gtxns ApplicationID
+    global CurrentApplicationID
+    ==
+    // smart_contracts/arbitrage/contract.py:48-50
+    // assert (
+    //     gtxn.ApplicationCallTransaction(Global.group_size - 1).app_id == Global.current_application_id
+    // ), "Last transaction in group must be a call to this application."
+    assert // Last transaction in group must be a call to this application.
+    // smart_contracts/arbitrage/contract.py:52
+    // self.asset = asset
+    byte "asset"
+    frame_dig -1
+    app_global_put
+    // smart_contracts/arbitrage/contract.py:53
+    // self.starting_balance = self.balance()
+    callsub balance
+    byte "starting_balance"
+    swap
+    app_global_put
+    // smart_contracts/arbitrage/contract.py:54
+    // return Global.round
+    global Round
+    retsub
+
+
+// smart_contracts.arbitrage.contract.BalanceProtector.balance() -> uint64:
+balance:
+    // smart_contracts/arbitrage/contract.py:27-28
+    // @subroutine
+    // def balance(self) -> UInt64:
+    proto 0 1
+    // smart_contracts/arbitrage/contract.py:34
+    // return self.asset.balance(self.owner) if self.asset else self.owner.balance
+    int 0
+    byte "asset"
+    app_global_get_ex
+    assert // check asset exists
+    bz balance_ternary_false@2
+    int 0
+    byte "owner"
+    app_global_get_ex
+    assert // check owner exists
+    int 0
+    byte "asset"
+    app_global_get_ex
+    assert // check asset exists
+    asset_holding_get AssetBalance
+    assert // account opted into asset
+    b balance_ternary_merge@3
+
+balance_ternary_false@2:
+    // smart_contracts/arbitrage/contract.py:34
+    // return self.asset.balance(self.owner) if self.asset else self.owner.balance
+    int 0
+    byte "owner"
+    app_global_get_ex
+    assert // check owner exists
+    acct_params_get AcctBalance
+    assert // account funded
+
+balance_ternary_merge@3:
+    // smart_contracts/arbitrage/contract.py:34
+    // return self.asset.balance(self.owner) if self.asset else self.owner.balance
+    retsub
+
+
+// smart_contracts.arbitrage.contract.BalanceProtector.protect() -> uint64:
+protect:
+    // smart_contracts/arbitrage/contract.py:56-57
+    // @arc4.abimethod
+    // def protect(self) -> UInt64:
+    proto 0 1
+    // smart_contracts/arbitrage/contract.py:63
+    // assert Txn.sender == self.owner, "Only the owner can call this method."
+    txn Sender
+    int 0
+    byte "owner"
+    app_global_get_ex
+    assert // check owner exists
+    ==
+    assert // Only the owner can call this method.
+    // smart_contracts/arbitrage/contract.py:64
+    // assert Txn.group_index == Global.group_size - 1, "Transaction must be last in group."
+    txn GroupIndex
+    global GroupSize
+    int 1
+    -
+    ==
+    assert // Transaction must be last in group.
+    // smart_contracts/arbitrage/contract.py:66
+    // gtxn.ApplicationCallTransaction(0).app_id == Global.current_application_id
+    int 0
+    gtxns TypeEnum
+    int appl
+    ==
+    assert // transaction type is appl
+    int 0
+    gtxns ApplicationID
+    global CurrentApplicationID
+    ==
+    // smart_contracts/arbitrage/contract.py:65-67
+    // assert (
+    //     gtxn.ApplicationCallTransaction(0).app_id == Global.current_application_id
+    // ), "First transaction in group must be a call to this application."
+    assert // First transaction in group must be a call to this application.
+    // smart_contracts/arbitrage/contract.py:69-71
+    // # Will cause an error (would result in negative)
+    // # If the balance is less than the starting balance
+    // return self.balance() - Txn.fee - self.starting_balance
+    callsub balance
+    txn Fee
+    -
+    int 0
+    byte "starting_balance"
+    app_global_get_ex
+    assert // check starting_balance exists
+    -
+    retsub
